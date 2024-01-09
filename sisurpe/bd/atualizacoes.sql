@@ -32,7 +32,7 @@ CREATE TABLE `coleta` (
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Tabela que vai liberar usuário para fazer uma determinada coleta */
-CREATE TABLE `user_scola_coleta` (
+CREATE TABLE `user_escola_coleta` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `escolaId` int(11) NOT NULL,
   `userId` int(11) NOT NULL   

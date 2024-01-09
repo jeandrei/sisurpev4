@@ -87,7 +87,14 @@
                         id="tipoEnsinoMedio"
                         class="form-control <?php echo (!empty($data['tipoEnsinoMedio_err'])) ? 'is-invalid' : ''; ?>"
                     >
-                        <option value="null">Selecione</option>              
+                        <option value="null">Selecione</option> 
+                        <option 
+                            value="nao_concluiu"
+                            <?php echo ($data['tipoEnsinoMedio']) == "nao_concluiu" ? 'selected' : '';?>
+                        >
+                            Não concluiu o ensino médio
+                        </option>
+
                         <option 
                             value="geral"
                             <?php echo ($data['tipoEnsinoMedio']) == "geral" ? 'selected' : '';?>
@@ -134,7 +141,9 @@
     <div class="form-group mt-3 mb-3">  
         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
         <a href="<?php echo URLROOT; ?>/fuserescolaanos/userEscolaAno" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
-        <a href="<?php echo $data['avancarLink']?>" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
+        <?php if(isset($data['maiorEscolaridade']) && isset($data['tipoEnsinoMedio'])) :?>
+            <a href="<?php echo $data['avancarLink']?>" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
+        <?php endif; ?>
     </div>   
     <!-- BOTÕES -->
     
