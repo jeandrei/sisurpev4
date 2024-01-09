@@ -833,9 +833,7 @@ CREATE TABLE `f_user_curso_superior` (
   `instituicaoEnsino` varchar(50)  NOT NULL,
   `municipioId` int(11) DEFAULT NULL,
   `anoConclusao` VARCHAR(4),
-  `file` longblob NULL,
-  `file_name` varchar(255) NULL,
-  `file_type` varchar(255) NULL 
+  `file` varchar(255) DEFAULT NULL
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -960,7 +958,7 @@ CREATE TABLE `municipios` (
 (1,'NORTE'),
 (2,'NORDESTE'),
 (3,'SUDESTE'),
-(4,'SUL');
+(4,'SUL'),
 (5,'CENTRO-OESTE');
 
 

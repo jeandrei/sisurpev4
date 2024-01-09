@@ -33,9 +33,7 @@
                 'tipoInstituicao' => $row->tipoInstituicao,
                 'instituicaoEnsino' => $row->instituicaoEnsino,
                 'municipioInstituicao' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio,
-                'file' => $row->file,
-                'file_name' => $row->file_name,
-                'file_type' => $row->file_type
+                'file' => $row->file                
               ];
             };
             return $userCursosSupArray;
@@ -76,8 +74,8 @@
         public function add(){           
            
             // Check for POST            
-            if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
-
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){    
+            
                 // Sanitize POST data
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);    
 
@@ -106,7 +104,8 @@
                   'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
                   'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
                   'userCursosSup' => $this->getUserCursosSup(),
-                  'tiposInstituicoes' => getTipoInstituicoes()                  
+                  'tiposInstituicoes' => getTipoInstituicoes(),
+                  'file' => $_FILES['file_post']                 
               ];  
                                   
                 
@@ -155,25 +154,8 @@
                   $data['instituicaoEnsino_err'] = 'Por favor informe a instituição de ensino.';
                 } 
                        
-                 /**
-                * Faz o upload do arquivo do input id=file_post 
-                * Utilizando a função upload_file que está no arquivo helpers/functions
-                * Se tiver erro vai retornar o erro em $file['error'];
-                */            
-               
-                if(!empty($_FILES['file_post']['name'])){                  
-                  $file = $this->fusercursossupModel->upload('file_post'); 
-                  if(empty($file['erro'])){
-                    $data['file_post_data'] = $file['data'];
-                    $data['file_post_name'] = $file['nome'];
-                    $data['file_post_type'] = $file['tipo'];
-                    $data['file_post_err'] = '';
-                  }  else {
-                    $data['file_post_err'] = $file['message'];
-                  }  
-                }                              
-               
-                
+                   
+                                      
                 // Make sure errors are empty
                 if(                    
                     empty($data['areaId_err'])&&
@@ -184,26 +166,59 @@
                     empty($data['estadoId_err'])&&
                     empty($data['municipioId_err'])&&
                     empty($data['instituicaoEnsino_err']) && 
-                    empty($data['anoConclusao_err']) && 
+                    empty($data['anoConclusao_err']) &&
                     empty($data['file_post_err'])
                   ){
                         // Register maiorEscolaridade
-                        try {                            
-                            if($this->fusercursossupModel->register($data)){
+                        try { 
+                            //verifico se foi passado um arquivo
+                            if(!empty($_FILES['file_post']['name'])){
+                               /**
+                              * Faz o upload do arquivo do input id=file_post 
+                              * Utilizando a função upload que está no arquivo helpers/functions
+                              * Se tiver erro vai retornar o erro em $data['errors'];
+                              */ 
+                              $lastId = $this->fusercursossupModel->getLastId();                              
+                              $newId = ($lastId + 1);                              
+                              $file = upload($arr = [
+                                'file' => 'file_post',
+                                'path' => 'uploads/diplomas/',
+                                'extensions' => ["jpeg","jpg","png"],
+                                'maxsize' => 2097152,
+                                'name' => $_SESSION[DB_NAME . '_user_name'] . "_" . $newId
+                              ]);        
+                              //ser retornou sucesso é que fez o upload do arquivo e o mesmo retorna o caminho do arquivo
+                              if($file['sucess']){
+                                $data['file'] = $file['file'];
+                              } else {
+                                if($file['errors']){
+                                 foreach($file['errors'] as $row){
+                                  $erro .= $row . ".";
+                                 }
+                                } else {
+                                  $erro = 'Ops! Algo deu errado ao tentar fazer o upload do arquivo.';
+                                }                                
+                                throw new Exception($erro);
+                              }
+                            }                                                       
+                            if($lastId = $this->fusercursossupModel->register($data)) {
                                 flash('message', 'Curso superior registrado com sucesso!','success');                        
                                 redirect('fusercursosuperiores/index');
-                            } else {                                
+                            } else {                               
                                 throw new Exception('Ops! Algo deu errado ao tentar gravar os dados! Tente novamente.');
                             } 
 
-                        } catch (Exception $e) {
+                        } catch (Exception $e) { 
+                            if(isset($file['file'])){
+                              removeFile($file['file']);
+                            }                            
                             $erro = 'Erro: '.  $e->getMessage(); 
                             flash('message', $erro,'error');                       
                             redirect('fusercursosuperiores/add');        
                         }  
                     } else {
                       // Load the view with errors
-                        $this->view('fusercursosuperiores/add', $data);
+                      $this->view('fusercursosuperiores/add', $data);
                     }               
 
             
@@ -230,7 +245,14 @@
 
         public function delete($_ucsId){          
           try {
-            if($this->fusercursossupModel->delete($_ucsId)){           
+            $file = $this->fusercursossupModel->getFile($_ucsId);            
+                      
+            if($this->fusercursossupModel->delete($_ucsId)){
+                if(isset($file->file)){
+                  if(!removeFile($file->file)){                
+                    throw new Exception('Ops! Algo deu errado tentar excluir o arquivo!');
+                  }
+                }             
                 flash('message', 'Curso removido com sucesso!','success');                     
                 redirect('fusercursosuperiores/index');
             } else {                        
@@ -247,8 +269,12 @@
           if(!$data = $this->fusercursossupModel->getFile($_ucsId)){
             $html = "<p>Erro ao tentar recuperar o anexo.</p>";
             return $html;
-          } else {
-            $this->view('fusercursosuperiores/download',$data);  
+          } else {  
+            $msg = download($data->file);          
+            if($msg['sucess'] == false) {
+              $html = "<p>Erro ao tentar recuperar o anexo.</p>";
+              return $html;
+            }
           }
         }    
 }   

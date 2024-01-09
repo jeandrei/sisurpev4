@@ -358,6 +358,140 @@ function retornaClasseFase($fase){
 
 
 
+/*
+Função de upload de arquivo para uma pasta
+ $file = upload($data = [
+                'file' => 'file_post', id do input
+                'path' => 'uploads/diplomas/', diretorio onde quer salvar
+                'extensions' => ["jpeg","jpg","png"], extenções permitidas
+                'maxsize' => 2097152 tamanho máximo permitido
+                'name' => 'Teste' name não é obrigatório se não colocar fica o nome original
+              ]);  
+para o tamanho basta multiplicar em megas duas vezes por 1024 exemplo 2mb * 1024 * 1024 = 2097152
+$file = $this->fusercursossupModel->upload('file_post',"uploads/diplomas/",["jpeg","jpg","png"],2097152);
+*/
+function upload($arr) {            
+  $file = $arr['file'];
+  $path = $arr['path'];
+  $allowedsize = $arr['maxsize'];
+  $extensions = $arr['extensions'];
+  $name = $arr['name'];
+  if(isset($_FILES[$file])){
+      $errors= array();
+      $file_name = $_FILES[$file]['name'];
+      $file_size =$_FILES[$file]['size'];
+      $file_tmp =$_FILES[$file]['tmp_name'];
+      $file_type=$_FILES[$file]['type'];
+      $file_ext=strtolower(end(explode('.',$_FILES[$file]['name'])));               
+      
+      //monto o texto para a mensagem quando o usuário selecionar um tipo não permitido
+      if(in_array($file_ext,$extensions)=== false){
+          foreach($extensions as $key => $extention) {                        
+              if($key === count($extensions)-1){
+                  $extensionstxt .= ' ou ' . $extention;    
+              } else if($key > 0) {
+                  $extensionstxt .= ', ' . $extention;
+              } else {
+                  $extensionstxt .= $extention;
+              }                      
+          }
+          $errors[]="Extenção não permitida, por favor selecione um arquivo do tipo " . $extensionstxt;
+      }
+      
+      if($file_size > $allowedsize){
+          $sizemb = ($allowedsize / 1024) / 1024;
+          $errors[]="O arquivo excede o tamanho permitido de ".$sizemb." MB";
+      }
+
+      if($errors){
+        $data = [
+          'sucess' => false,                   
+          'errors' => $errors
+        ];                 
+      } else {          
+          $pathinfo = pathinfo($_FILES[$file]['name']);
+          //base é apenas o nome do arquivo sem extenção
+          $base = $pathinfo["filename"];
+          //aqui tiro caracteres indesejados                
+          //$base = preg_replace("/[^\w-]/", "_", $base);
+          //aqui monto o nome do arquivo com extenção  
+          if(!$name){
+            $filename = $base . "." . $pathinfo["extension"];
+          } else {
+            $filename = $name . "." . $pathinfo["extension"];
+          }
+
+          $i = 1;
+          /*verifico se já existe um arquivo com esse nome se existir coloco um número 
+          (1) sequencial para identificar o arquivo*/
+          while (file_exists($path.$filename)){
+              $filename = $base . "($i).". $pathinfo["extension"];
+              $i++;
+          }
+          if(move_uploaded_file($file_tmp,$path.$filename)){
+              $data = [
+                  'sucess' => true,                            
+                  'file' => $path.$filename
+              ];                    
+          } else {
+            $data = [
+              'sucess' => false,                            
+              'errors' => 'Falha ao tentar fazer o upload do arquivo'
+            ]; 
+          }
+      }                  
+    }
+    return ($data);
+}
+function download($path){
+  if(isset($path)) {
+    //Read the filename
+    $filename = $path;
+    //Check the file exists or not
+    if(file_exists($filename)) {
+      //Define header information
+      header('Content-Description: File Transfer');
+      header('Content-Type: application/octet-stream');
+      header("Cache-Control: no-cache, must-revalidate");
+      header("Expires: 0");
+      header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+      header('Content-Length: ' . filesize($filename));
+      header('Pragma: public');
+
+      //Clear system output buffer
+      flush();
+
+      //Read the size of the file
+      readfile($filename);
+
+      //Terminate from the script
+      die();
+    } else {
+      $data = [
+        'sucess' => false,                            
+        'errors' => 'Arquivo inexistente'
+      ]; 
+    }
+  } else {
+    $data = [
+      'sucess' => false,                            
+      'errors' => 'Arquivo não definido'
+    ]; 
+  }
+return $data;
+}
+
+
+function removeFile($path){
+  if(!unlink($path)){
+    return false;
+  } else {
+    return true;
+  }
+}
+
+
+
 
 
 

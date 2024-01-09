@@ -7,9 +7,18 @@
             $this->db = new Database;
         }
 
+        public function getLastId(){
+            $this->db->query('SELECT MAX(ucsid) as id FROM f_user_curso_superior');           
+            $row = $this->db->single();
+            if($this->db->rowCount() > 0){
+                return $row->id;
+            } else {
+                return false;
+            }
+        }
 
         public function getCursosUser($_userId){            
-            $this->db->query('SELECT fucs.ucsId,fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId, fucs.file as file, fucs.file_name as file_name, fucs.file_type as file_type, fucs.anoConclusao as anoConclusao  FROM f_user_curso_superior fucs WHERE fucs.userId = :userId ORDER BY fucs.instituicaoEnsino ASC');
+            $this->db->query('SELECT fucs.ucsId,fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId, fucs.file as file, fucs.anoConclusao as anoConclusao  FROM f_user_curso_superior fucs WHERE fucs.userId = :userId ORDER BY fucs.instituicaoEnsino ASC');
             $this->db->bind(':userId',$_userId);
             $result = $this->db->resultSet();
             if($this->db->rowCount() > 0){
@@ -20,9 +29,9 @@
         }
 
         // Registra um curso na tabela f_user_curso_superior
-        public function register($data){             
-            if($data['file_post_data']){                
-                $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,file,file_name,file_type,anoConclusao) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:file,:file_name,:file_type,:anoConclusao)';
+        public function register($data){                       
+            if($data['file']){                
+                $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,file,anoConclusao) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:file,:anoConclusao)';
             } else {                
                 $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,anoConclusao) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:anoConclusao)';
             }
@@ -37,10 +46,8 @@
             $this->db->bind(':anoConclusao',$data['anoConclusao']);
             $this->db->bind(':instituicaoEnsino',$data['instituicaoEnsino']);
             $this->db->bind(':municipioId',$data['municipioId']);
-            if($data['file_post_data']){
-                $this->db->bind(':file',$data['file_post_data']);
-                $this->db->bind(':file_name',$data['file_post_name']);
-                $this->db->bind(':file_type',$data['file_post_type']);
+            if($data['file']){
+                $this->db->bind(':file',$data['file']);                
             }
            
             // Execute
@@ -75,7 +82,8 @@
             }        
         }
 
-        public function upload($file){  
+       
+        public function uploadBlob($file){  
             try {                    
                 if (
                     !isset($_FILES[$file]['error']) ||
@@ -134,7 +142,7 @@
         }
 
         public function getFile($_ucsId){            
-            $this->db->query("SELECT file,file_name,file_type FROM f_user_curso_superior WHERE  ucsId = :ucsId");
+            $this->db->query("SELECT file FROM f_user_curso_superior WHERE  ucsId = :ucsId");
             $this->db->bind(':ucsId',$_ucsId); 
             $row = $this->db->single(); 
             if($this->db->rowCount() > 0){

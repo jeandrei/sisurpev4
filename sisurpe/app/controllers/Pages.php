@@ -37,4 +37,8 @@
             ];
             $this->view('pages/modelo_pagina', $data);           
         }
+
+        public function phpinfo(){            
+            $this->view('pages/phpinfo');           
+        }
 }

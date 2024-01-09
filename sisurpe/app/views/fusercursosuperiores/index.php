@@ -55,7 +55,7 @@
           <td><?php echo $row['instituicaoEnsino'];?></td> 
           <td><?php echo $row['municipioInstituicao'];?></td>           
 
-          <?php if($row['file']) : ?>
+          <?php if($row['file']) : ?>                    
             <td><a href="<?php echo URLROOT; ?>/fusercursosuperiores/download/<?php echo $row['ucsId'];?>"><i class="fa-solid fa-paperclip"></i></a></td>
           <?php else: ?>
             <td></td>
@@ -66,7 +66,7 @@
       <?php endforeach; ?>    
     <?php else: ?>
       <tr class='text-center'>
-          <td colspan='7'>
+          <td colspan='8'>
               Nenhum curso superior adicionado!
           </td> 
       </tr>   
