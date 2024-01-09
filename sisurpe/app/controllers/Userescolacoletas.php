@@ -119,7 +119,7 @@
                 $html .= "
                     <tr class='text-center align-middle'>                        
                         <td>$row->nome</td>
-                        <td><button type='button' class='btn btn-sm btn-danger' onClick=removeEscola($row->id)>Remover</button></td>
+                        <td><button type='button' class='btn btn-sm btn-danger' onClick=removeEscola($row->uecId)>Remover</button></td>
                     </tr>  
                     ";                   
             }
@@ -149,7 +149,7 @@
 
 
 
-        public function delete($id){           
+        public function delete($id){             
             try{    
                 if($this->userEscolaColetaModel->delete($id)){                        
                     $json_ret = array(                                            

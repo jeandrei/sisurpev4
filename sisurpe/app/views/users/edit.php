@@ -262,7 +262,7 @@ function removeEscola(id){
             $.ajax({  
             url: `<?php echo URLROOT; ?>/Userescolacoletas/delete/${id}`,                
             method:'POST',
-            success: function(retorno_php){                     
+            success: function(retorno_php){                                
                 var responseObj = JSON.parse(retorno_php);                
                 createNotification(responseObj['message'], responseObj['class']);
                 carregaUserEscolaColeta(<?php echo $data['user_id'];?>); 
