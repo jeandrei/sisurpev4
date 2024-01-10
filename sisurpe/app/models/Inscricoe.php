@@ -128,8 +128,7 @@
                             nome_curso = :nome_curso,
                             descricao = :descricao,
                             data_inicio = :data_inicio, 
-                            data_termino = :data_termino, 
-                            numero_certificado = :numero_certificado,        
+                            data_termino = :data_termino,                                    
                             localEvento = :localEvento,
                             periodo = :periodo,
                             horario = :horario,
@@ -141,8 +140,7 @@
         $this->db->bind(':nome_curso',$data['nome_curso']);
         $this->db->bind(':descricao',$data['descricao']);        
         $this->db->bind(':data_inicio',$data['data_inicio']);
-        $this->db->bind(':data_termino',$data['data_termino']);
-        $this->db->bind(':numero_certificado',$data['numero_certificado']);
+        $this->db->bind(':data_termino',$data['data_termino']);        
         $this->db->bind(':localEvento',$data['localEvento']);
         $this->db->bind(':periodo',$data['periodo']);
         $this->db->bind(':horario',$data['horario']);        

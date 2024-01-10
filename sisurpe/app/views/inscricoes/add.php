@@ -213,7 +213,7 @@
                         type="text" 
                         name="tema"
                         id="tema"
-                        value="<?php echo $data['tema_curso']; ?>"                       
+                        value="<?php echo $data['tema']; ?>"                       
                         placeholder="Informe o tema"
                     >
                     <div class="invalid-feedback">
@@ -316,6 +316,7 @@
                 },         
                 success: function(retorno_php){                     
                     var responseObj = JSON.parse(retorno_php); 
+                    document.querySelector('.gravar').disabled = true;
                     carregaTemas();                   
                     $("#msgAddTema")
                         .removeClass()  
@@ -402,12 +403,15 @@
         }
     }
 
-    function validateCargaHoraria(){
-        const ch = document.getElementById('carga_horaria_tema');        
+    function validateCargaHoraria(){        
+        const ch = document.getElementById('carga_horaria_tema');         
         if(!isEmpty(ch.value)){            
             const re = /^[0-9]*$/;
-            if(!re.test(ch.value)){
-                ch.classList.add('is-invalid');
+            if(ch.value <= 0){
+                ch.classList.add('is-invalid');                
+                return false;
+            } else if(!re.test(ch.value)){
+                ch.classList.add('is-invalid');                
                 return false;
             } else {
                 ch.classList.remove('is-invalid');

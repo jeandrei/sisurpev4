@@ -4,11 +4,7 @@
 
  <div class="row align-items-center mb-3">
     <div class="col-md-12">
-        <h2>Dados do Curso</h2>               
-           
-
-        <?php  //var_dump($data);?>
-
+        <h2>Dados do Curso</h2>  
 
         <form action="<?php echo URLROOT; ?>/inscricoes/edit/<?php echo $data['inscricoes_id'];?>" method="post" enctype="multipart/form-data">   
             <input type="hidden" id="inscricoes_id" name="inscricoes_id" value="<?php echo $data['inscricoes_id'];?>">     
@@ -31,9 +27,6 @@
                 </div>
             </div> 
 
-
-            
-
             <!-- DESCRIÇÃO DO CURSO -->
             <div class="form-group">
               <label for="descricao">Descrição do curso</label>
@@ -46,12 +39,8 @@
                     <?php echo $data['descricao_err']; ?>
                 </div>  
             </div>
-
-
             
-            <div class="form-row">              
-                
-                 
+            <div class="form-row">                   
 
                 <!--PERÍODO-->
                 <!-- INÍCIO -->
@@ -63,7 +52,7 @@
                         id="data_inicio"
                         name="data_inicio"
                         value="<?php echo $data['data_inicio']; ?>"
-                        <?php echo (($data['data_atual']) > $data['data_inicio'])?'readonly' : ''?>
+                        <?php echo ((DATAATUAL) > $data['data_inicio'])?'readonly' : ''?>
                         
                       > 
                       <div class="invalid-feedback">
@@ -138,7 +127,6 @@
 
             </div><!-- row -->  
             
-
             <legend>Fase do Curso</legend>
             <fieldset>
               <!-- FASE -->          
@@ -158,7 +146,7 @@
                                   
                       </select>                                           
                       <span class="text-danger">
-                              <?php echo $data['fase_err'];?>
+                        <?php echo $data['fase_err'];?>
                       </span>
                   </div>
               </div>            
@@ -186,13 +174,9 @@
 
 
 
-
-
 <!-- TEMAS -->
 <div role="alert" id="msgAddTema"></div> 
 <table class="table" id="tabelaTemas"></table>
-
-
 
 
 <!-- Modal -->
@@ -216,7 +200,7 @@
                         type="text" 
                         name="tema"
                         id="tema"
-                        value="<?php echo $data['tema_curso']; ?>"                       
+                        value="<?php echo $data['tema']; ?>"                       
                         placeholder="Informe o tema"
                     >
                     <div class="invalid-feedback">
@@ -282,16 +266,12 @@
 
 <script>
     
-    $(document ).ready(function() { 
-        
+    $(document ).ready(function() {
         carregaTemas();
-
         $('.gravar').click(function() {
             gravaTema(<?php echo $data['inscricoes_id']; ?>);   
         });//Fecha o .gravar click
-
     });//Fecha document ready function
-
 
     function carregaTemas(){
         $.ajax({ 
@@ -354,12 +334,9 @@
         
    }//remover
    
-
     document.getElementById('tema').addEventListener('keyup', validate);
     document.getElementById('carga_horaria_tema').addEventListener('keyup', validate);
-    document.getElementById('formador').addEventListener('keyup', validate);
-
-       
+    document.getElementById('formador').addEventListener('keyup', validate);       
 
     function isEmpty(val){    
         switch (val){
@@ -373,7 +350,6 @@
             return false;
         }
     }
-
 
     function validate(){
   
@@ -390,12 +366,12 @@
     
     }
 
-    function validateTema(){
-        const tema = document.getElementById('tema');        
+    function validateTema(){        
+        const tema = document.getElementById('tema');         
         if(!isEmpty(tema.value)){ 
             const re = /^([a-zA-Zà-úÀ-Ú0-9_ ]|-|_|\s){2,255}$/;
             if(!re.test(tema.value)){
-                tema.classList.add('is-invalid');
+                tema.classList.add('is-invalid');                
                 return false;
             } else {
                 tema.classList.remove('is-invalid');
@@ -404,11 +380,31 @@
         }
     }
 
-    function validateCargaHoraria(){
-        const ch = document.getElementById('carga_horaria_tema');        
+    function validateCargaHoraria(){        
+        const ch = document.getElementById('carga_horaria_tema');         
         if(!isEmpty(ch.value)){            
             const re = /^[0-9]*$/;
-            if(!re.test(ch.value)){
+            if(ch.value <= 0){
+                ch.classList.add('is-invalid');                
+                return false;
+            } else if(!re.test(ch.value)){
+                ch.classList.add('is-invalid');                
+                return false;
+            } else {
+                ch.classList.remove('is-invalid');
+                return true;
+            }
+        }
+    }
+
+    function validateCargaHorariaBkp(){        
+        const ch = document.getElementById('carga_horaria_tema');       
+        if(!isEmpty(ch.value)){            
+            const re = /^[0-9]*$/;
+            if(ch.value <= 0){
+                ch.classList.add('is-invalid');
+                return false;
+            } else if(!re.test(ch.value)){
                 ch.classList.add('is-invalid');
                 return false;
             } else {
@@ -417,6 +413,7 @@
             }
         }
     }
+
 
     function validateFormador(){
         const formador = document.getElementById('formador');        

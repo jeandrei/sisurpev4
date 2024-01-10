@@ -167,7 +167,7 @@ class Pagination extends Database
         try
         {             
             //$this->dbh = new Database;
-            $this->dbh = new PDO($this->$dsn, $this->user, $this->pass, $this->options); 
+            $this->dbh = new PDO($this->dsn, $this->user, $this->pass, $this->options); 
             $this->dbh->exec('SET NAMES "utf8"');           
             //$this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
