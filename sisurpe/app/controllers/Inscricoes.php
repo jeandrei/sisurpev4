@@ -32,11 +32,8 @@
         $page = $_GET['page'];  
       } else {  
         $page = 1;  
-      } 
-          
-
+      }     
       if(!isset($_GET['nomeInscricao'])){$_GET['nomeInscricao'] = '';}
-
       $options = array(
         'results_per_page' => 10,
         'url' => URLROOT . '/inscricoes/arquivadas?page=*VAR*&nomeInscricao=' . $_GET['nomeInscricao'],
@@ -74,9 +71,9 @@
       if(empty($error['inscricoes_id_err'])){
         if($this->inscritoModel->gravaInscricao($inscricoes_id,$_SESSION[DB_NAME . '_user_id'])){ 
           $data = [
-              'title' => 'Inscrições Abertas',
-              'description'=> 'Inscrições Abertas',
-              'inscricoes' => $this->inscricaoModel->getInscricoes()                      
+            'title' => 'Inscrições Abertas',
+            'description'=> 'Inscrições Abertas',
+            'inscricoes' => $this->inscricaoModel->getInscricoes()                      
           ];                        
           $this->view('inscricoes/index', $data);
         }   
@@ -99,9 +96,9 @@
       if(empty($error['inscricoes_id_err'])){          
         if($this->inscritoModel->cancelaInscricao($inscricoes_id,$_SESSION[DB_NAME . '_user_id'])){
           $data = [
-              'title' => 'Inscrições Abertas',
-              'description'=> 'Inscrições Abertas',
-              'inscricoes' => $this->inscricaoModel->getInscricoes()
+            'title' => 'Inscrições Abertas',
+            'description'=> 'Inscrições Abertas',
+            'inscricoes' => $this->inscricaoModel->getInscricoes()
           ];                        
           $this->view('inscricoes/index', $data); 
         }   
@@ -110,8 +107,7 @@
       } 
     }
 
-    public function add(){  
-                
+    public function add(){ 
       if($_SERVER['REQUEST_METHOD'] == 'POST'){   
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);  
         $data = [              
