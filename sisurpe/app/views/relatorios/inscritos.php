@@ -66,7 +66,7 @@ $pdf->SetFont('Arial','B',12);
 $pdf->Cell(0, 5,utf8_decode($data['curso']->nome_curso), 0, 1, "C");
 $countescola=1;                       
 $pdf->Ln();
-
+$i=0;
 foreach($colunas as $coluna){
     $i++;
     $pdf->SetFont('Arial','B',8);                   

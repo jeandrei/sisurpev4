@@ -43,23 +43,23 @@
           <div class="row">
             <div class="col-12">
               <div class="d-flex p-3 bg-dark text-white">
-                <a href="<?php echo URLROOT; ?>/inscricoes/edit/<?php echo $registro->id?>" class="btn btn-primary btn-sm m-2">
+                <a href="<?php echo URLROOT; ?>/inscricoes/edit/<?php echo $registro['id']?>" class="btn btn-primary btn-sm m-2">
                   <i class="fa fa-pencil"></i> 
                   Editar
                 </a>                  
-                <?php if($registro->fase == 'FECHADO') : ?>
-                  <a href="<?php echo URLROOT; ?>/abrepresencas/index/<?php echo $registro->id?>" class="btn btn-secondary btn-sm m-2">
+                <?php if($registro['fase'] == 'FECHADO') : ?>
+                  <a href="<?php echo URLROOT; ?>/abrepresencas/index/<?php echo $registro['id']?>" class="btn btn-secondary btn-sm m-2">
                     <i class="fa fa-check"></i> 
                     Presenças
                   </a> 
                 <?php endif;?>
-                <?php if($this->inscritoModel->existeInscritos($registro->id)) : ?>
-                  <a href="<?php echo URLROOT; ?>/inscricoes/abrePresencas/<?php echo $registro->id?>" class="btn btn-success btn-sm m-2">
+                <?php if($this->inscritoModel->existeInscritos($registro['id'])) : ?>
+                  <a href="<?php echo URLROOT; ?>/inscricoes/abrePresencas/<?php echo $registro['id']?>" class="btn btn-success btn-sm m-2">
                   <i class="fa fa-globe"></i> 
                     Gerenciar Presenças
                   </a>
                 <?endif;?>
-                <?php if($this->abrePresencaModel->temPresencaEmAndamento($registro->id)) : ?>
+                <?php if($this->abrePresencaModel->temPresencaEmAndamento($registro['id'])) : ?>
                   <span class="bg-danger btn-sm m-2">
                     Presença em andamento
                   </span>
@@ -70,21 +70,21 @@
           <!-- row dos comandos -->
         <?endif;?>
         <!-- FIM SE FOR UM USUÁRIO ADMIN OU SEC ADICIONO O BOTÃO EDITAR -->
-        <p class="card-title <?php echo(retornaClasseFase($registro->fase));?>">Fase: <?php echo($registro->fase);?></p>
+        <p class="card-title <?php echo(retornaClasseFase($registro['fase']));?>">Fase: <?php echo($registro['fase']);?></p>
         <!-- CURSO -->
-        <p class="card-title"><b>Curso: </b><?php echo ($registro->nome_curso);?></p>
+        <p class="card-title"><b>Curso: </b><?php echo ($registro['nome_curso']);?></p>
         <!-- DESCRIÇÃO -->
-        <p class="card-text"><b>Descrição: </b><?php echo($registro->descricao);?></p>
+        <p class="card-text"><b>Descrição: </b><?php echo($registro['descricao']);?></p>
         <!-- PERIODO -->
-        <p class="card-text"><b>Período: </b><?php echo(formatadata($registro->data_inicio) . ' a '. formatadata($registro->data_termino));?></p> 
+        <p class="card-text"><b>Período: </b><?php echo(formatadata($registro['data_inicio']) . ' a '. formatadata($registro['data_termino']));?></p> 
         <!-- LOCAL -->
-        <p class="card-text"><b>Local: </b><?php echo($registro->localEvento);?></p>
+        <p class="card-text"><b>Local: </b><?php echo($registro['localEvento']);?></p>
         <!-- HORÁRIO DE INÍCIO -->
-        <p class="card-text"><b>Horário de Início: </b><?php echo($registro->horario);?></p>
+        <p class="card-text"><b>Horário de Início: </b><?php echo($registro['horario']);?></p>
         <!-- PERÍODO DO DIA -->
         <p class="card-text"><b>Turno/Período: </b>
           <?php 
-            switch ($registro->periodo) {
+            switch ($registro['periodo']) {
               case 'M':
                 echo "Matutino";
                 break;
@@ -98,24 +98,24 @@
           ?>
         </p>
         <!-- CARGA HORÁRIA -->     
-        <p class="card-text"><b>Carga Horária: </b><?php echo($this->temaModel->getTotalCargaHoraria($registro->id)) ? $this->temaModel->getTotalCargaHoraria($registro->id) . ' Horas' : 'Sem carga horária.';?></p>
+        <p class="card-text"><b>Carga Horária: </b><?php echo($this->temaModel->getTotalCargaHoraria($registro['id'])) ? $this->temaModel->getTotalCargaHoraria($registro['id']) . ' Horas' : 'Sem carga horária.';?></p>
         <!-- FIM CARGA HORÁRIA -->  
         <!-- SE FASE ABERTO HABILITAMOS O BOTÃO INSCREVER-SE -->
-        <?php if($registro->fase == 'ABERTO') : ?>
-          <?php if(!$this->inscritoModel->estaInscrito($registro->id,$_SESSION[DB_NAME . '_user_id'])) : ?>
-            <a href="<?php echo URLROOT; ?>/inscricoes/inscrever/<?php echo $registro->id?>" class="btn btn-primary">Inscrever-se</a>
+        <?php if($registro['fase'] == 'ABERTO') : ?>
+          <?php if(!$registro['usuarioInscrito']) : ?>
+            <a href="<?php echo URLROOT; ?>/inscricoes/inscrever/<?php echo $registro['id']?>" class="btn btn-primary">Inscrever-se</a>
           <?php else: ?>
-            <a href="<?php echo URLROOT; ?>/inscricoes/cancelar/<?php echo $registro->id?>" class="btn btn-warning">Cancelar Inscrição</a>
+            <a href="<?php echo URLROOT; ?>/inscricoes/cancelar/<?php echo $registro['id']?>" class="btn btn-warning">Cancelar Inscrição</a>
           <?php endif; ?>  
         <?php endif; ?> 
         <!-- FIM SE FASE ABERTO HABILITAMOS O BOTÃO INSCREVER-SE -->
         <!-- SE A FASE FOR CERTIFICADO -->
-        <?php if($registro->fase == 'CERTIFICADO') : ?>  
+        <?php if($registro['fase'] == 'CERTIFICADO') : ?>  
           <!-- SE O USUÁRIO ESTIVER INSCRITO NO CURSO IMPRIMIMOS O BOTÃO CERTIFICADO -->
-          <?php if($this->inscritoModel->estaInscrito($registro->id,$_SESSION[DB_NAME . '_user_id'])) : ?>
+          <?php if($this->inscritoModel->estaInscrito($registro['id'],$_SESSION[DB_NAME . '_user_id'])) : ?>
               <!-- SE TIVER PRESENÇA -->
-              <?php if($this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$registro->id)) : ?>
-                <a href="<?php echo URLROOT; ?>/inscricoes/certificado/<?php echo $registro->id?>" class="btn btn-success">Certificado Disponível</a>
+              <?php if($this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$registro['id'])) : ?>
+                <a href="<?php echo URLROOT; ?>/inscricoes/certificado/<?php echo $registro['id']?>" class="btn btn-success">Certificado Disponível</a>
               <?php else: ?>
                 <div class="alert alert-warning" role="alert">
                   Que pena! Você se inscreveu, mas não marcou presença!
@@ -128,13 +128,13 @@
         <!-- BOTÕES PARA IMPRIMIR AS LISTAS --> 
         <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>
           <p class="card-text mt-3">
-          <?php if($this->inscritoModel->existeInscritos($registro->id)) : ?>
-            <a href="<?php echo URLROOT; ?>/inscricoes/inscritos/<?php echo $registro->id?>" class="card-link"  target="_blank">
+          <?php if($this->inscritoModel->existeInscritos($registro['id'])) : ?>
+            <a href="<?php echo URLROOT; ?>/inscricoes/inscritos/<?php echo $registro['id']?>" class="card-link"  target="_blank">
               Lista de Inscritos
             </a>
           <?endif;?>      
-          <?php if($this->inscritoModel->existeInscritos($registro->id)) : ?>
-            <a href="<?php echo URLROOT; ?>/inscricoes/presentes/<?php echo $registro->id?>" class="card-link" target="_blank">
+          <?php if($this->presencaModel->getPresencas($registro['id'])) : ?>
+            <a href="<?php echo URLROOT; ?>/inscricoes/presentes/<?php echo $registro['id']?>" class="card-link" target="_blank">
               Lista de Presentes
             </a>
           <?endif;?> 

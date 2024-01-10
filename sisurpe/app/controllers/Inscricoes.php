@@ -19,11 +19,31 @@
     }
 
     public function index(){ 
+      unset($data);
+      $inscricoesArr = $this->inscricaoModel->getInscricoes();
+      foreach($inscricoesArr as $row){
+        $inscricoes[] = [
+          'id' => $row->id,
+          'nome_curso' => $row->nome_curso,
+          'descricao' => $row->descricao,
+          'data_inicio' => $row->data_inicio,
+          'data_termino' => $row->data_termino,
+          'numero_certificado' => $row->numero_certificado,
+          'localEvento' => $row->localEvento,
+          'periodo' => $row->periodo,
+          'fase' => $row->fase,
+          'horario' => $row->horario,
+          'usuarioInscrito' => $this->inscritoModel->estaInscrito($row->id,$_SESSION[DB_NAME . '_user_id']),
+          'usuarioTemPresenca' => $this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$row->id)
+        ];
+      }
+      
       $data = [
         'title' => 'Inscrições',
         'description'=> 'Inscrições',
-        'inscricoes' => $this->inscricaoModel->getInscricoes()               
-      ];        
+        'inscricoes' => $inscricoes        
+      ];      
+      //debug($data);  
       $this->view('inscricoes/index', $data);
     }  
 
@@ -484,7 +504,7 @@
       $data = [
         'inscritos' => $this->inscritoModel->getInscritos($inscricoes_id),
         'curso' => $this->inscricaoModel->getInscricaoById($inscricoes_id)
-      ];   
+      ];       
       $this->view('relatorios/inscritos',$data);       
     }
 
