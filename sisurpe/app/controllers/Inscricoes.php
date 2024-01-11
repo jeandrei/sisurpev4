@@ -34,16 +34,18 @@
           'fase' => $row->fase,
           'horario' => $row->horario,
           'usuarioInscrito' => $this->inscritoModel->estaInscrito($row->id,$_SESSION[DB_NAME . '_user_id']),
-          'usuarioTemPresenca' => $this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$row->id)
+          'usuarioTemPresenca' => $this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$row->id),
+          'existeInscritos' => $this->inscritoModel->existeInscritos($row->id),
+          'existePresenca' => $this->presencaModel->getPresencas($row->id),
+          'existePresencaEmAndamento' => $this->abrePresencaModel->temPresencaEmAndamento($row->id),
+          'cargaHoraria' => $this->temaModel->getTotalCargaHoraria($row->id)
         ];
-      }
-      
+      }      
       $data = [
         'title' => 'Inscrições',
         'description'=> 'Inscrições',
         'inscricoes' => $inscricoes        
-      ];      
-      //debug($data);  
+      ];   
       $this->view('inscricoes/index', $data);
     }  
 
@@ -90,11 +92,33 @@
       }        
       if(empty($error['inscricoes_id_err'])){
         if($this->inscritoModel->gravaInscricao($inscricoes_id,$_SESSION[DB_NAME . '_user_id'])){ 
+          unset($data);
+          $inscricoesArr = $this->inscricaoModel->getInscricoes();
+          foreach($inscricoesArr as $row){
+            $inscricoes[] = [
+              'id' => $row->id,
+              'nome_curso' => $row->nome_curso,
+              'descricao' => $row->descricao,
+              'data_inicio' => $row->data_inicio,
+              'data_termino' => $row->data_termino,
+              'numero_certificado' => $row->numero_certificado,
+              'localEvento' => $row->localEvento,
+              'periodo' => $row->periodo,
+              'fase' => $row->fase,
+              'horario' => $row->horario,
+              'usuarioInscrito' => $this->inscritoModel->estaInscrito($row->id,$_SESSION[DB_NAME . '_user_id']),
+              'usuarioTemPresenca' => $this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$row->id),
+              'existeInscritos' => $this->inscritoModel->existeInscritos($row->id),
+              'existePresenca' => $this->presencaModel->getPresencas($row->id),
+              'existePresencaEmAndamento' => $this->abrePresencaModel->temPresencaEmAndamento($row->id),
+              'cargaHoraria' => $this->temaModel->getTotalCargaHoraria($row->id)
+            ];
+          }          
           $data = [
-            'title' => 'Inscrições Abertas',
-            'description'=> 'Inscrições Abertas',
-            'inscricoes' => $this->inscricaoModel->getInscricoes()                      
-          ];                        
+            'title' => 'Inscrições',
+            'description'=> 'Inscrições',
+            'inscricoes' => $inscricoes        
+          ];                       
           $this->view('inscricoes/index', $data);
         }   
       } else {
@@ -115,11 +139,33 @@
       }        
       if(empty($error['inscricoes_id_err'])){          
         if($this->inscritoModel->cancelaInscricao($inscricoes_id,$_SESSION[DB_NAME . '_user_id'])){
+          unset($data);
+          $inscricoesArr = $this->inscricaoModel->getInscricoes();
+          foreach($inscricoesArr as $row){
+            $inscricoes[] = [
+              'id' => $row->id,
+              'nome_curso' => $row->nome_curso,
+              'descricao' => $row->descricao,
+              'data_inicio' => $row->data_inicio,
+              'data_termino' => $row->data_termino,
+              'numero_certificado' => $row->numero_certificado,
+              'localEvento' => $row->localEvento,
+              'periodo' => $row->periodo,
+              'fase' => $row->fase,
+              'horario' => $row->horario,
+              'usuarioInscrito' => $this->inscritoModel->estaInscrito($row->id,$_SESSION[DB_NAME . '_user_id']),
+              'usuarioTemPresenca' => $this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$row->id),
+              'existeInscritos' => $this->inscritoModel->existeInscritos($row->id),
+              'existePresenca' => $this->presencaModel->getPresencas($row->id),
+              'existePresencaEmAndamento' => $this->abrePresencaModel->temPresencaEmAndamento($row->id),
+              'cargaHoraria' => $this->temaModel->getTotalCargaHoraria($row->id)
+            ];
+          }          
           $data = [
-            'title' => 'Inscrições Abertas',
-            'description'=> 'Inscrições Abertas',
-            'inscricoes' => $this->inscricaoModel->getInscricoes()
-          ];                        
+            'title' => 'Inscrições',
+            'description'=> 'Inscrições',
+            'inscricoes' => $inscricoes        
+          ];                             
           $this->view('inscricoes/index', $data); 
         }   
       } else {
@@ -173,11 +219,11 @@
         ];
                 
         if(empty($data['nome_curso'])){
-            $data['nome_curso_err'] = 'Por favor informe o nome do curso';
+          $data['nome_curso_err'] = 'Por favor informe o nome do curso';
         }
         
         if(empty($data['descricao'])){
-            $data['descricao_err'] = 'Por favor informe a descrição do curso';
+          $data['descricao_err'] = 'Por favor informe a descrição do curso';
         }              
         
         if (!validaData($data['data_inicio'])){
@@ -188,7 +234,7 @@
           $data['data_termino_err'] = 'Data inválida';
         } else {
           if($data['data_termino'] < $data['data_inicio']){
-              $data['data_termino_err'] = 'Data de termino menor que data de início';
+            $data['data_termino_err'] = 'Data de termino menor que data de início';
           }
         } 
         
@@ -205,13 +251,13 @@
         }         
         
         if(                    
-            empty($data['nome_curso_err']) &&
-            empty($data['descricao_err']) &&                  
-            empty($data['data_inicio_err']) &&
-            empty($data['data_termino_err']) &&
-            empty($data['localEvento_err']) &&
-            empty($data['horario_err']) &&
-            empty($data['periodo_err'])            
+          empty($data['nome_curso_err']) &&
+          empty($data['descricao_err']) &&                  
+          empty($data['data_inicio_err']) &&
+          empty($data['data_termino_err']) &&
+          empty($data['localEvento_err']) &&
+          empty($data['horario_err']) &&
+          empty($data['periodo_err'])            
         ){               
           try {                          
             if($lastId = $this->inscricaoModel->register($data)){
@@ -251,7 +297,7 @@
               flash('message', 'Dados registrados com sucesso');  
               $this->view('inscricoes/add', $data);  
             } else {
-                throw new Exception('Ops! Algo deu errado ao tentar gravar os dados!');
+              throw new Exception('Ops! Algo deu errado ao tentar gravar os dados!');
             }                 
           } catch (Exception $e) {
             $erro = 'Erro: '.  $e->getMessage(). "\n";
@@ -348,17 +394,17 @@
             $data['data_termino_err'] = 'Data inválida';
           } else {
             if($data['data_termino'] < $data['data_inicio']){
-                $data['data_termino_err'] = 'Data de termino menor que data de início';
+              $data['data_termino_err'] = 'Data de termino menor que data de início';
             }
           }
         }      
       
         if(empty($data['nome_curso'])){
-            $data['nome_curso_err'] = 'Por favor informe o nome do curso';
+          $data['nome_curso_err'] = 'Por favor informe o nome do curso';
         }
       
         if(empty($data['descricao'])){
-            $data['descricao_err'] = 'Por favor informe a descrição do curso';
+          $data['descricao_err'] = 'Por favor informe a descrição do curso';
         }
         if(empty($data['localEvento'])){
           $data['localEvento_err'] = 'Por favor informe o local onde será realizado o curso';
@@ -581,10 +627,10 @@
         /* primeiro verifico se o usuário já está inscrito */
         if($this->inscritoModel->estaInscrito($inscricaoId,$user_Id)){
           $json_ret = array(
-              'class'=>'error', 
-              'message'=>'Usuário já está inscrito!',
-              'error'=>true
-              );                     
+            'class'=>'error', 
+            'message'=>'Usuário já está inscrito!',
+            'error'=>true
+          );                     
           echo json_encode($json_ret); 
           die() ;
         }        
@@ -597,7 +643,7 @@
                 'class'=>'error', 
                 'message'=>'Nenhuma presença aberta para esta inscrição!',
                 'error'=>true
-                );                     
+              );                     
               echo json_encode($json_ret); 
               die() ;
             }
@@ -629,18 +675,18 @@
           }     
         } catch (Exception $e) {
           $json_ret = array(
-                  'class'=>'error', 
-                  'message'=>'Erro ao tentar realizar a inscrição!' .  $e->getMessage(),
-                  'error'=>true
-                  );                     
+            'class'=>'error', 
+            'message'=>'Erro ao tentar realizar a inscrição!' .  $e->getMessage(),
+            'error'=>true
+          );                     
           echo json_encode($json_ret); 
           die();
         }        
       } else {
         $json_ret = array(
-            'class'=>'alert alert-danger', 
-            'message'=>'Erro ao tentar realizar a inscrição tente novamente mais tarde' . $e->getMessage(),
-            'error'=>true
+          'class'=>'alert alert-danger', 
+          'message'=>'Erro ao tentar realizar a inscrição tente novamente mais tarde' . $e->getMessage(),
+          'error'=>true
         );
         echo json_encode($json_ret);
         die();

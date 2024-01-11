@@ -53,13 +53,13 @@
                     Presenças
                   </a> 
                 <?php endif;?>
-                <?php if($this->inscritoModel->existeInscritos($registro['id'])) : ?>
+                <?php if($registro['existeInscritos']) : ?>
                   <a href="<?php echo URLROOT; ?>/inscricoes/abrePresencas/<?php echo $registro['id']?>" class="btn btn-success btn-sm m-2">
                   <i class="fa fa-globe"></i> 
                     Gerenciar Presenças
                   </a>
                 <?endif;?>
-                <?php if($this->abrePresencaModel->temPresencaEmAndamento($registro['id'])) : ?>
+                <?php if($registro['existePresencaEmAndamento']) : ?>
                   <span class="bg-danger btn-sm m-2">
                     Presença em andamento
                   </span>
@@ -98,7 +98,7 @@
           ?>
         </p>
         <!-- CARGA HORÁRIA -->     
-        <p class="card-text"><b>Carga Horária: </b><?php echo($this->temaModel->getTotalCargaHoraria($registro['id'])) ? $this->temaModel->getTotalCargaHoraria($registro['id']) . ' Horas' : 'Sem carga horária.';?></p>
+        <p class="card-text"><b>Carga Horária: </b><?php echo($registro['cargaHoraria']) ? $registro['cargaHoraria'] . ' Horas' : 'Sem carga horária.';?></p>
         <!-- FIM CARGA HORÁRIA -->  
         <!-- SE FASE ABERTO HABILITAMOS O BOTÃO INSCREVER-SE -->
         <?php if($registro['fase'] == 'ABERTO') : ?>
@@ -112,9 +112,9 @@
         <!-- SE A FASE FOR CERTIFICADO -->
         <?php if($registro['fase'] == 'CERTIFICADO') : ?>  
           <!-- SE O USUÁRIO ESTIVER INSCRITO NO CURSO IMPRIMIMOS O BOTÃO CERTIFICADO -->
-          <?php if($this->inscritoModel->estaInscrito($registro['id'],$_SESSION[DB_NAME . '_user_id'])) : ?>
+          <?php if($registro['usuarioInscrito']) : ?>
               <!-- SE TIVER PRESENÇA -->
-              <?php if($this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$registro['id'])) : ?>
+              <?php if($registro['usuarioTemPresenca']) : ?>
                 <a href="<?php echo URLROOT; ?>/inscricoes/certificado/<?php echo $registro['id']?>" class="btn btn-success">Certificado Disponível</a>
               <?php else: ?>
                 <div class="alert alert-warning" role="alert">
@@ -128,12 +128,12 @@
         <!-- BOTÕES PARA IMPRIMIR AS LISTAS --> 
         <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>
           <p class="card-text mt-3">
-          <?php if($this->inscritoModel->existeInscritos($registro['id'])) : ?>
+          <?php if($registro['existeInscritos']) : ?>
             <a href="<?php echo URLROOT; ?>/inscricoes/inscritos/<?php echo $registro['id']?>" class="card-link"  target="_blank">
               Lista de Inscritos
             </a>
           <?endif;?>      
-          <?php if($this->presencaModel->getPresencas($registro['id'])) : ?>
+          <?php if($registro['existePresenca']) : ?>
             <a href="<?php echo URLROOT; ?>/inscricoes/presentes/<?php echo $registro['id']?>" class="card-link" target="_blank">
               Lista de Presentes
             </a>

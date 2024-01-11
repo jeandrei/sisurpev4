@@ -6,9 +6,9 @@
         redirect('pages/index');
         die();
       } else if ((!isAdmin()) && (!isSec())){                
-          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-          redirect('pages/index'); 
-          die();
+        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+        redirect('pages/index'); 
+        die();
       }              
       $this->abrePresencaModel = $this->model('Abrepresenca');    
       $this->inscricaoModel = $this->model('Inscricoe');
@@ -38,7 +38,6 @@
       redirect('abrepresencas/index/' . $inscricoes_id->inscricoes_id);
     } 
 
-
     public function add(){  
       $data = [
         'abre_presenca_id' => 
@@ -46,8 +45,8 @@
         'user_id' => 
           ($_POST['user_id']) ? $_POST['user_id'] : ''
       ];
-      $error=[];
 
+      $error=[];
       if(empty($data['abre_presenca_id'])){
           $error['abre_presenca_id_err'] = 'Erro ao tentar recuperar o id da presença!';
       }
@@ -104,9 +103,9 @@
           ($_POST['abre_presenca_id']) ? $_POST['abre_presenca_id'] : '',
         'user_id'=>
           ($_POST['user_id']) ? $_POST['user_id'] : ''               
-      ];   
-      $error=[];
-    
+      ];  
+
+      $error=[];    
       if(empty($data['abre_presenca_id'])){
           $error['abre_presenca_id_err'] = 'Erro ao tentar recuperar o id da presença!';
       }
@@ -163,4 +162,4 @@
           echo json_encode($json_ret);
       }                             
     }//update          
-}
+  }

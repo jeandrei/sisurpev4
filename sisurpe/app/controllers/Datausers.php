@@ -1,62 +1,58 @@
 <?php
- class Datausers extends Controller {
+  class Datausers extends Controller {
 
-    public function __construct(){                
-        //isLoggedIn do arquivo session_helper.php
-        if(!isLoggedIn()){
-          redirect('users/login');
-        }
-       
-     $this->dataModel = $this->model('Datauser');
-     $this->dadosModel = $this->model('Anual');
-     $this->transporteModel = $this->model('Transporte');   
-    
+    public function __construct(){  
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }       
+      $this->dataModel = $this->model('Datauser');
+      $this->dadosModel = $this->model('Anual');
+      $this->transporteModel = $this->model('Transporte'); 
     }
     
     public function index(){
       $datauser = $this->dataModel->getDatauserByid($_SESSION['aluno_id']); 
       $data = [
-          'aluno_id' => $datauser->aluno_id,
-          'nome_aluno' => mb_mb_strtoupper($datauser->nome_aluno),
-          'nascimento' => $datauser->nascimento,
-          'sexo' => $datauser->sexo,
-          'telefone_aluno' => $datauser->telefone_aluno,
-          'email_aluno' => $datauser->email_aluno,
-          'nome_pai' => mb_strtoupper($datauser->nome_pai),
-          'telefone_pai' => $datauser->telefone_pai,
-          'nome_mae' => mb_strtoupper($datauser->nome_mae),
-          'telefone_mae' => $datauser->telefone_mae,
-          'nome_responsavel' => mb_strtoupper($datauser->nome_responsavel),
-          'telefone_resp' => $datauser->telefone_resp,
-          'naturalidade' => mb_strtoupper($datauser->naturalidade), 
-          'nacionalidade' => mb_strtoupper($datauser->nacionalidade), 
-          'end_rua' => mb_strtoupper($datauser->end_rua), 
-          'end_numero' => $datauser->end_numero, 
-          'end_bairro_id' => $datauser->end_bairro_id,
-          'rg' => $datauser->rg, 
-          'uf_rg' => $datauser->uf_rg,
-          'orgao_emissor' => mb_strtoupper($datauser->orgao_emissor),
-          'titulo_eleitor' => $datauser->titulo_eleitor,
-          'zona' => $datauser->zona,
-          'secao' => $datauser->secao,
-          'certidao' => mb_strtoupper($datauser->certidao),
-          'uf_cert' => $datauser->uf_cert,
-          'cartorio_cert' => mb_strtoupper($datauser->cartorio_cert),
-          'modelo' => $datauser->modelo,
-          'numero' => $datauser->numero, 
-          'folha' => $datauser->folha,
-          'livro' => $datauser->livro,
-          'data_emissao_cert' => $datauser->data_emissao_cert,
-          'municipio_cert' => mb_strtoupper($datauser->municipio_cert),
-          'cpf' => $datauser->cpf,
-          'tipo_sanguineo' => mb_strtoupper($datauser->tipo_sanguineo),
-          'fazUsoMed' => $datauser->fazUsoMed,
-          'medicamentos' => mb_strtoupper($datauser->medicamentos),
-          'alergias' => mb_strtoupper($datauser->alergias),
-          'deficiencias' => mb_strtoupper($datauser->deficiencias),
-          'restric_alimentos' => mb_strtoupper($datauser->restric_alimentos)     
-      ];  
-
+        'aluno_id' => $datauser->aluno_id,
+        'nome_aluno' => mb_mb_strtoupper($datauser->nome_aluno),
+        'nascimento' => $datauser->nascimento,
+        'sexo' => $datauser->sexo,
+        'telefone_aluno' => $datauser->telefone_aluno,
+        'email_aluno' => $datauser->email_aluno,
+        'nome_pai' => mb_strtoupper($datauser->nome_pai),
+        'telefone_pai' => $datauser->telefone_pai,
+        'nome_mae' => mb_strtoupper($datauser->nome_mae),
+        'telefone_mae' => $datauser->telefone_mae,
+        'nome_responsavel' => mb_strtoupper($datauser->nome_responsavel),
+        'telefone_resp' => $datauser->telefone_resp,
+        'naturalidade' => mb_strtoupper($datauser->naturalidade), 
+        'nacionalidade' => mb_strtoupper($datauser->nacionalidade), 
+        'end_rua' => mb_strtoupper($datauser->end_rua), 
+        'end_numero' => $datauser->end_numero, 
+        'end_bairro_id' => $datauser->end_bairro_id,
+        'rg' => $datauser->rg, 
+        'uf_rg' => $datauser->uf_rg,
+        'orgao_emissor' => mb_strtoupper($datauser->orgao_emissor),
+        'titulo_eleitor' => $datauser->titulo_eleitor,
+        'zona' => $datauser->zona,
+        'secao' => $datauser->secao,
+        'certidao' => mb_strtoupper($datauser->certidao),
+        'uf_cert' => $datauser->uf_cert,
+        'cartorio_cert' => mb_strtoupper($datauser->cartorio_cert),
+        'modelo' => $datauser->modelo,
+        'numero' => $datauser->numero, 
+        'folha' => $datauser->folha,
+        'livro' => $datauser->livro,
+        'data_emissao_cert' => $datauser->data_emissao_cert,
+        'municipio_cert' => mb_strtoupper($datauser->municipio_cert),
+        'cpf' => $datauser->cpf,
+        'tipo_sanguineo' => mb_strtoupper($datauser->tipo_sanguineo),
+        'fazUsoMed' => $datauser->fazUsoMed,
+        'medicamentos' => mb_strtoupper($datauser->medicamentos),
+        'alergias' => mb_strtoupper($datauser->alergias),
+        'deficiencias' => mb_strtoupper($datauser->deficiencias),
+        'restric_alimentos' => mb_strtoupper($datauser->restric_alimentos)     
+      ]; 
       $this->view('datausers/index', $data);
     }
 
@@ -76,14 +72,10 @@
         $this->view('datausers/show', $data = ['error' => "Ainda não existem alunos cadastrados"]);
       }
     }
-   
-    public function add(){
-
-      // Check for POST            
-      if($_SERVER['REQUEST_METHOD'] == 'POST'){        
-        
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);        
-        
+    
+    public function add(){              
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){   
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); 
         $data = [              
           'nome_aluno' => mb_strtoupper(trim($_POST['nome_aluno'])),
           'nascimento' => $_POST['nascimento'],
@@ -126,11 +118,11 @@
         ];
         
         if(empty($data['nome_aluno'])){
-            $data['nome_aluno_err'] = 'Por favor informe o nome do aluno';
+          $data['nome_aluno_err'] = 'Por favor informe o nome do aluno';
         }
         
         if(empty($data['nascimento'])){
-            $data['nascimento_err'] = 'Por favor informe a data de nascimento do aluno';
+          $data['nascimento_err'] = 'Por favor informe a data de nascimento do aluno';
         }
         
         if (validaData($data['nascimento'])){
@@ -168,11 +160,11 @@
         }
         
         if(empty($data['certidao'])){
-            $data['certidao_err'] = 'Por favor informe o número da certidão de nascimento';
+          $data['certidao_err'] = 'Por favor informe o número da certidão de nascimento';
         } 
         
         if(empty($data['uf_cert'])){
-            $data['uf_cert_err'] = 'Por favor informe a UF da certidão de nascimento';
+          $data['uf_cert_err'] = 'Por favor informe a UF da certidão de nascimento';
         } 
 
         if(empty($data['modelo'])){
@@ -189,33 +181,28 @@
           if(validaData($data['data_emissao_cert'])){
             $data['data_emissao_cert_err'] = 'Data inválida';
           }
-        }
+        }        
         
-        // Make sure errors are empty
         if(                    
             empty($data['nome_aluno_err']) &&
             empty($data['nascimento_err']) && 
             empty($data['certidao_err']) &&
             empty($data['uf_cert_err']) &&
             empty($data['modelo_err']) 
-            ){ 
-              
-                try {
-                  if($this->dataModel->register($data)){                         
-                    flash('mensagem', 'Dados registrados com sucesso');                        
-                    redirect('datausers/show');
-                  }                 
-                } catch (Exception $e) {
-                  die('Ops! Algo deu errado.');  
-                }  
-
-            } else {
-              // Load the view with errors
-              $this->view('datausers/add', $data);
-            } 
+        ){               
+          try {
+            if($this->dataModel->register($data)){                         
+              flash('mensagem', 'Dados registrados com sucesso');                        
+              redirect('datausers/show');
+            }                 
+          } catch (Exception $e) {
+            die('Ops! Algo deu errado.');  
+          } 
+        } else {          
+          $this->view('datausers/add', $data);
+        } 
     
-      } else {
-        // Init data
+      } else {        
         $data = [              
           'nome_aluno' => '',
           'nascimento' => '',
@@ -255,19 +242,15 @@
           'alergias' => '',
           'deficiencias' => '',
           'restric_alimentos' => ''
-      ];
-        // Load view
+        ];        
         $this->view('datausers/add', $data);
       }     
     }
 
 
-    public function edit($id){  
-                 
+    public function edit($id){ 
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);        
-       
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); 
         $data = [ 
           'aluno_id' => $id,
           'nome_aluno' => mb_strtoupper(trim($_POST['nome_aluno'])),
@@ -311,12 +294,11 @@
         ];
 
         if(empty($data['nome_aluno'])){
-            $data['nome_aluno_err'] = 'Por favor informe o nome do aluno';
+          $data['nome_aluno_err'] = 'Por favor informe o nome do aluno';
         } 
-
-       
+        
         if(empty($data['nascimento'])){
-            $data['nascimento_err'] = 'Por favor informe a data de nascimento do aluno';
+          $data['nascimento_err'] = 'Por favor informe a data de nascimento do aluno';
         }
         
         if (!validaNascimento($data['nascimento'])){
@@ -354,11 +336,11 @@
         }
         
         if(empty($data['certidao'])){
-            $data['certidao_err'] = 'Por favor informe o número da certidão de nascimento';
+          $data['certidao_err'] = 'Por favor informe o número da certidão de nascimento';
         } 
         
         if(empty($data['uf_cert'])){
-            $data['uf_cert_err'] = 'Por favor informe a UF da certidão de nascimento';
+          $data['uf_cert_err'] = 'Por favor informe a UF da certidão de nascimento';
         } 
 
         if(empty($data['modelo'])){
@@ -375,36 +357,28 @@
           if(validaData($data['data_emissao_cert'])){
             $data['data_emissao_cert_err'] = 'Data inválida';
           }
-        }
+        }       
         
-        // Make sure errors are empty
         if(                    
             empty($data['nome_aluno_err']) &&
             empty($data['nascimento_err']) && 
             empty($data['certidao_err']) &&
             empty($data['uf_cert_err']) &&
             empty($data['modelo_err']) 
-            ){
-              
-                try {
-                  if($this->dataModel->update($data)){                      
-                    flash('mensagem', 'Dados atualizados com sucesso');                        
-                  redirect('datausers/show/' . $id);
-                  }                 
-                } catch (Exception $e) {
-                  die('Ops! Algo deu errado.');  
-                } 
-              
-            } else {
-              // Load the view with errors
-              $this->view('datausers/add', $data);
-            }               
-
-    
-      } else {       
-
+        ){              
+          try {
+            if($this->dataModel->update($data)){                      
+              flash('mensagem', 'Dados atualizados com sucesso');                        
+              redirect('datausers/show/' . $id);
+            }                 
+          } catch (Exception $e) {
+            die('Ops! Algo deu errado.');  
+          }               
+        } else {          
+          $this->view('datausers/add', $data);
+        }      
+      } else {  
         $data = $this->dataModel->getAlunoById($id);  
-                      
         $data = [ 
           'aluno_id' => $data->aluno_id,
           'nome_aluno' => $data->nome_aluno,
@@ -445,30 +419,22 @@
           'alergias' =>  $data->alergias,
           'deficiencias' => $data->deficiencias,
           'restric_alimentos' => $data->restric_alimentos
-        ];
-        // Load view
+        ];        
         $this->view('datausers/edit', $data);
       } 
     }
 
-
-    public function delete($id){
-        
-      $aluno = $this->dataModel->getAlunoById($id);
-
+    public function delete($id){        
+      $aluno = $this->dataModel->getAlunoById($id);      
       if($aluno->user_id != $_SESSION[DB_NAME . '_user_id']){
         die("Você não tem permissão para excluir este aluno");
-      }
-      
+      }      
       if($this->dataModel->deleteAluno($id)){                
         flash('mensagem', 'Registro removido com sucesso!');                
       } else {
         flash('mensagem', 'Falha ao tentar remover o registro', 'alert alert-danger');
       }
-
-
       if ($dados = $this->dataModel->getAlunosUsuario($_SESSION[DB_NAME . '_user_id'])){
-
         foreach($dados as $dado){
           $data[] = [
             'aluno_id' => $dado->aluno_id,
@@ -477,13 +443,9 @@
             'ultima_atualizacao' => $this->dadosModel->getUltimaAtualizacaoById($dado->aluno_id)
           ];
         }
-
         $this->view('datausers/show', $data);
       } else {
         $this->view('datausers/show', $data = ['error' => "Ainda não existem alunos cadastrados"]);
       }       
-    }
-
-    
-
-}//class
+    }   
+  }//class

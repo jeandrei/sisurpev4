@@ -41,6 +41,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
                   <a class="dropdown-item" href="<?php echo URLROOT; ?>/adminusers/index">Usuários</a>          
+                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/escolas/index">Unidades</a>
                 </div>
               </li>              
             <?php endif; ?> 
