@@ -15,41 +15,80 @@
 				$this->bairroModel = $this->model('Bairro');
 		}
 
-		public function index() {  				
+		public function index() {  			
 			if($escolas = $this->escolaModel->getEscolas()){													
 				foreach($escolas as $row){                    
-					$data[] = [
+					$escolasArray[] = [
 						'id' => $row->id,
-						'nome' => $row->nome,
-						'bairro_id' => $row->bairro_id,
-						'bairro' => $this->bairroModel->getBairroById($row->bairro_id)->nome,
-						'logradouro' => $row->logradouro,                    
-						'numero' => ($row->numero) ? $row->numero : '',
-						'emAtividade' => ($row->emAtividade == 1) ? 'Sim' : 'Não'
+						'nome' => 
+							($row->nome)
+							? $row->nome
+							: '',
+						'bairro_id' => 
+							($row->bairro_id)
+							? $row->bairro_id
+							: '',
+						'bairro' => 
+							($this->bairroModel->getBairroById($row->bairro_id))
+							? $this->bairroModel->getBairroById($row->bairro_id)->bairro
+							: '',
+						'logradouro' => 
+							($row->logradouro)
+							? $row->logradouro
+							: '',                    
+						'numero' => 
+							($row->numero) 
+							? $row->numero 
+							: '',
+						'emAtividade' => 
+							($row->emAtividade == 1) 
+							? 'Sim' 
+							: 'Não'
 					];       
-				}               
+				}  
+				$data = [
+					'escolas' => $escolasArray
+				];            
 				$this->view('escolas/index', $data);
 			} else {                                 
 				$this->view('escolas/index');
 			}   
 		}
 
-		public function new(){  
+		public function new(){ 			
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); 
 				$data = [
-					'nome' => trim($_POST['nome']),
-					'bairro_id' => $_POST['bairro_id'],
-					'logradouro' => trim($_POST['logradouro']),                    
-					'numero' => ($_POST['numero']) ? trim($_POST['numero']) : null,
-					'emAtividade' => trim($_POST['emAtividade']),
-					'bairros' => $this->bairroModel->getBairros(),
+					'nome' => 
+						isset($_POST['nome'])
+						? trim($_POST['nome'])
+						:'',
+					'bairro_id' => 
+						isset($_POST['bairro_id'])
+						? $_POST['bairro_id']
+						: '',
+					'logradouro' => 
+						isset($_POST['logradouro'])
+						? trim($_POST['logradouro'])
+						: '',                    
+					'numero' => 
+						isset($_POST['numero']) 
+						? trim($_POST['numero']) 
+						: '',
+					'emAtividade' => 
+						isset($_POST['emAtividade'])
+						? trim($_POST['emAtividade'])
+						: '',
+					'bairros' => 
+						($this->bairroModel->getBairros())
+						? $this->bairroModel->getBairros()
+						: '',
 					'nome_err' => '',
 					'bairro_id_err' => '',
 					'logradouro_err' => '',                   
-					'emAtividade_err' => ''                    
-				];    				
-
+					'emAtividade_err' => '',
+					'numero_err' => ''
+				];		
 				// Valida nome
 				if(empty($data['nome'])){
 					$data['nome_err'] = 'Por favor informe o nome da escola';
@@ -75,13 +114,20 @@
 					empty($data['logradouro_err']) && 
 					empty($data['bairro_id_err']) &&  
 					empty($data['emAtividade_err'])
-				){							
-					if($this->escolaModel->register($data)){						
-						flash('message', 'Escola registrada com sucesso!','success');                        
-						redirect('escolas/index');
-					} else {
-						die('Ops! Algo deu errado.');
-					}								
+				){	
+					try {
+            if($this->escolaModel->register($data)){
+              flash('message', 'Escola registrada com sucesso!','success');                        
+              redirect('escolas/index');
+            } else {                                
+              throw new Exception('Ops! Algo deu errado ao tentar gravar os dados! Tente novamente.');
+            } 
+
+          } catch (Exception $e) {
+            $erro = 'Erro: '.  $e->getMessage(); 
+            flash('message', $erro,'error');                       
+            redirect('escolas/index');      
+          } 					
 				} else {					
 					if(!empty($data['erro'])){
 						flash('message', $data['erro'], 'error');
@@ -99,28 +145,47 @@
 					'nome_err' => '',
 					'bairro_id_err' => '',
 					'logradouro_err' => '',                   
-					'emAtividade_err' => ''                    
+					'emAtividade_err' => '',
+					'numero_err' => ''                    
 				];					
 				$this->view('escolas/new', $data);
 			} 
 		}
 
 		public function edit($id){ 
-			if($_SERVER['REQUEST_METHOD'] == 'POST'){	
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);  					
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){		
 				$data = [
 					'id' => $id,
-					'nome' => trim($_POST['nome']),
-					'bairro_id' => $_POST['bairro_id'],
-					'bairros' => $this->bairroModel->getBairros(),
-					'logradouro' => trim($_POST['logradouro']),                    
-					'numero' => ($_POST['numero']) ? trim($_POST['numero']) : null,
-					'emAtividade' => trim($_POST['emAtividade']),
+					'nome' => 
+						isset($_POST['nome'])
+						? trim($_POST['nome'])
+						:'',
+					'bairro_id' => 
+						isset($_POST['bairro_id'])
+						? $_POST['bairro_id']
+						: '',
+					'logradouro' => 
+						isset($_POST['logradouro'])
+						? trim($_POST['logradouro'])
+						: '',                    
+					'numero' => 
+						isset($_POST['numero']) 
+						? trim($_POST['numero']) 
+						: '',
+					'emAtividade' => 
+						isset($_POST['emAtividade'])
+						? trim($_POST['emAtividade'])
+						: '',
+					'bairros' => 
+						($this->bairroModel->getBairros())
+						? $this->bairroModel->getBairros()
+						: '',
 					'nome_err' => '',
 					'bairro_id_err' => '',
-					'logradouro_err' => '',                    
-					'emAtividade_err' => ''                    
-				];          
+					'logradouro_err' => '',                   
+					'emAtividade_err' => '',
+					'numero_err' => ''
+				];		
 					
 				// Valida nome
 				if(empty($data['nome'])){
@@ -173,7 +238,8 @@
 					'nome_err' => '',
 					'bairro_id_err' => '',
 					'logradouro_err' => '',                   
-					'emAtividade_err' => ''                    
+					'emAtividade_err' => '',
+					'numero_err' => ''                    
 				]; 
 				$this->view('escolas/edit', $data);
 			} 
@@ -182,25 +248,25 @@
 			//VALIDAÇÃO DO ID
 			if(!is_numeric($id)){
 					$erro = 'ID Inválido!'; 
-			} else if (!$data['escola'] = $this->escolaModel->getEscolaById($id)){
+			} else if (!$escolaDelete = $this->escolaModel->getEscolaById($id)){
 					$erro = 'ID inexistente';
 			}	
 			if($escolas = $this->escolaModel->getEscolas()){													
 				foreach($escolas as $row){                    
-					$data[] = [
+					$escolas = [
 						'id' => $row->id,
 						'nome' => $row->nome,
 						'bairro_id' => $row->bairro_id,
-						'bairro' => $this->bairroModel->getBairroById($row->bairro_id)->nome,
+						'bairro' => $this->bairroModel->getBairroById($row->bairro_id)->bairro,
 						'logradouro' => $row->logradouro,                    
 						'numero' => ($row->numero) ? $row->numero : '',
 						'emAtividade' => ($row->emAtividade == 1) ? 'Sim' : 'Não'
 					];       
 				}  
-			}
+			}			
 			//esse $_POST['delete'] vem lá do view('confirma');
 			if(isset($_POST['delete'])){  
-				if($erro){
+				if(isset($erro)){
 					flash('message', $erro , 'error');                     
 					$this->view('escolas/index',$data);
 					die();
@@ -218,7 +284,11 @@
 					redirect('escolas/index',$data);
 					die();
 				}                
-			} else {                  
+			} else {	
+				$data = [
+					'escolas' => $escolas,
+					'escola' => $escolaDelete
+				];
 				$this->view('escolas/confirma',$data);
 				die();
 			}                 

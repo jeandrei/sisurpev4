@@ -1,7 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php';?>
 
 
-
 <?php flash('message'); ?>
 
 
@@ -31,7 +30,7 @@
             id="escolaId"
             class="form-control <?php echo (!empty($data['escolaId_err'])) ? 'is-invalid' : ''; ?>"
         >
-            <option value="null">Todas</option>
+            <option value="null">Selecione uma escola</option>
             <?php foreach($data['escolas'] as $row) : ?>            
             <option 
                 value="<?php htmlout($row->id); ?>"
@@ -42,7 +41,7 @@
             <?php endforeach; ?>  
         </select>
         <span class="text-danger">
-            <?php echo $data['escolaId_err']; ?>
+            <?php echo $data['erro']; ?>
         </span>
         <!-- ESCOLA --> 
     </div>

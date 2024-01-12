@@ -27,7 +27,9 @@
 				'tipoEnsinoMedio' => $formacoes->tipoEnsinoMedio,
 				'userId' => $_SESSION[DB_NAME . '_user_id'],
 				'userformacao' => $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
-				'avancarLink' => ($formacoes->maiorEscolaridade == 'e_superior') ? URLROOT .'/fusercursosuperiores/index' : URLROOT .'/fuseroutroscursos/index'
+				'avancarLink' => ($formacoes->maiorEscolaridade == 'e_superior') ? URLROOT .'/fusercursosuperiores/index' : URLROOT .'/fuseroutroscursos/index',
+				'maiorEscolaridade_err' => '',
+				'tipoEnsinoMedio_err' => ''
 			]; 
 			$this->view('fuserformacoes/index',$data);
 		}
@@ -42,7 +44,9 @@
 					'userformacao' => $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
 					'maiorEscolaridade' => trim($_POST['maiorEscolaridade']),
 					'tipoEnsinoMedio' => trim($_POST['tipoEnsinoMedio']),
-					'avancarLink' => ($_POST['maiorEscolaridade'] == 'e_superior') ? URLROOT .'/fusercursosuperiores/index' : URLROOT .'/fuseroutroscursos/index'  
+					'avancarLink' => ($_POST['maiorEscolaridade'] == 'e_superior') ? URLROOT .'/fusercursosuperiores/index' : URLROOT .'/fuseroutroscursos/index',
+					'maiorEscolaridade_err' => '',
+					'tipoEnsinoMedio_err' => ''  
 				];                      
 				
 				// Valida maiorEscolaridade

@@ -8,7 +8,7 @@
         }
 
         // Registra Etapa
-        public function register($data){            
+        public function register($data){           
             $this->db->query('INSERT INTO escola (nome, bairro_id, logradouro, numero, emAtividade) VALUES (:nome, :bairro_id, :logradouro, :numero, :emAtividade)');
             // Bind values
             $this->db->bind(':nome',$data['nome']);

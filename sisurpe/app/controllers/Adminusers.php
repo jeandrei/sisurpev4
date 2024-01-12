@@ -24,6 +24,9 @@
 			} else {  
 				$page = 1;  
 			} 
+			if(!isset($_GET['cpf'])){$_GET['cpf'] = '';}
+			if(!isset($_GET['name'])){$_GET['name'] = '';}
+			if(!isset($_GET['type'])){$_GET['type'] = '';}
 			$options = array(
 				'results_per_page' => 10,
 				'url' => URLROOT . '/adminusers/index.php?page=*VAR*&cpf=' . $_GET['cpf'] .'&name=' . $_GET['name'] . '&type=' . $_GET['type'], 

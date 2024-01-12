@@ -92,7 +92,7 @@ services:
             MYSQL_USER: spuser
             MYSQL_PASSWORD: mypassword
             MYSQL_ROOT_PASSWORD: rootadm
-            UPLOAD_LIMIT: 100000000
+            UPLOAD_LIMIT: 10000000000
             restart: always
 volumes:
     dumps:

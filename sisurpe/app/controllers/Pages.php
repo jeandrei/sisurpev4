@@ -6,7 +6,7 @@
 				//$this->postModel = $this->model('Post');
 			}
 
-			public function index(){
+			public function index(){				
 				// Posso passar valores aqui pois no view está definido um array para isso
 				// public function view($view, $data = []){
 				// 2 Chama um método

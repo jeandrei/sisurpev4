@@ -14,12 +14,14 @@
 
     public function index(){   
       $data = [
+        'escolaId' => '',
         'titulo' => 'Atualização dos dados do servidor para o ano de ',
         'ano' => date("Y"),
         'user' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
         'escolas' => $this->escolaModel->getEscolas(),
         'userEscolas' => $this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id']),
-        'avancarLink' => URLROOT . '/fuserformacoes/index'
+        'avancarLink' => URLROOT . '/fuserformacoes/index',
+        'escolaId_err' => ''
       ];        
       $this->view('users/userescola', $data);
     }

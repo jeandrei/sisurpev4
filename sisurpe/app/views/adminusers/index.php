@@ -60,12 +60,12 @@
 
      <!-- TIPO DO USUÁRIO -->  
      <div class="col-lg-2">
-            <label for="usertype">
+            <label for="type">
                 Buscar tipo
             </label>
             <select class="form-control"
-              name="usertype" 
-              id="usertype" 
+              name="type" 
+              id="type" 
               class="form-control" 
               >
               <option value='NULL'>todos</option>                   
@@ -73,7 +73,7 @@
               $tipos = array('admin','sec','user','coleta');                    
               foreach($tipos as $tipo => $value) : ?> 
                   <option value="<?php echo $value; ?>" 
-                              <?php echo $value == $_GET['usertype'] ? 'selected':'';?>
+                              <?php echo $value == $_GET['type'] ? 'selected':'';?>
                   >
                       <?php echo $value;?>
                   </option>

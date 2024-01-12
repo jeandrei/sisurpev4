@@ -285,7 +285,7 @@ class User extends Pagination{
             $this->pag->bindParam(':name', $options['named_params'][':name'], PDO::PARAM_STR, 12);           
         } 
 
-        if(!empty($options['named_params'][':type'])){
+        if(!empty($options['named_params'][':type'])){            
             $this->pag->bindParam(':userType', $options['named_params'][':type'], PDO::PARAM_STR, 12);           
         } 
 

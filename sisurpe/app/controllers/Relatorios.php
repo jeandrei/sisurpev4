@@ -21,35 +21,50 @@
     public function selectEscola($view){          
       $data = [
         'titulo' => 'Selecione a escola',
-        'view' => $view              
-      ];
-      $data['escolas'] = $this->escolaModel->getEscolas();
+        'view' => $view,
+        'escolaId_err' => '',
+        'escolas' => $this->escolaModel->getEscolas(),
+        'escolaId' => '',
+        'erro' => ''
+      ];     
       $this->view('relatorios/selectEscola',$data);
     }
 
-    public function uniformePorEscola(){      
-      //pego a escola
-      $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
-      //pego todas as turmas da escola
-      $data['turmas'] = $this->turmaModel->getTurmasEscolaById($_GET['escolaId']);
-      //debug($data['turmas']);      
-      //monto os dados para cada turma
-      foreach($data['turmas'] as $row){
-        //var_dump($row->descricao);
-          $data['result'][] = [
-          'turmaId' => $row->id,
-          'turma' => $row->descricao,
-          'coleta' => $this->coletaModel->getColetaByTurma($row->id),
-          'kit_inverno' => $this->coletaModel->totaisUniforme($row->id,'kit_inverno'),
-          'kit_verao' => $this->coletaModel->totaisUniforme($row->id,'kit_verao'),     
-          'tam_calcado' => $this->coletaModel->totaisCalcado($row->id,'tam_calcado'),
-          'totalUniforme' => $this->coletaModel->totaisEscolaUniforme($_GET['escolaId']),
-          'totalCalcado' => $this->coletaModel->totaisEscolaCalcado($_GET['escolaId'])
-        ]; 
-      }  
-      $this->view('relatorios/coletaPorEscola',$data);
+    public function uniformePorEscola(){  
+      if($escola = $this->escolaModel->getEscolaById($_GET['escolaId'])){
+        if($turmas = $this->turmaModel->getTurmasEscolaById($_GET['escolaId'])){          
+          foreach($turmas as $row){        
+            $turmasArr[] = [
+              'turmaId' => $row->id,
+              'turma' => $row->descricao,
+              'coleta' => $this->coletaModel->getColetaByTurma($row->id),
+              'kit_inverno' => $this->coletaModel->totaisUniforme($row->id,'kit_inverno'),
+              'kit_verao' => $this->coletaModel->totaisUniforme($row->id,'kit_verao'),     
+              'tam_calcado' => $this->coletaModel->totaisCalcado($row->id,'tam_calcado')            
+              
+            ]; 
+          } 
+          $data = [            
+            'escola' => $escola,
+            'turmas' => $turmasArr,
+            'totalUniforme' => $this->coletaModel->totaisEscolaUniforme($_GET['escolaId']),
+            'totalCalcado' => $this->coletaModel->totaisEscolaCalcado($_GET['escolaId'])
+          ];   
+          $this->view('relatorios/coletaPorEscola',$data);             
+        } else {
+          $data = [             
+            'erro' => 'Escola não possui turmas!'
+          ];         
+          $this->view('relatorios/coletaPorEscola',$data);
+        }
+      } else {
+        $data = [           
+          'erro' => 'Selecione uma escola!'          
+        ];          
+        $this->view('relatorios/coletaPorEscola',$data);
+      }    
     } 
-        
+         
     public function rfespecializacao(){ 
       if($_GET['escolaId']=='null'){
         $escolaId = 'null';
@@ -57,9 +72,9 @@
       } else {
         $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
         $escolaId = $data['escola']->id;
-      }                   
-      $data['result'] = $this->fuserPos->getUsersPos($escolaId,date("Y"));   
-      if($data['result']){
+      }       
+      $data['result'] = $this->fuserPos->getUsersPos($escolaId,date("Y"));       
+      if($data['result']){        
         $this->view('relatorios/rfuserposporescola',$data);
       } else {
         die('Sem dados para emitir');

@@ -23,7 +23,7 @@
     </thead>
     <tbody>
     <?php if($data) : ?>
-        <?php foreach($data as $escola) : ?>
+        <?php foreach($data['escolas'] as $escola) : ?>
             <tr class="text-center">
                 <td><?php echo $escola['nome'];?></td>
                 <td><?php echo $escola['logradouro'];?></td>
