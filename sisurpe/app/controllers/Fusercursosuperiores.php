@@ -117,27 +117,84 @@
             isset($_POST['areaId'])
             ? trim($_POST['areaId'])
             : '',
-          'nivelId' => trim($_POST['nivelId']),
-          'cursoId' => trim($_POST['cursoId']),
+          'nivelId' => 
+            isset($_POST['nivelId'])
+            ?trim($_POST['nivelId'])
+            : '',
+          'cursoId' => 
+            isset($_POST['cursoId'])
+            ? trim($_POST['cursoId'])
+            : '',
           'userId' => $_SESSION[DB_NAME . '_user_id'],
           'titulo' => 'Curso superior',
-          'regioes' => $this->regiaoModel->getRegioes(),
-          'regiaoId' => html($_POST['regiaoId']),
-          'estados' => $this->estadoModel->getEstadosRegiaoById($_POST['regiaoId']),
-          'estadoId' => html($_POST['estadoId']),
-          'estado' => $this->estadoModel->getEstadoById($_POST['estadoId']),
-          'municipioId' => html($_POST['municipioId']),
-          'municipio' => $this->municipioModel->getMunicipioById($_POST['municipioId']),
-          'municipios' => $this->municipioModel->getMunicipiosEstadoById($_POST['estadoId']),
-          'tipoInstituicao' => trim($_POST['tipoInstituicao']),
-          'anoConclusao' => html($_POST['anoConclusao']),
-          'instituicaoEnsino' => trim($_POST['instituicaoEnsino']),
-          'areasCurso' => $this->fareacursoModel->getAreasCurso(),
-          'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
-          'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
-          'userCursosSup' => $this->getUserCursosSup(),
-          'tiposInstituicoes' => getTipoInstituicoes(),
-          'file' => $_FILES['file_post'],
+          'regioes' => 
+            ($this->regiaoModel->getRegioes())
+            ? $this->regiaoModel->getRegioes()
+            : '',
+          'regiaoId' => 
+            isset($_POST['regiaoId'])
+            ? html($_POST['regiaoId'])
+            : '',
+          'estados' => 
+            isset($_POST['regiaoId'])
+            ? $this->estadoModel->getEstadosRegiaoById($_POST['regiaoId'])
+            : '',
+          'estadoId' => 
+            isset($_POST['estadoId'])
+            ? html($_POST['estadoId'])
+            : '',
+          'estado' => 
+            isset($_POST['estadoId'])
+            ? $this->estadoModel->getEstadoById($_POST['estadoId'])
+            : '',
+          'municipioId' => 
+            isset($_POST['municipioId'])
+            ? html($_POST['municipioId'])
+            : '',
+          'municipio' => 
+            isset($_POST['municipioId'])
+            ? $this->municipioModel->getMunicipioById($_POST['municipioId'])
+            : '',
+          'municipios' => 
+            isset($_POST['estadoId'])
+            ? $this->municipioModel->getMunicipiosEstadoById($_POST['estadoId'])
+            : '',
+          'tipoInstituicao' => 
+            isset($_POST['tipoInstituicao'])
+            ? trim($_POST['tipoInstituicao'])
+            : '',
+          'anoConclusao' => 
+            isset($_POST['anoConclusao'])
+            ? html($_POST['anoConclusao'])
+            : '',
+          'instituicaoEnsino' => 
+            isset($_POST['instituicaoEnsino'])
+            ? trim($_POST['instituicaoEnsino'])
+            : '',
+          'areasCurso' => 
+            ($this->fareacursoModel->getAreasCurso())
+            ? $this->fareacursoModel->getAreasCurso()
+            : '',
+          'nivelCurso' => 
+            ($this->fnivelcursoModel->getNivelCurso())
+            ? $this->fnivelcursoModel->getNivelCurso()
+            : '',
+          'cursosSuperiores' => 
+            ($this->fcursossupModel->getCursosSup())
+            ? $this->fcursossupModel->getCursosSup()
+            : '',
+          'userCursosSup' => 
+            ($this->getUserCursosSup())
+            ? $this->getUserCursosSup()
+            : '',
+          'tiposInstituicoes' => 
+            (getTipoInstituicoes())
+            ? getTipoInstituicoes()
+            : '',
+          'file' => 
+            ($_FILES['file_post'])
+            ? $_FILES['file_post']
+            : '',
           'areaId_err' => '',
           'cursoId_err' => '',
           'nivelId_err' => '',
@@ -263,12 +320,14 @@
           die();
         } 
         $data = [
+          'areaId' => '',
           'areasCurso' => $this->fareacursoModel->getAreasCurso(),
           'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
           'tiposInstituicoes' => getTipoInstituicoes(),
           'userId' => $_SESSION[DB_NAME . '_user_id'],
           'titulo' => 'Curso superior',
-          'regioes' => $this->regiaoModel->getRegioes(),
+          'regioes' => $this->regiaoModel->getRegioes(),          
+          'instituicaoEnsino' => '',
           'areaId_err' => '',
           'cursoId_err' => '',
           'nivelId_err' => '',
@@ -278,8 +337,8 @@
           'regiaoId_err' => '',
           'estadoId_err' => '',
           'municipioId_err' => '',
-          'file_post_err' => ''
-        ];
+          'file_post_err' => ''          
+        ];       
         $this->view('fusercursosuperiores/add',$data);
       }
     }
