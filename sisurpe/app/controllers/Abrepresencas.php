@@ -64,7 +64,7 @@
 
         if((intval($data['total_carga_horaria_presencas']) + intval($data['carga_horaria'])) > intval($data['total_carga_horaria_temas'])) {            
           $err = 'Total de carga horária não pode ser maior que o total de carga horária de todos os temas somados! O total de carga horária dos temas atual é de ' . $data['total_carga_horaria_temas'] . ' Horas.';          
-          if(intva($data['total_carga_horaria_presencas']) > 0){                
+          if(intval($data['total_carga_horaria_presencas']) > 0){                
             $err .= ' O total de carga horária já lançada para presença é de ' . $data['total_carga_horaria_presencas'] . 'Horas.' ;
           } 
           $data['carga_horaria_err'] = $err; 
