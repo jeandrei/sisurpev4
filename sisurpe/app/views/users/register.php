@@ -101,15 +101,15 @@
                         <span class="invalid-feedback">
                             <?php echo $data['confirm_password_err']; ?>
                         </span>
-                    </div>  
-                    
+                    </div>                     
+                  
                     <!--BUTTONS-->
-                    <div class="row">
-                        <div class="col">                            
-                           <?php  submit('Registrar-se'); ?>                           
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="submit" class="btn btn-success btn-block" value="Registre-se">
                         </div>
-                        <div class="col">                            
-                            <?php linkbutton(URLROOT.'/users/login', 'Já tem uma conta? Login'); ?>
+                        <div class="col">
+                            <a href="<?php echo URLROOT; ?>/users/login" class="btn btn-light btn-block">Já tem uma conta? Login</a>
                         </div>
                     </div>
 

@@ -20,7 +20,10 @@
 			unset($data);
 			$data = [
 				'titulo'    => 'Coleta de Dados',
-				'escolas' => $this->userescolacoletaModel->getEscolaColetaUserById($_SESSION[DB_NAME . '_user_id'])
+				'escolas' => $this->userescolacoletaModel->getEscolaColetaUserById($_SESSION[DB_NAME . '_user_id']),
+				'escolaId' => '',
+				'escolaId_err' => '',
+				'turmaId_err' => ''
 			];
 			$this->view('coletas/index', $data);            
 		}											

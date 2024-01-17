@@ -4,7 +4,8 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-    
+      
+              
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         
@@ -13,69 +14,70 @@
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo URLROOT; ?>/pages/about">Sobre</a>
             </li> 
-             
+            <?php if(isLoggedIn()) :?>
 
-            <!--FAZ A VERIFICAÇÃO SE O USUÁRIO É ADMINISTRADOR, OU SECRETÁRIO SE SIM CARREGA OS MENUS DE CADASTRO-->
-                       
-            <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Consulta
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/fbuscaservidores">Busca Servidor</a>
-                  <!-- 
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscaalunos">Busca Alunos</a>
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscadadosescolars">Busca Dados Escolares</a>
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscadadostransportes">Busca Dados Transporte</a>-->
-                </div>
-              </li>       
-            <?php endif; ?> 
+              <!--FAZ A VERIFICAÇÃO SE O USUÁRIO É ADMINISTRADOR, OU SECRETÁRIO SE SIM CARREGA OS MENUS DE CADASTRO-->
+                        
+              <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Consulta
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                    <a class="dropdown-item" href="<?php echo URLROOT; ?>/fbuscaservidores">Busca Servidor</a>
+                    <!-- 
+                    <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscaalunos">Busca Alunos</a>
+                    <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscadadosescolars">Busca Dados Escolares</a>
+                    <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscadadostransportes">Busca Dados Transporte</a>-->
+                  </div>
+                </li>       
+              <?php endif; ?> 
 
-            
-            <!--FAZ A VERIFICAÇÃO SE O USUÁRIO É ADMINISTRADOR, OU SECRETÁRIO SE SIM CARREGA OS MENUS DE CADASTRO-->
-            <?php if(isset($_SESSION[DB_NAME . '_user_type']) && ($_SESSION[DB_NAME . '_user_type']) == "admin") : ?>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Administração
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/adminusers/index">Usuários</a>          
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/escolas/index">Unidades</a>
-                </div>
-              </li>              
-            <?php endif; ?> 
+              
+              <!--FAZ A VERIFICAÇÃO SE O USUÁRIO É ADMINISTRADOR, OU SECRETÁRIO SE SIM CARREGA OS MENUS DE CADASTRO-->
+              <?php if(isset($_SESSION[DB_NAME . '_user_type']) && ($_SESSION[DB_NAME . '_user_type']) == "admin") : ?>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Administração
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                    <a class="dropdown-item" href="<?php echo URLROOT; ?>/adminusers/index">Usuários</a>          
+                    <a class="dropdown-item" href="<?php echo URLROOT; ?>/escolas/index">Unidades</a>
+                  </div>
+                </li>              
+              <?php endif; ?> 
 
-            <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>
-              <li class="nav-item">
-              <a class="nav-link" href="<?php echo URLROOT; ?>/relatorios/index">Relatórios</a>
-              </li> 
-            <?php endif; ?> 
+              <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>
+                <li class="nav-item">
+                <a class="nav-link" href="<?php echo URLROOT; ?>/relatorios/index">Relatórios</a>
+                </li> 
+              <?php endif; ?> 
 
-            <?php if(isset($_SESSION[DB_NAME . '_user_type']) && ($_SESSION[DB_NAME . '_user_type']) == "admin" || ($_SESSION[DB_NAME . '_user_type']) == "coleta") : ?>
+              <?php if(isset($_SESSION[DB_NAME . '_user_type']) && ($_SESSION[DB_NAME . '_user_type']) == "admin" || ($_SESSION[DB_NAME . '_user_type']) == "coleta") : ?>
 
 
 
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Coletas
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/coletas/index">Coletar Dados</a>
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/coletas/geradordebilhetes">Gerador de bilhetes</a>
-                </div>
-              </li>               
-            <?php endif; ?> 
-            
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Coletas
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                    <a class="dropdown-item" href="<?php echo URLROOT; ?>/coletas/index">Coletar Dados</a>
+                    <a class="dropdown-item" href="<?php echo URLROOT; ?>/coletas/geradordebilhetes">Gerador de bilhetes</a>
+                  </div>
+                </li>               
+              <?php endif; ?> 
+              
 
-            <?php if(isLoggedIn()) : ?>
-              <li class="nav-item">
-                  <a class="nav-link" href="<?php echo URLROOT; ?>/datausers/show">Alunos</a>
-              </li> 
-              <li class="nav-item">
-                  <a class="nav-link" href="<?php echo URLROOT; ?>/inscricoes/index">Inscrições</a>
-              </li> 
-            <? endif; ?>
+              <?php if(isLoggedIn()) : ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo URLROOT; ?>/datausers/show">Alunos</a>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo URLROOT; ?>/inscricoes/index">Inscrições</a>
+                </li> 
+              <?php endif; ?>
+            <?php endif;?>
         </ul>
 
 

@@ -202,6 +202,70 @@
 			}  
 		}
 
+		// Retorna os totais de uma linha a partir de uma escola		
+		public function getTotaisLinhasEscola($escolaId,$valor){			
+			$sql = "
+				SELECT 
+					COUNT(coleta.id) as total 
+				FROM 
+					coleta, 
+					escola, 
+					turma 
+				WHERE 
+					coleta.turmaId = turma.id 
+				AND 
+					turma.escolaId = escola.id 
+				AND 
+					escola.id = :escolaId
+				AND
+					(
+						coleta.transporte1 = :valor
+					OR
+						coleta.transporte2 = :valor
+					OR 
+						coleta.transporte3 = :valor
+					)
+			";								
+			$this->db->query($sql); 
+			$this->db->bind(':escolaId', $escolaId);
+			$this->db->bind(':valor', $valor);
+			$row = $this->db->single();
+			if($this->db->rowCount() > 0){
+				return $row->total;
+			} else {
+				return false;
+			}  
+		}
+
+		// Retorna o total de uma linha a partir de uma turma
+		public function getTotaisLinhasTurma($turmaId,$valor){			
+			$sql = "SELECT COUNT(id) AS total from coleta WHERE coleta.turmaId = :turmaId";
+			if(isset($valor)){
+				$sql .= " AND transporte1 = :valor OR transporte2 = :valor OR transporte3 = :valor";
+			} else {
+				return false;
+			}					
+			$this->db->query($sql); 
+			$this->db->bind(':turmaId', $turmaId);
+			$this->db->bind(':valor', $valor);
+			$row = $this->db->single();
+			if($this->db->rowCount() > 0){
+				return $row->total;
+			} else {
+				return false;
+			}  
+		}
+
+		//Retorna os totais de transporte por turma
+		public function totaisTransporte($turmaId){ 
+			$arrayLinhas='';
+			$arrayLinhas = getLinhas();
+			foreach($arrayLinhas as $linha){
+				$result[$linha] = $this->getTotaisLinhasTurma($turmaId,$linha);            
+			}
+			return $result;
+		}
+
 		//Retorna os totais de uniforme por turma
 		public function totaisUniforme($turmaId,$campoCalcular){ 
 			$arrayTamanhos='';

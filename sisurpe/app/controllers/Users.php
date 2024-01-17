@@ -95,6 +95,7 @@
 				$data = [
 					'name' => '',
 					'email' => '',
+					'cpf' => '',
 					'password' => '',
 					'confirm_password' => '',
 					'name_err' => '',
@@ -130,7 +131,8 @@
 					'confirm_password' => trim($_POST['confirm_password']),
 					'name_err' => '',
 					'password_err' => '',
-					'confirm_password_err' => ''
+					'confirm_password_err' => '',
+					'escolaId_err' => ''
 				]; 				
 
 				// Validate Name
@@ -154,9 +156,7 @@
 							$data['confirm_password_err'] = 'Senha e confirmação de senha diferentes';    
 						}
 					}
-				}
-					
-
+				}				
 					// Make sure errors are empty
 					if(           
 						empty($data['name_err']) && 
@@ -195,7 +195,8 @@
 					'confirm_password' => '',
 					'name_err' => '',
 					'password_err' => '',
-					'confirm_password_err' => ''
+					'confirm_password_err' => '',
+					'escolaId_err' => ''
 				];
 				// Load view
 				$this->view('users/edit', $data);
@@ -257,7 +258,8 @@
 					'name_err' => '',
 					'email_err' => '',
 					'password_err' => '',
-					'confirm_password_err' => ''
+					'confirm_password_err' => '',
+					'escolaId_err' => ''
 				];
 				// Load view
 				$this->view('users/login', $data);

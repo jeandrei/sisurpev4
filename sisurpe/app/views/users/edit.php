@@ -118,7 +118,7 @@
                                         <?php foreach($data['escolas'] as $row) : ?>
                                         <option 
                                             value="<?php htmlout($row->id); ?>"
-                                            <?php echo ($data['escolaId']) == $row->id ? 'selected' : '';?>
+                                            <?php echo (isset($data['escolaId']) && ($data['escolaId']) == $row->id) ? 'selected' : '';?>
                                         >
                                         <?php htmlout($row->nome); ?>
                                         </option>
@@ -183,7 +183,7 @@
                     <!--BUTTONS-->
                     <div class="row">
                         <div class="col">                            
-                           <?php  submit('Atualizar'); ?>                           
+                            <input type="submit" value="Atualizar" class="btn btn-success btn-block">                        
                         </div>
                     </div>
 

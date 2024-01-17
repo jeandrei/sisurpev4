@@ -51,11 +51,8 @@
                     <!--BUTTONS-->
                     <div class="row">
                         <div class="col">
-                            <?php  submit('Login'); ?>                            
-                        </div>
-                        <div class="col">                            
-                            <?php linkbutton(URLROOT.'/users/register', 'Não tem uma conta? Registre-se'); ?>
-                        </div>  
+                            <input type="submit" value="Login" class="btn btn-success btn-block">                           
+                        </div>                        
                     </div>
                     <br> 
                     Esqueceu a senha? clique <a href="<?php echo (URLROOT.'/users/enviasenha');?>">aqui</a>

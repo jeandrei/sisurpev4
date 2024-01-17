@@ -137,7 +137,7 @@
   }
 
   function imptamanhounif($tamanhosec) {
-
+    $html = '';
     $arrayTamanhos = getArrayTamanhos();
 
     foreach($arrayTamanhos as $tamanho){ 
@@ -153,6 +153,7 @@
 
 
     function imptamanhocalc($tamanhosec) {
+      $html = '';
       $arrayTamanhos = getTamanhosCalcados();
       foreach($arrayTamanhos as $tamanho){ 
         //idtamanho tem que ser passada pelo post
@@ -189,6 +190,7 @@
     }
 
     function imptlinhastransporte($linhasec) {
+      $html = '';
       $arrayLinhas =  getLinhas();
         foreach($arrayLinhas as $linha){ 
           //idtamanho tem que ser passada pelo post

@@ -64,6 +64,45 @@
         $this->view('relatorios/coletaPorEscola',$data);
       }    
     } 
+
+    public function transportePorEscola(){        
+      if($escola = $this->escolaModel->getEscolaById($_GET['escolaId'])){
+        if($turmas = $this->turmaModel->getTurmasEscolaById($_GET['escolaId'])){          
+          foreach($turmas as $row){        
+            $turmasArr[] = [
+              'turmaId' => $row->id,
+              'turma' => $row->descricao,
+              'coleta' => $this->coletaModel->getColetaByTurma($row->id),
+              'totaisTransporte' => $this->coletaModel->totaisTransporte($row->id)
+            ]; 
+          } 
+          $linhasArr = getLinhas();          
+          foreach($linhasArr as $row){
+            $totaisLinhasArr[] = [
+              'linha' => $row,
+              'total' => $this->coletaModel->getTotaisLinhasEscola($_GET['escolaId'],$row)
+            ];
+          }
+          
+          $data = [            
+            'escola' => $escola,
+            'turmas' => $turmasArr,
+            'totalGeral' => $totaisLinhasArr            
+          ];          
+          $this->view('relatorios/transportePorEscola',$data);             
+        } else {
+          $data = [             
+            'erro' => 'Escola não possui turmas!'
+          ];         
+          $this->view('relatorios/transportePorEscola',$data);
+        }
+      } else {
+        $data = [           
+          'erro' => 'Selecione uma escola!'          
+        ];          
+        $this->view('relatorios/transportePorEscola',$data);
+      }    
+    } 
          
     public function rfespecializacao(){ 
       if($_GET['escolaId']=='null'){

@@ -33,13 +33,12 @@
                         </span>
                     </div>
 
-
-                    <!--BUTTONS-->
-                    <div class="row">
+                     <!--BUTTONS-->
+                     <div class="row">
                         <div class="col">
-                            <?php  submit('Enviar a senha para meu e-mail'); ?>                            
-                        </div>                         
-                    </div>                      
+                            <input type="submit" value="Enviar a senha para meu e-mail" class="btn btn-success btn-block">                           
+                        </div>                        
+                    </div>                                        
                 </form>                
             </div>
         </div>
