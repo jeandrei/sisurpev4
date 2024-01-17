@@ -169,6 +169,7 @@
     function getLinhas() {
       $arrayLinhas = array(
         'NÃO UTILIZA',
+        'LINHA 01',
         'LINHA 03',
         'LINHA 05',
         'LINHA 06',

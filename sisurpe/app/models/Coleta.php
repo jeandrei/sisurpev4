@@ -238,18 +238,24 @@
 		}
 
 		// Retorna o total de uma linha a partir de uma turma
-		public function getTotaisLinhasTurma($turmaId,$valor){			
+		public function getTotaisLinhasTurma($turmaId,$valor){
+			
 			$sql = "SELECT COUNT(id) AS total from coleta WHERE coleta.turmaId = :turmaId";
+			
 			if(isset($valor)){
-				$sql .= " AND transporte1 = :valor OR transporte2 = :valor OR transporte3 = :valor";
+				if($valor === 'NÃO UTILIZA'){
+					$sql .= " AND transporte1 = :valor";
+				} else {					
+					$sql .= " AND (transporte1 = :valor OR transporte2 = :valor OR transporte3 = :valor)";
+				}				
 			} else {
 				return false;
 			}					
 			$this->db->query($sql); 
 			$this->db->bind(':turmaId', $turmaId);
-			$this->db->bind(':valor', $valor);
+			$this->db->bind(':valor', $valor);					
 			$row = $this->db->single();
-			if($this->db->rowCount() > 0){
+			if($this->db->rowCount() > 0){			
 				return $row->total;
 			} else {
 				return false;
@@ -257,12 +263,12 @@
 		}
 
 		//Retorna os totais de transporte por turma
-		public function totaisTransporte($turmaId){ 
+		public function totaisTransporte($turmaId){ 		
 			$arrayLinhas='';
 			$arrayLinhas = getLinhas();
-			foreach($arrayLinhas as $linha){
+			foreach($arrayLinhas as $linha){					
 				$result[$linha] = $this->getTotaisLinhasTurma($turmaId,$linha);            
-			}
+			}			
 			return $result;
 		}
 
