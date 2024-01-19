@@ -168,32 +168,34 @@
 				}
 		} */
 
+		// Função para retornar total de um item como kit de inverto de uma turma e tamanho
 		public function getTotal($turmaId,$tamanho,$campoCalcular){
-			$sql = "SELECT COUNT(id) AS total from coleta WHERE coleta.turmaId = :turmaId";
+			$sql = "
+				SELECT 
+					COUNT(id) AS total 
+				FROM 
+					coleta 
+				WHERE 
+					coleta.turmaId = :turmaId
+			";
+			$bind = [];
 			switch ($campoCalcular) {
 				case 'kit_inverno':                
 					$sql.= " AND kit_inverno = :kit_inverno";
+					$bind = ':kit_inverno';
 					break;
 				case 'kit_verao':
 					$sql.= " AND kit_verao = :kit_verao";
+					$bind = ':kit_verao';
 					break;
 				case 'tam_calcado':
 					$sql.= " AND tam_calcado = :tam_calcado";
+					$bind = ':tam_calcado';
 					break;
 			}	
-			$this->db->query($sql);      
-			switch ($campoCalcular) {
-				case 'kit_inverno':                
-					$this->db->bind(':kit_inverno', $tamanho);
-					break;
-				case 'kit_verao':
-					$this->db->bind(':kit_verao', $tamanho);
-					break;
-				case 'tam_calcado':
-					$this->db->bind(':tam_calcado', $tamanho);
-					break;
-			} 
-			$this->db->bind(':turmaId', $turmaId);
+			$this->db->query($sql); 
+			$this->db->bind($bind, $tamanho); 
+			$this->db->bind(':turmaId', $turmaId);			
 			$row = $this->db->single();
 			if($this->db->rowCount() > 0){
 				return $row->total;
@@ -240,7 +242,14 @@
 		// Retorna o total de uma linha a partir de uma turma
 		public function getTotaisLinhasTurma($turmaId,$valor){
 			
-			$sql = "SELECT COUNT(id) AS total from coleta WHERE coleta.turmaId = :turmaId";
+			$sql = "
+				SELECT 
+					COUNT(id) AS total 
+				FROM 
+					coleta 
+				WHERE 
+					coleta.turmaId = :turmaId
+			";
 			
 			if(isset($valor)){
 				if($valor === 'NÃO UTILIZA'){
@@ -310,26 +319,19 @@
 			switch ($campoCalcular) {
 				case 'kit_inverno':                
 					$sql.= " AND kit_inverno = :kit_inverno";
+					$bind = ':kit_inverno';
 					break;
 				case 'kit_verao':
 					$sql.= " AND kit_verao = :kit_verao";
+					$bind = ':kit_verao';
 					break;
 				case 'tam_calcado':
 					$sql.= " AND tam_calcado = :tam_calcado";
+					$bind = ':tam_calcado';
 					break;
 			}  
 			$this->db->query($sql);  
-			switch ($campoCalcular) {
-				case 'kit_inverno':                
-					$this->db->bind(':kit_inverno', $tamanho);
-					break;
-				case 'kit_verao':
-					$this->db->bind(':kit_verao', $tamanho);
-					break;
-				case 'tam_calcado':
-					$this->db->bind(':tam_calcado', $tamanho);
-					break;
-			}  
+			$this->db->bind($bind, $tamanho);
 			$this->db->bind(':escolaId', $escolaId);
 			$row = $this->db->single();   
 			if($this->db->rowCount() > 0){
