@@ -119,7 +119,7 @@
             : '',
           'nivelId' => 
             isset($_POST['nivelId'])
-            ?trim($_POST['nivelId'])
+            ? trim($_POST['nivelId'])
             : '',
           'cursoId' => 
             isset($_POST['cursoId'])
@@ -296,9 +296,10 @@
                 throw new Exception($erro);
               }
             }                                                       
-            if($lastId = $this->fusercursossupModel->register($data)) {
+            if($lastId = $this->fusercursossupModel->register($data)) {              
               flash('message', 'Curso superior registrado com sucesso!','success');                        
               redirect('fusercursosuperiores/index');
+              die();
             } else {                               
               throw new Exception('Ops! Algo deu errado ao tentar gravar os dados! Tente novamente.');
             } 
@@ -321,6 +322,9 @@
         } 
         $data = [
           'areaId' => '',
+          'nivelId' => '',
+          'tipoInstituicao' => '',
+          'regiaoId' => '',          
           'areasCurso' => $this->fareacursoModel->getAreasCurso(),
           'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
           'tiposInstituicoes' => getTipoInstituicoes(),
