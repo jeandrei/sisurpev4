@@ -60,6 +60,7 @@
           'userFormacao' => $this->fuserFormacoes->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
           'outrosCursos' => $this->foutrosCursosModel->getOutrosCursos(),
           'useroutrosCursosId' => $userOutrosCursosIdArray,
+          'outros_err' => '',
           'voltarLink' => ($formacoes->maiorEscolaridade == 'e_superior') ? URLROOT .'/fuserpos/index' : URLROOT .'/fuserformacoes/index'              
         ];          
         $this->view('fuseroutroscursos/index',$data);

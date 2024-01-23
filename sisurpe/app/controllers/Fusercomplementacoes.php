@@ -20,6 +20,8 @@
         'userComplementacoes' => $this->fusercomplementacoesModel->getUserComplementacoes($_SESSION[DB_NAME . '_user_id']),
         'avancarLink' => URLROOT . '/fuserpos/index',
         'voltarLink' => URLROOT . '/fusercursosuperiores/index',
+        'cpId' => '',
+        'cpId_err' => ''
       ];        
       $this->view('fusercomplementacao/index', $data);
     }

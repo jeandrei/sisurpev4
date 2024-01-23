@@ -64,6 +64,7 @@
           'pos' => $this->fposModel->getPos(),
           'userPos' => $userPos,
           'userPosId' => $userPosIdArray,
+          'pos_err' => '',
           'avancarLink' => ($userPosIdArray[0] == 1) ? URLROOT .'/fuseroutroscursos/index' : URLROOT .'/fusercursoespecializacoes/index'
         ];                   
         $this->view('fuserpos/index',$data);
