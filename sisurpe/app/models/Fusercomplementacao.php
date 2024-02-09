@@ -7,7 +7,7 @@
 			}
 
 		//retorna se já tem no banco um usuário com uma complementação cadastrada
-		public function getUserComplementacao($_userId,$_cpId){             
+		public function getUserComplementacao($_userId,$_cpId){ 
 			$this->db->query("
 				SELECT 
 					* 
@@ -29,7 +29,7 @@
 		}
 
 		//Retorna todas as formações/complementações do usuário
-		public function getUserComplementacoes($_userId){             
+		public function getUserComplementacoes($_userId){   			       
 			$this->db->query("
 				SELECT 
 					fucp.fucpId as fucpId, 

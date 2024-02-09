@@ -21,7 +21,7 @@
 			}
 		}
 
-		public function getCursosUser($_userId){            
+		public function getCursosUser($_userId){  			
 			$this->db->query("
 				SELECT 
 					fucs.ucsId,
@@ -42,7 +42,7 @@
 					fucs.instituicaoEnsino ASC
 			");
 			$this->db->bind(':userId',$_userId);
-			$result = $this->db->resultSet();
+			$result = $this->db->resultSet();			
 			if($this->db->rowCount() > 0){
 				return $result;
 			} else {

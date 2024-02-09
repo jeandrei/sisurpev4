@@ -41,6 +41,12 @@
 			} else {  
 				$page = 1;  
 			}  
+			if(!isset($_GET['cpf'])){$_GET['cpf'] = '';}
+			if(!isset($_GET['name'])){$_GET['name'] = '';}
+			if(!isset($_GET['escolaId'])){$_GET['escolaId'] = '';}
+			if(!isset($_GET['maiorEscolaridade'])){$_GET['maiorEscolaridade'] = '';}
+			if(!isset($_GET['tipoEnsinoMedio'])){$_GET['tipoEnsinoMedio'] = '';}
+			if(!isset($_GET['posId'])){$_GET['posId'] = '';}
 			$options = array(
 					'results_per_page' => 10,
 					'url' => URLROOT . '/fbuscaservidores/index.php?page=*VAR*&cpf=' . $_GET['cpf'] .'&name=' . $_GET['name'] . '&escolaId=' . $_GET['escolaId'] . '&maiorEscolaridade=' . $_GET['maiorEscolaridade'] . '&tipoEnsinoMedio=' . $_GET['tipoEnsinoMedio'] . '&posId=' . $_GET['posId'], 
@@ -65,8 +71,8 @@
 			$this->view('fbuscaservidores/index', $data);
 		}
 
-		public function ver($userId){ 
-			if($cursossup = $this->fusercursosSupModel->getCursosUser($userId)){           
+		public function ver($userId){ 			
+			if($cursossup = $this->fusercursosSupModel->getCursosUser($userId)){ 	
 				foreach($cursossup as $row){
 					$cursossupArray[] = [
 						'ucsId' => $row->ucsId,
@@ -88,6 +94,7 @@
 					];
 				}
 			} 
+			
 			if($complementacao = $this->fusercomplementacaoModel->getUserComplementacoes($userId)){
 				foreach($complementacao as $row){
 					$complementacaoArray[] = [
@@ -96,6 +103,7 @@
 					];
 				}
 			} 
+			die('aqui');
 			if($outroscursos = $this->fuseroutroscurModel->getUserOutrosCursos($userId)){
 				foreach($outroscursos as $row){
 					$outroscursosArray[] = [
