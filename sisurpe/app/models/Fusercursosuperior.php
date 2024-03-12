@@ -51,14 +51,18 @@
 		}
 
 		// Registra um curso na tabela f_user_curso_superior
-		public function register($data){                       
-			if($data['file']){                
-				$sql = "
-					INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,file,anoConclusao) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:file,:anoConclusao)
-				";
-			} else {                
+		public function register($data){
+			
+			//AQUI
+			//debug($data);
+			
+			if($data['file'] == ''){
 				$sql = "
 					INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,anoConclusao) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:anoConclusao)
+				";
+			} else {   
+				$sql = "
+					INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,file,anoConclusao) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:file,:anoConclusao)
 				";
 			}										
 			$this->db->query($sql); 
@@ -184,5 +188,54 @@
 				return false;
 			}   
 		}	
+
+		public function getUserId($_ucsId){            
+			$this->db->query("
+				SELECT 
+					userId 
+				FROM 
+					f_user_curso_superior 
+				WHERE  
+					ucsId = :ucsId
+			");
+			$this->db->bind(':ucsId',$_ucsId); 
+			$row = $this->db->single(); 
+			if($this->db->rowCount() > 0){
+				return $row->userId;
+			} else {
+				return false;
+			}   
+		}
+		
+		public function getUserCursosSup($_userId){
+			$this->db->query("
+				SELECT 
+					* 
+				FROM 
+					f_user_curso_superior 
+				WHERE  
+					userId = :userId
+			");
+			$this->db->bind(':userId',$_userId); 
+			$result = $this->db->resultSet();
+			if($this->db->rowCount() > 0){
+				return $result;
+			} else {
+				return false;
+			}   
+		}
+
+		public function removeAllCursosSupUser($_userId){
+			$cursosSup = $this->getUserCursosSup($_userId);					
+			foreach($cursosSup as $curso){
+				if(isset($curso->file) && !empty($curso->file)){					
+					removeFile($curso->file);
+				}				
+				if(!$this->delete($curso->ucsId)){
+					return false;
+				}
+			}	
+			return true;								
+		}
 	}
 ?>

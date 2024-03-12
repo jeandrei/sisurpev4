@@ -88,12 +88,12 @@
 						'municipio' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio,
 						'uf' => $this->municipioModel->getEstadoMunicipio($row->municipioId)->estado,
 						'anoConclusao' => $row->anoConclusao,
-						'file' => $row->file,
-						'file_name' => $row->file_name,
-						'file_type'  => $row->file_type
+						'file' => $row->file						
 					];
 				}
-			} 
+			} else {
+				$cursossupArray = NULL;
+			}
 			
 			if($complementacao = $this->fusercomplementacaoModel->getUserComplementacoes($userId)){
 				foreach($complementacao as $row){
@@ -102,8 +102,10 @@
 							'complementacao' => $this->fcomplementacaoModel->getComplementacaoById($row->cpId)->complementacao
 					];
 				}
-			} 
-			die('aqui');
+			} else {
+				$complementacaoArray = NULL;
+			}
+			
 			if($outroscursos = $this->fuseroutroscurModel->getUserOutrosCursos($userId)){
 				foreach($outroscursos as $row){
 					$outroscursosArray[] = [
@@ -111,7 +113,10 @@
 						'curso' => $this->foutroscursosModel->getOutrosCursosById($row->cursoId)->curso
 					];
 				}
-			}  
+			} else {
+				$outroscursosArray = NULL;
+			} 
+
 			$data = [
 				'escolas' => $this->fuserEscolaAnoModel->getEscolasUser($userId),
 				'user' => $this->userModel->getUserById($userId),

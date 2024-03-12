@@ -317,7 +317,8 @@ CREATE TABLE IF NOT EXISTS `inscricoes` (
   `localEvento` varchar(255) DEFAULT NULL,
   `periodo` varchar(255) DEFAULT NULL,
   `fase` char(30) NOT NULL DEFAULT 'ABERTO',
-  `horario` time 
+  `horario` time,
+  `certificado` varchar(255) DEFAULT NULL  
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -337,7 +337,7 @@
   para o tamanho basta multiplicar em megas duas vezes por 1024 exemplo 2mb * 1024 * 1024 = 2097152
   $file = $this->fusercursossupModel->upload('file_post',"uploads/diplomas/",["jpeg","jpg","png"],2097152);
   */
-  function upload($arr) {            
+  function upload($arr) {    
     $file = $arr['file'];
     $path = $arr['path'];
     $allowedsize = $arr['maxsize'];

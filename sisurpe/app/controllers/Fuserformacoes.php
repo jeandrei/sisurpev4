@@ -11,6 +11,8 @@
 			$this->bairroModel = $this->model('Bairro');
 			$this->fuserescolaModel = $this->model('Fuserescolaano');
 			$this->fuserformacoesModel = $this->model('Fuserformacao');
+			$this->fuserCursoSupModel = $this->model('Fusercursosuperior');
+			$this->fuserPosModel = $this->model('Fuserpo');
 		}
 
 		public function index() { 				
@@ -80,6 +82,27 @@
 				){
 					// Register maiorEscolaridade
 					try {
+						/* se o usuário informou um nível diferente de ensino superior
+						e se o usuário tiver cursos de ensino superior informado tenho que apagar todos*/
+						if($data['maiorEscolaridade'] != 'e_superior'){	
+							//se o usuário tem curso superior informado							
+							if($this->fuserCursoSupModel->getCursosUser($data['userId'])){		
+								//removo todos os cursos superiores						
+								if($this->fuserCursoSupModel->removeAllCursosSupUser($data['userId'])){
+									//removo os cursos de pós
+									if($this->fuserPosModel->deleteAllUserPosCurso($data['userId'])){
+										//removo as informações de especialização
+										if(!$this->fuserPosModel->deleteAllPosUser($data['userId'])){
+											throw new Exception('Ops! Algo deu errado ao tentar remover a especialização! Tente novamente.');
+										}
+									} else {
+										throw new Exception('Ops! Algo deu errado ao tentar remover os cursos de pós! Tente novamente.');
+									}            			
+								} else {
+									throw new Exception('Ops! Algo deu errado ao tentar atualizar a formação! Tente novamente.');
+								}								 
+							}
+						}
 						if($this->fuserformacoesModel->register($data)){
 							flash('message', 'Nível de escolaridade registrado com sucesso!','success');                        
 							redirect('fuserformacoes/index');

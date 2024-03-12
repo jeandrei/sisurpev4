@@ -15,10 +15,22 @@
 
     public function index(){        
       $data = [
-        'titulo' => 'Pós-Graduações concluídas',            
-        'user' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
-        'areas' => $this->fareasModel->getAreasCurso(), 
-        'userEspCursos' => $this->fuserEspCursosModel->getUserEspCursos($_SESSION[DB_NAME . '_user_id']),
+        'titulo' => 'Pós-Graduações concluídas', 
+        'areaId' => '',           
+        'user' => 
+          ($_SESSION[DB_NAME . '_user_id'])
+          ? $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id'])
+          : '',
+        'areas' => 
+          ($this->fareasModel->getAreasCurso())
+          ? $this->fareasModel->getAreasCurso()
+          : '', 
+        'userEspCursos' => 
+          ($_SESSION[DB_NAME . '_user_id'])
+          ? $this->fuserEspCursosModel->getUserEspCursos($_SESSION[DB_NAME . '_user_id'])
+          : '',
+        'areaId_err' => '',
+        'anoConclusao_err' => '',
         'avancarLink' => URLROOT . '/fuseroutroscursos/index',
         'voltarLink' => URLROOT . '/fuserpos/index',
       ];        
@@ -29,14 +41,33 @@
       if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         $data = [            
-          'user' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),            
-          'areas' => $this->fareasModel->getAreasCurso(), 
-          'userEspCursos' => $this->fuserEspCursosModel->getUserEspCursos($_SESSION[DB_NAME . '_user_id']),
+          'user' => 
+            ($_SESSION[DB_NAME . '_user_id'])
+            ? $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id'])
+            : '',            
+          'areas' => 
+            ($this->fareasModel->getAreasCurso())
+            ? $this->fareasModel->getAreasCurso()
+            : '', 
+          'userEspCursos' => ($_SESSION[DB_NAME . '_user_id'])
+            ? $this->fuserEspCursosModel->getUserEspCursos($_SESSION[DB_NAME . '_user_id'])
+            : '',
           'avancarLink' => URLROOT . '/fuseroutroscursos/index',
           'voltarLink' => URLROOT . '/fusercursoespecializacoes/index',
-          'areaId' => html($_POST['areaId']),
-          'anoConclusao' => html($_POST['anoConclusao']),
-          'userId' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id'])->id
+          'areaId' => 
+            ($_POST['areaId'])
+            ? html($_POST['areaId'])
+            : '',
+          'anoConclusao' => 
+            ($_POST['anoConclusao'])
+            ? html($_POST['anoConclusao'])
+            : '',
+          'userId' => 
+            ($_SESSION[DB_NAME . '_user_id'])
+            ? $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id'])->id
+            : '',
+          'areaId_err' => '',
+          'anoConclusao_err' => '',
         ];
 
         if($data['areaId'] == 'null'){

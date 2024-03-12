@@ -141,7 +141,7 @@
     <div class="form-group mt-3 mb-3">  
         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
         <a href="<?php echo URLROOT; ?>/fuserescolaanos/userEscolaAno" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
-        <?php if(isset($data['maiorEscolaridade']) && isset($data['tipoEnsinoMedio'])) :?>
+        <?php if(isset($data['maiorEscolaridade']) && $data['maiorEscolaridade'] != 'n_definido' && $data['maiorEscolaridade'] != 'null' && $data['tipoEnsinoMedio'] != 'null') :?>
             <a href="<?php echo $data['avancarLink']?>" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
         <?php endif; ?>
     </div>   

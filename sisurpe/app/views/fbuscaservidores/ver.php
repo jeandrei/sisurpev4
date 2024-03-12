@@ -80,7 +80,7 @@
         <div class="col-md-12">
           <fieldset class="form-group border p-3">
             <legend class="w-auto px-2">Cursos Superiores</legend>
-            <table class="table table-striped table-responsive table-sm">
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">#</th>

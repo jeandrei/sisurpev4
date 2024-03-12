@@ -225,7 +225,21 @@
 			unset($data);           
 			$data = [
 				'titulo'    => 'Gerador de bilhetes',
-				'escolas' => $this->userescolacoletaModel->getEscolaColetaUserById($_SESSION[DB_NAME . '_user_id'])
+				'escolaId' => 
+					isset($_POST['escolaid'])
+					? $_POST['escolaid']
+					: '',
+				'escolas' => 
+					($_SESSION[DB_NAME . '_user_id'])
+					? $this->userescolacoletaModel->getEscolaColetaUserById($_SESSION[DB_NAME . '_user_id'])
+					: '',
+					'escolaId_err' => '',
+					'turmaId_err' => '',
+					'bilheteFolha_err' => '',
+				'texto' => 
+					isset($_POST['texto'])
+					? $_POST['texto']
+					: ''
 			];
 			$this->view('coletas/geradordebilhetes', $data); 
 		}
