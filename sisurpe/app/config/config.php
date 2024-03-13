@@ -30,6 +30,9 @@ define('SITENAME', 'SISURPE');
 //App Version
 define('APPVERSION', '1.0.0');
 
+//Certificado padrão
+define('CERTPADRAO', URLROOT . '/uploads/modeloCertificados/padrao.jpg');
+
 //crio uma const com a data atual para eu usar no código
 $hoje = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
 define('DATAATUAL', $hoje->format('Y-m-d'));

@@ -82,7 +82,13 @@ class PDF extends FPDF
               powerpoint. é só abrir alterar e salvar como jpg
               por fim substituir a imagem certificado.jpg da pasta relatorios              
           */
-          $image = APPROOT . '/views/relatorios/certificado.jpg';
+          
+          if($data['curso']->certificado == ''){
+            $image =  CERTPADRAO;
+          } else {
+            $image = $data['curso']->certificado;
+          }
+          
                   
           $pdf->SetFont('Arial','B',8);
           $pdf->AddPage('L');              
