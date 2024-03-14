@@ -107,7 +107,7 @@
 
     public function register($data){         
 			$this->db->query("
-				INSERT INTO inscricoes (nome_curso, descricao, data_inicio,data_termino, localEvento, horario, periodo, fase) VALUES (:nome_curso, :descricao, :data_inicio, :data_termino, :localEvento, :horario, :periodo, :fase)
+				INSERT INTO inscricoes (nome_curso, descricao, data_inicio,data_termino, localEvento, horario, periodo, fase, certificado) VALUES (:nome_curso, :descricao, :data_inicio, :data_termino, :localEvento, :horario, :periodo, :fase, :certificado)
 			");			
 			$this->db->bind(':nome_curso',$data['nome_curso']);
 			$this->db->bind(':descricao',$data['descricao']);        
@@ -115,7 +115,8 @@
 			$this->db->bind(':data_termino',$data['data_termino']);
 			$this->db->bind(':localEvento',$data['localEvento']);
 			$this->db->bind(':horario',$data['horario']);
-			$this->db->bind(':periodo',$data['periodo']);			
+			$this->db->bind(':periodo',$data['periodo']);	
+			$this->db->bind(':certificado',$data['certificado']);			
 			//Se o usuário não passar a faze da inscrição definimos como Aberto
 			if($data['fase'] ==''){
 				$data['fase'] = 'ABERTO';
@@ -140,7 +141,8 @@
 					localEvento = :localEvento,
 					periodo = :periodo,
 					horario = :horario,
-					fase = :fase  
+					fase = :fase,
+					certificado = :certificado  
 				WHERE 
 					id = :id
 			");  
@@ -153,6 +155,7 @@
 			$this->db->bind(':periodo',$data['periodo']);
 			$this->db->bind(':horario',$data['horario']);        
 			$this->db->bind(':fase',$data['fase']); 
+			$this->db->bind(':certificado',$data['certificado']);
 			if($this->db->execute()){
 				return true;
 			} else {

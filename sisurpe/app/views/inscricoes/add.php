@@ -2,182 +2,190 @@
 
 <?php flash('message');?>
 
- <div class="row align-items-center mb-3">
-    <div class="col-md-12">
-        <h2>Dados do Curso</h2>               
-           
+<div class="row align-items-center mb-3">
+	<div class="col-md-12">
+		<h2>Dados do Curso</h2>  	
+			<form action="<?php echo URLROOT; ?>/inscricoes/add" method="post" enctype="multipart/form-data">   
+					
+				<input type="hidden" id="inscricoes_id" name="inscricoes_id" value="<?php echo $data['inscricoes_id'];?>">     
 
-        <?php // var_dump($data);?>
+				<!--NOME-->
+				<div class="form-row">
+					<div class="form-group col-md-8">
+						<label for="nome_aluno"><sup class="obrigatorio">*</sup> Nome do Curso:</label>  
+						<input 
+							class="form-control <?php echo (!empty($data['nome_curso_err'])) ? 'is-invalid' : ''; ?>"
+							type="text" 
+							name="nome_curso"
+							id="nome_curso"
+							value="<?php echo $data['nome_curso']; ?>"                       
+							placeholder="Nome do curso"
+						>
+						<div class="invalid-feedback">
+							<?php echo $data['nome_curso_err']; ?>
+						</div>                   
+					</div>
+				</div> 					
 
+				<!-- DESCRIÇÃO DO CURSO -->
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<label for="descricao">Descrição do curso</label>
+						<textarea 
+							class="form-control <?php echo (!empty($data['nome_curso_err'])) ? 'is-invalid' : ''; ?>" 
+							id="descricao" 
+							name="descricao"
+							rows="3"><?php echo $data['descricao']; ?></textarea>
+						<div class="invalid-feedback">
+							<?php echo $data['descricao_err']; ?>
+						</div>  
+					</div>
+				</div>
 
-        <form action="<?php echo URLROOT; ?>/inscricoes/add" method="post" enctype="multipart/form-data">   
-            <input type="hidden" id="inscricoes_id" name="inscricoes_id" value="<?php echo $data['inscricoes_id'];?>">     
+				<div class="form-row"> 
+				<!--PERÍODO-->
+					<!-- INÍCIO -->
+					<div class="form-group col-md-2">
+						<label for="data_inicio"><sup class="obrigatorio">*</sup>Início</label>
+						<input 
+							class="form-control <?php echo (!empty($data['data_inicio_err'])) ? 'is-invalid' : ''; ?>"
+							type="date"  
+							id="data_inicio"
+							name="data_inicio"
+							value="<?php echo $data['data_inicio']; ?>"
+						> 
+						<div class="invalid-feedback">
+							<?php echo $data['data_inicio_err']; ?>
+						</div>  
+					</div>
 
-            <!--NOME-->
-            <div class="form-row">
-                <div class="form-group col-md-8">
-                    <label for="nome_aluno"><sup class="obrigatorio">*</sup> Nome do Curso:</label>  
-                    <input 
-                        class="form-control <?php echo (!empty($data['nome_curso_err'])) ? 'is-invalid' : ''; ?>"
-                        type="text" 
-                        name="nome_curso"
-                        id="nome_curso"
-                        value="<?php echo $data['nome_curso']; ?>"                       
-                        placeholder="Nome do curso"
-                    >
-                    <div class="invalid-feedback">
-                        <?php echo $data['nome_curso_err']; ?>
-                    </div>                   
-                </div>
-            </div> 
+					<!-- FIM -->
+					<div class="form-group col-md-2">
+						<label for="data_termino"><sup class="obrigatorio">*</sup>Fim</label>
+						<input 
+							class="form-control <?php echo (!empty($data['data_termino_err'])) ? 'is-invalid' : ''; ?>"
+							type="date"  
+							id="data_termino"
+							name="data_termino"
+							value="<?php echo $data['data_termino']; ?>"
+						> 
+						<div class="invalid-feedback">
+							<?php echo $data['data_termino_err']; ?>
+						</div>  
+					</div>
 
+					<!-- LOCAL -->
+					<div class="form-group col-md-4">
+						<label for="local"><sup class="obrigatorio">*</sup>Local</label>
+						<input 
+							class="form-control <?php echo (!empty($data['localEvento_err'])) ? 'is-invalid' : ''; ?>"
+							type="text"  
+							id="localEvento"
+							name="localEvento"
+							value="<?php echo $data['localEvento']; ?>"
+						> 
+						<div class="invalid-feedback">
+							<?php echo $data['localEvento_err']; ?>
+						</div>  
+					</div>
 
-            
+					<!-- Hora início -->
+					<div class="form-group col-md-2">
+						<label for="horario"><sup class="obrigatorio">*</sup>Horário de Início</label>
+						<input 
+							class="form-control <?php echo (!empty($data['horario_err'])) ? 'is-invalid' : ''; ?>"
+							type="time"
+							id="horario"
+							name="horario"
+							value="<?php echo $data['horario']; ?>"
+						> 
+						<div class="invalid-feedback">
+							<?php echo $data['horario_err']; ?>
+						</div>  
+					</div>
 
-            <!-- DESCRIÇÃO DO CURSO -->
-            <div class="form-group">
-              <label for="descricao">Descrição do curso</label>
-              <textarea 
-                class="form-control <?php echo (!empty($data['nome_curso_err'])) ? 'is-invalid' : ''; ?>" 
-                id="descricao" 
-                name="descricao"
-                rows="3"><?php echo $data['descricao']; ?></textarea>
-                <div class="invalid-feedback">
-                    <?php echo $data['descricao_err']; ?>
-                </div>  
-            </div>
-
-
-            
-            <div class="form-row">             
-                                
-                <!--PERÍODO-->
-                <!-- INÍCIO -->
-                <div class="form-group col-md-2">
-                      <label for="data_inicio"><sup class="obrigatorio">*</sup>Início</label>
-                      <input 
-                        class="form-control <?php echo (!empty($data['data_inicio_err'])) ? 'is-invalid' : ''; ?>"
-                        type="date"  
-                        id="data_inicio"
-                        name="data_inicio"
-                        value="<?php echo $data['data_inicio']; ?>"
-                      > 
-                      <div class="invalid-feedback">
-                          <?php echo $data['data_inicio_err']; ?>
-                      </div>  
-                  </div>
-
-                <!-- FIM -->
-                <div class="form-group col-md-2">
-                    <label for="data_termino"><sup class="obrigatorio">*</sup>Fim</label>
-                    <input 
-                    class="form-control <?php echo (!empty($data['data_termino_err'])) ? 'is-invalid' : ''; ?>"
-                    type="date"  
-                    id="data_termino"
-                    name="data_termino"
-                    value="<?php echo $data['data_termino']; ?>"
-                    > 
-                    <div class="invalid-feedback">
-                        <?php echo $data['data_termino_err']; ?>
-                    </div>  
-                </div>
-
-                <!-- LOCAL -->
-                <div class="form-group col-md-4">
-                    <label for="local"><sup class="obrigatorio">*</sup>Local</label>
-                    <input 
-                    class="form-control <?php echo (!empty($data['localEvento_err'])) ? 'is-invalid' : ''; ?>"
-                    type="text"  
-                    id="localEvento"
-                    name="localEvento"
-                    value="<?php echo $data['localEvento']; ?>"
-                    > 
-                    <div class="invalid-feedback">
-                        <?php echo $data['localEvento_err']; ?>
-                    </div>  
-                </div>
-
-                <!-- Hora início -->
-                <div class="form-group col-md-2">
-                    <label for="horario"><sup class="obrigatorio">*</sup>Horário de Início</label>
-                    <input 
-                    class="form-control <?php echo (!empty($data['horario_err'])) ? 'is-invalid' : ''; ?>"
-                    type="time"
-                    id="horario"
-                    name="horario"
-                    value="<?php echo $data['horario']; ?>"
-                    > 
-                    <div class="invalid-feedback">
-                        <?php echo $data['horario_err']; ?>
-                    </div>  
-                </div>
-
-                <!-- Período -->
-                <div class="form-group col-md-2">
-                    <label for="periodo"><sup class="obrigatorio">*</sup>Período</label>
-                    <select 
-                        name="periodo" 
-                        id="periodo" 
-                        class="form-control <?php echo (!empty($data['periodo_err'])) ? 'is-invalid' : ''; ?>"                                       
-                    >
-                        <option value="">Selecione período</option>
-                        <option value="M" <?php echo $data['periodo'] == 'M' ? 'selected':'';?>>Matutino</option>
-                        <option value="V" <?php echo $data['periodo'] == 'V' ? 'selected':'';?>>Vespertino</option> 
-                        <option value="D" <?php echo $data['periodo'] == 'D' ? 'selected':'';?>>Dia Todo</option>                                               
-                                
-                    </select>                      
-                    <div class="invalid-feedback">
-                        <?php echo $data['periodo_err']; ?>
-                    </div>  
-                </div>
-
-                
-
-            </div><!-- row -->  
-            
-
-            <legend>Fase do Curso</legend>
-            <fieldset>
-              <!-- FASE -->          
-              <div class="form-row">    
-                  <div class="form-group col-md-4">                      
-                      <select 
-                          name="fase" 
-                          id="fase" 
-                          class="form-control <?php echo (!empty($data['fase_err'])) ? 'is-invalid' : ''; ?>"                                       
-                      >
-                          <option value="">Selecione a fase atual do curso</option>
-                          <option value="ABERTO" <?php echo $data['fase'] == 'ABERTO' ? 'selected':'';?>>Aberto</option>
-                          <option value="FECHADO" <?php echo $data['fase'] == 'FECHADO' ? 'selected':'';?>>Fechado</option>  
-                          <option value="CANCELADO" <?php echo $data['fase'] == 'CANCELADO' ? 'selected':'';?>>Cancelado</option>    
-                          <option value="ARQUIVADO" <?php echo $data['fase'] == 'ARQUIVADO' ? 'selected':'';?>>Arquivado</option>  
-                          <option value="CERTIFICADO" <?php echo $data['fase'] == 'CERTIFICADO' ? 'selected':'';?>>Certificado liberado</option>                                                                                                              
-                                  
-                      </select>                                           
-                      <span class="text-danger">
-                              <?php echo $data['fase_err'];?>
-                      </span>
-                  </div>
-              </div>            
-              <!-- FASE -->
-            </fieldset>
-            
-            <!-- $data['editavel'] se for verdadeiro é que pode ser editado
-            vem de controller\inscricoes -->      
-            <?php if($data['editavel']) : ?>
-                <!-- Button trigger modal -->
-                <button type="button" id="addTema" class="btn btn-primary" data-toggle="modal" data-target="#addTemaModal" onClick="clearInput()">
-                Adicionar Tema
-                </button>           
-            <?php else : ?>           
-            
-                <button type="submit" class="btn btn-primary">Gravar</button>         
-          
-            <?php endif; ?> 
-            
-        </form>
-
-    </div><!--col-md-12-->
+					<!-- Período -->
+					<div class="form-group col-md-2">
+						<label for="periodo"><sup class="obrigatorio">*</sup>Período</label>
+						<select 
+							name="periodo" 
+							id="periodo" 
+							class="form-control <?php echo (!empty($data['periodo_err'])) ? 'is-invalid' : ''; ?>"                                       
+						>
+							<option value="">Selecione período</option>
+							<option value="M" <?php echo $data['periodo'] == 'M' ? 'selected':'';?>>Matutino</option>
+							<option value="V" <?php echo $data['periodo'] == 'V' ? 'selected':'';?>>Vespertino</option> 
+							<option value="D" <?php echo $data['periodo'] == 'D' ? 'selected':'';?>>Dia Todo</option>  
+						</select>                      
+						<div class="invalid-feedback">
+							<?php echo $data['periodo_err']; ?>
+						</div>  
+					</div>    
+				</div>
+				<!-- row -->
+				<!-- row -->
+				<div class="row">
+					<!-- FASE -->
+					<div class="form-group col-md-4">  
+						<label for="nome_aluno"><sup class="obrigatorio">*</sup> Fase do Curso:</label>                     
+							<select 
+								name="fase" 
+								id="fase" 
+								class="form-control <?php echo (!empty($data['fase_err'])) ? 'is-invalid' : ''; ?>"                                       
+						>
+								<option value="">Selecione a fase atual do curso</option>
+								<option value="ABERTO" <?php echo $data['fase'] == 'ABERTO' ? 'selected':'';?>>Aberto</option>
+								<option value="FECHADO" <?php echo $data['fase'] == 'FECHADO' ? 'selected':'';?>>Fechado</option>  
+								<option value="CANCELADO" <?php echo $data['fase'] == 'CANCELADO' ? 'selected':'';?>>Cancelado</option>    
+								<option value="ARQUIVADO" <?php echo $data['fase'] == 'ARQUIVADO' ? 'selected':'';?>>Arquivado</option>  
+								<option value="CERTIFICADO" <?php echo $data['fase'] == 'CERTIFICADO' ? 'selected':'';?>>Certificado liberado</option>                                                                                                              													
+							</select>                                           
+							<span class="text-danger">
+								<?php echo $data['fase_err'];?>
+							</span>
+					</div>
+					<!-- FASE -->
+					<!-- MODELO DO CERTIFICADO -->
+					<div class="form-group col-md-4">  
+						<label for="nome_aluno"><sup class="obrigatorio">*</sup> Modelo do Certificado:</label>  
+						<input 
+							class="form-control <?php echo (!empty($data['certificado_err'])) ? 'is-invalid' : ''; ?>"
+							type="text" 
+							name="certificado"
+							id="certificado"
+							value="<?php echo $data['certificado']; ?>"                       
+							placeholder="Modelo do certificado"
+							readonly
+						>
+						<div class="invalid-feedback">
+							<?php echo $data['certificado_err']; ?>
+						</div>   
+					</div>
+					<!-- MODELO DO CERTIFICADO -->
+					<div class="row align-items-center">
+						<div class="col mt-3">
+							<button type="button" id="addTema" class="btn btn-primary" onClick="colar()">
+								Colar
+							</button> 
+						</div>
+					</div>
+				</div>
+				<!-- row -->  
+					
+				<!-- $data['editavel'] se for verdadeiro é que pode ser editado
+				vem de controller\inscricoes -->      
+				<?php if($data['editavel']) : ?>
+						<!-- Button trigger modal -->
+						<button type="button" id="addTema" class="btn btn-primary" data-toggle="modal" data-target="#addTemaModal" onClick="clearInput()">
+						Adicionar Tema
+						</button>           
+				<?php else : ?>           
+				
+						<button type="submit" class="btn btn-primary">Gravar</button>         
+			
+				<?php endif; ?> 
+			</form>
+	</div><!--col-md-12-->
 </div><!--div class="row align-items-center mb-3--> 
 
 
@@ -270,12 +278,20 @@
             <button type="button" class="btn btn-primary gravar" data-dismiss="modal" disabled>Gravar</button>
         </div>
         <!-- FIM BOTÕES -->
+
       </form>
       
     </div>
   </div>
   
 </div>
+<script>
+		function colar(){
+			const certificadoInput = document.querySelector('#certificado');
+			const img = localStorage.getItem('imgUrl');
+			certificado.value = img;
+		}    
+</script>
 
 <script>
     

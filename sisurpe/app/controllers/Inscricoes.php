@@ -197,6 +197,9 @@
           'fase' => isset($_POST['fase'])
                       ? $_POST['fase']
                       : '',
+          'certificado' => isset($_POST['certificado'])
+          ? $_POST['certificado']
+          : '',          
           'fase_err' => '',
           'editavel' => false,
           'tema' => '',
@@ -211,7 +214,8 @@
           'data_termino_err' => '',
           'localEvento_err' => '',
           'horario_err' => '',
-          'periodo_err' => ''          
+          'periodo_err' => '',        
+          'certificado_err' => ''  
         ];
                 
         if(empty($data['nome_curso'])){
@@ -275,6 +279,7 @@
                 'editavel' => $editavel,
                 'inscricoes_id' => $inscricoes_id,
                 'temas' => $temas,
+                'certificado' => $_POST['certificado'],
                 'fase_err' => '',
                 'tema' => '',
                 'tema_err' => '',
@@ -288,7 +293,8 @@
                 'data_termino_err' => '',
                 'localEvento_err' => '',
                 'horario_err' => '',
-                'periodo_err' => ''  
+                'periodo_err' => '',
+                'certificado_err' => '' 
               ];
               flash('message', 'Dados registrados com sucesso');  
               $this->view('inscricoes/add', $data);  
@@ -327,6 +333,7 @@
           'tema' => '',
           'tema_err' => '',
           'carga_horaria_tema' => '',
+          'certificado' => '',
           'carga_horaria_tema_err' => '',
           'formador' => '',
           'formador_err' => '',
@@ -336,7 +343,8 @@
           'data_termino_err' => '',
           'localEvento_err' => '',
           'horario_err' => '',
-          'periodo_err' => ''     
+          'periodo_err' => '',
+          'certificado_err' => ''     
         ];
         $this->view('inscricoes/add', $data);
       }     
@@ -361,6 +369,7 @@
           'fase' => $_POST['fase'],
           'temas' => ($temas) ? $temas : 'null',
           'editavel' => $editavel,
+          'certificado' => $_POST['certificado'],
           'data_inicio_err' => '', 
           'data_termino_err' => '',
           'nome_curso_err' => '',
@@ -374,7 +383,8 @@
           'carga_horaria_tema' => '',
           'carga_horaria_tema_err' => '',
           'formador' => '',
-          'formador_err' => ''
+          'formador_err' => '',
+          'certificado_err' => ''
         ];
         
         //se a data atual for menor que a data de início permito a edição e faço a validação
@@ -465,6 +475,9 @@
                 'temas' => isset($temas)
                                 ?$temas
                                 :'',
+                'certificado' => isset($_POST['certificado'])
+                ? $_POST['certificado']
+                :'',
                 'data_atual' => DATAATUAL,
                 'data_inicio_err' => '', 
                 'data_termino_err' => '',
@@ -479,7 +492,8 @@
                 'carga_horaria_tema' => '',
                 'carga_horaria_tema_err' => '',
                 'formador' => '',
-                'formador_err' => ''
+                'formador_err' => '',
+                'certificado_err' => ''
               ];
               flash('message', 'Dados atualizados com sucessso!', 'success');   
               $this->view('inscricoes/edit', $data);  
@@ -508,6 +522,7 @@
           'horario' => $data->horario,
           'periodo' => $data->periodo,
           'fase' => $data->fase,
+          'certificado' => $data->certificado,
           'data_atual' => DATAATUAL,
           'data_inicio_err' => '', 
           'data_termino_err' => '',
@@ -522,7 +537,8 @@
           'carga_horaria_tema' => '',
           'carga_horaria_tema_err' => '',
           'formador' => '',
-          'formador_err' => ''
+          'formador_err' => '',
+          'certificado_err' => ''
         ];        
         $this->view('inscricoes/edit', $data);
       }     
