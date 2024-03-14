@@ -256,7 +256,7 @@
 		}
 
 		//FUNÇÃO QUE EXECUTA A SQL PAGINATE PARA FUNCIONAR O BIND TEM QUE COLOCAR O  PARÂMETRO using_bound_params' => true lá no controller
-		public function getUsers($page, $options){   
+		public function getUsers($page, $options){ 			
 			$bind = [];
 			$sql = ("
 				SELECT 
@@ -275,12 +275,14 @@
 			}
 			if(!empty($options['named_params'][':name'])){
 				$sql .= " AND users.name LIKE CONCAT(:name, '%')";
+				$bind += [':name' => $options['named_params'][':name']]; 
 			}
 			if(($options['named_params'][':type']) != 'NULL' && ($options['named_params'][':type']) != ''){
 				$sql .= " AND users.type = :userType";
 				$bind += [':type' => $options['named_params'][':type']];  						  
 			}
-			$sql .= " ORDER BY name ASC"; 				
+			$sql .= " ORDER BY name ASC";
+			
 			try{
 				$this->pag = new Pagination($page,$sql,$options);  
 			} catch(paginationException $e){
