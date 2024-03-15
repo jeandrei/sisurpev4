@@ -350,15 +350,19 @@
 			} 		
 		} 
 
+
 		public function alterasenha(){			           
-			if($_SERVER['REQUEST_METHOD'] == 'POST'){	
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$data = [                
-					'password' => trim($_POST['password']),
-					'confirm_password' => trim($_POST['confirm_password']),
+					'password' => ($_POST['password']) 
+						? trim($_POST['password'])
+						: '',
+					'confirm_password' => ($_POST['confirm_password'])
+						? trim($_POST['confirm_password'])
+						: '',
 					'password_err' => '',
 					'confirm_password_err' => ''               
 				]; 
-
 				// Validate Password
 				if(empty($data['password'])){
 					$data['password_err'] = 'Por favor informe a senha';
@@ -373,8 +377,8 @@
 					if($data['password'] != $data['confirm_password']){
 						$data['confirm_password_err'] = 'Senha e confirmação de senha diferentes';    
 					}
-				}            
-				
+				} 
+
 				if(  
 					empty($data['password_err']) &&
 					empty($data['confirm_password_err']) 
@@ -386,18 +390,26 @@
 					if($this->userModel->updatePassword($data)){
 						// Cria a menságem antes de chamar o view va para 
 						// views/users/login a segunda parte da menságem
-						flash('message', 'Senha atualizada com Sucesso');                        
-						$this->view('users/alterasenha');
+						flash('message', 'Senha atualizada com Sucesso!','success'); 						                    
+						redirect('pages/index');  
+						die();
 					} else {
 						die('Ops! Algo deu errado.');
 					}								
 				} else {
 					$this->view('users/alterasenha', $data);   
-				}					
-			}       
-			$this->view('users/alterasenha', $data);
-		}
+				}
 
+			} else {
+				$data = [                
+					'password' => '',
+					'confirm_password' => '',
+					'password_err' => '',
+					'confirm_password_err' => ''               
+				];     
+				$this->view('users/alterasenha', $data);
+			}
+		}	
 
 		public function admin(){
 			if((!isLoggedIn())){ 

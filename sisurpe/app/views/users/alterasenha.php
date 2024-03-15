@@ -50,7 +50,7 @@
                     <!--BUTTONS-->
                     <div class="row">
                         <div class="col">                            
-                           <?php  submit('Salvar'); ?>                           
+                            <input type="submit" value="Salvar" class="btn btn-success btn-block">                    
                         </div>                        
                     </div>
 
