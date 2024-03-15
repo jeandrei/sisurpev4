@@ -32,7 +32,8 @@
                             type="file" 
                             class="form-control" 
                             id="file_post"
-                            name="file_post"                
+                            name="file_post"
+                            onchange="return fileValidation('file_post','file_post_err',['jpg', 'jpeg']);"               
                         ><!-- A função fileValidation está no arquivo main.js-->                   
                     </div><!--onchange="return fileValidation('file_post','file_post_err');" -->
                     <!-- Span para caso tenha erros -->

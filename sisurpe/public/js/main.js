@@ -211,22 +211,33 @@ function createNotification(message = null, type = null) {
 }
 
 //fileValidation(campo tipo field,id do span para apresentar o erro);"
-// onchange="return fileValidation('comprovante_residencia','res_erro');"
-function fileValidation(myfiel, span) {
-  var fileInput = document.getElementById(myfiel)
-  var filePath = fileInput.value
+// onchange="return fileValidation('file_post','file_post_err',['jpg', 'jpeg', 'png', 'pdf']);"      
+function fileValidation(myfiel, span, allowedExtensions) {  
+  msg = 'Apenas arquivo do tipo '
+  allowedExtensions.forEach((extention, index) =>{
+    if(index == 0){
+      msg += extention
+    } else if(allowedExtensions.length -1 == index){
+      msg += ' ou ' + extention + ' são permitidos!'
+    } else {
+      msg += ', ' + extention 
+    }
+  })
   var errorspan = span
-  var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i
-  if (!allowedExtensions.exec(filePath)) {
-    document.getElementById(errorspan).textContent =
-      'Apenas arquivo do tipo JPEG, PNG ou GIFT são permitidos!'
-    fileInput.value = ''
-    return false
-  } else {
+  var fileInput = document.getElementById(myfiel)  
+  var filePath = fileInput.value
+  let fileExt = filePath.match(/(.*)\??/i).shift().replace(/\?.*/, '').split('.').pop()    
+  let isAllowed = allowedExtensions.includes(fileExt)
+  if(isAllowed){
     document.getElementById(errorspan).textContent = ''
     return true
-  }
+  } else {
+    document.getElementById(errorspan).textContent = msg      
+    fileInput.value = ''
+    return false
+  }  
 }
+
 
 /*
 IMPORTANTE NÃO TESTEI AINDA A PARTE DE RETORNAR O BOTÃO A FORMA INICIAL

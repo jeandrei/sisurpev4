@@ -280,7 +280,7 @@
               $file = upload($arr = [
                 'file' => 'file_post',
                 'path' => 'uploads/diplomas/',
-                'extensions' => ["jpeg","jpg","png"],
+                'extensions' => ["jpeg","jpg","png","pdf"],
                 'maxsize' => 2097152,
                 'name' => $_SESSION[DB_NAME . '_user_name'] . "_" . $newId
               ]);        

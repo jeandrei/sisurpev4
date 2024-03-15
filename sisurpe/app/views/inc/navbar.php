@@ -92,6 +92,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
                   <a class="dropdown-item" href="<?php echo URLROOT; ?>/users/alterasenha">Alterar a Senha</a>
                   <a class="dropdown-item" href="<?php echo URLROOT; ?>/fuserescolaanos/userEscolaAno/<?php echo $_SESSION[DB_NAME . '_user_id']; ?>">Dados do Servidor</a>                          
+                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/userscertificados/index/<?php echo $_SESSION[DB_NAME . '_user_id']; ?>">Meus Certificados</a>
                 </div>
             </li>  
             

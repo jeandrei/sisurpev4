@@ -75,7 +75,7 @@
 								$file = upload($arr = [
 									'file' => 'file_post',
 									'path' => 'uploads/modeloCertificados/',
-									'extensions' => ["jpeg","jpg","png"],
+									'extensions' => ["jpeg","jpg"],
 									'maxsize' => 2097152									
 								]);        
 								//ser retornou sucesso é que fez o upload do arquivo e o mesmo retorna o caminho do arquivo
