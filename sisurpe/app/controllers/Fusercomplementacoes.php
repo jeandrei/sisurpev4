@@ -35,7 +35,7 @@
           'userComplementacoes' => $this->fusercomplementacoesModel->getUserComplementacoes($_SESSION[DB_NAME . '_user_id']),
           'avancarLink' => URLROOT . '/fuserpos/index',
           'voltarLink' => URLROOT . '/fusercursosuperiores/index',
-          'cpId' => html($_POST['cpId']),
+          'cpId' => post('cpId'),
           'userId' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id'])->id
         ];
 

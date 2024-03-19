@@ -173,33 +173,15 @@
       if($_SERVER['REQUEST_METHOD'] == 'POST'){   
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);  
         $data = [              
-          'nome_curso' => isset($_POST['nome_curso'])
-                      ? mb_strtoupper(trim($_POST['nome_curso']))
-                      : '',
-          'descricao' => isset($_POST['descricao'])
-                      ? mb_strtoupper(trim($_POST['descricao']))
-                      : '',
-          'data_inicio' => isset($_POST['data_inicio'])
-                      ? $_POST['data_inicio']
-                      : '',
-          'data_termino' => isset($_POST['data_termino'])
-                      ? trim($_POST['data_termino'])
-                      : '',
-          'localEvento' => isset($_POST['localEvento'])
-                      ? trim($_POST['localEvento'])
-                      : '',
-          'horario' => isset($_POST['horario'])
-                      ? trim($_POST['horario'])
-                      : '',
-          'periodo' => isset($_POST['periodo'])
-                      ? trim($_POST['periodo'])
-                      : '',
-          'fase' => isset($_POST['fase'])
-                      ? $_POST['fase']
-                      : '',
-          'certificado' => isset($_POST['certificado'])
-          ? $_POST['certificado']
-          : '',          
+          'nome_curso' => mb_strtoupper(post('nome_curso')),
+          'descricao' => mb_strtoupper(post('descricao')),
+          'data_inicio' => post('data_inicio'),
+          'data_termino' => post('data_termino'),
+          'localEvento' => post('localEvento'),
+          'horario' => post('horario'),
+          'periodo' => post('periodo'),
+          'fase' => post('fase'),
+          'certificado' => post('certificado'),          
           'fase_err' => '',
           'editavel' => false,
           'tema' => '',
@@ -268,18 +250,18 @@
               // pega os temas se o usuário estiver adicionando
               $temas = $this->temaModel->getTemasInscricoesById($lastId);
               $data = [
-                'nome_curso' => mb_strtoupper(trim($_POST['nome_curso'])),
-                'descricao' => mb_strtoupper(trim($_POST['descricao'])),
-                'data_inicio' => $_POST['data_inicio'],
-                'data_termino' => trim($_POST['data_termino']),
-                'localEvento' => trim($_POST['localEvento']),
-                'horario' => trim($_POST['horario']),
-                'periodo' => trim($_POST['periodo']),
-                'fase' => $_POST['fase'],
+                'nome_curso' => mb_strtoupper(post('nome_curso')),
+                'descricao' => mb_strtoupper(post('descricao')),
+                'data_inicio' => post('data_inicio'),
+                'data_termino' => post('data_termino'),
+                'localEvento' => post('localEvento'),
+                'horario' => post('horario'),
+                'periodo' => post('periodo'),
+                'fase' => post('fase'),
                 'editavel' => $editavel,
                 'inscricoes_id' => $inscricoes_id,
                 'temas' => $temas,
-                'certificado' => $_POST['certificado'],
+                'certificado' => post('certificado'),
                 'fase_err' => '',
                 'tema' => '',
                 'tema_err' => '',
@@ -357,19 +339,19 @@
         $editavel = $this->inscricaoModel->inscricaoEditavel($id);  
         $data = [     
           'id' => $id,         
-          'inscricoes_id' => $id,            
-          'nome_curso' => mb_strtoupper(trim($_POST['nome_curso'])),
-          'descricao' => mb_strtoupper(trim($_POST['descricao'])),            
-          'data_inicio' => $_POST['data_inicio'],
-          'data_termino' => trim($_POST['data_termino']),
+          //'inscricoes_id' => $id,            
+          'nome_curso' => mb_strtoupper(post('nome_curso')),
+          'descricao' => mb_strtoupper(post('descricao')),            
+          'data_inicio' => post('data_inicio'),
+          'data_termino' => post('data_termino'),
           'data_atual' => DATAATUAL,
-          'localEvento' => trim($_POST['localEvento']),
-          'horario' => trim($_POST['horario']),
-          'periodo' => trim($_POST['periodo']),
-          'fase' => $_POST['fase'],
+          'localEvento' => post('localEvento'),
+          'horario' => post('horario'),
+          'periodo' => post('periodo'),
+          'fase' => post('fase'),
           'temas' => ($temas) ? $temas : 'null',
           'editavel' => $editavel,
-          'certificado' => $_POST['certificado'],
+          'certificado' => post('certificado'),
           'data_inicio_err' => '', 
           'data_termino_err' => '',
           'nome_curso_err' => '',
@@ -442,42 +424,18 @@
               // pega os temas se o usuário estiver adicionando
               $temas = $this->temaModel->getTemasInscricoesById($id);
               $data = [
-                'nome_curso' => isset($_POST['nome_curso'])
-                                ?mb_strtoupper(trim($_POST['nome_curso']))
-                                :'',
-                'descricao' => isset($_POST['descricao'])
-                                ?mb_strtoupper(trim($_POST['descricao']))
-                                :'',
-                'data_inicio' => isset($_POST['data_inicio'])
-                                ?$_POST['data_inicio']
-                                :'',
-                'data_termino' => isset($_POST['data_termino'])
-                                ?trim($_POST['data_termino'])
-                                :'',
-                'localEvento' => isset($_POST['localEvento'])
-                                ?trim($_POST['localEvento'])
-                                :'',
-                'horario' => isset($_POST['horario'])
-                                ?trim($_POST['horario'])
-                                :'',
-                'periodo' => isset($_POST['periodo'])
-                                ?trim($_POST['periodo'])
-                                :'',
-                'fase' => isset($_POST['fase'])
-                                ?$_POST['fase']
-                                :'',
-                'editavel' => isset($editavel)
-                                ?$editavel
-                                :'',
-                'inscricoes_id' => isset($inscricoes_id)
-                                ?$inscricoes_id
-                                :'',
-                'temas' => isset($temas)
-                                ?$temas
-                                :'',
-                'certificado' => isset($_POST['certificado'])
-                ? $_POST['certificado']
-                :'',
+                'nome_curso' => mb_strtoupper(post('nome_curso')),
+                'descricao' => mb_strtoupper(post('descricao')),
+                'data_inicio' => post('data_inicio'),
+                'data_termino' => post('data_termino'),
+                'localEvento' => post('localEvento'),
+                'horario' => post('horario'),
+                'periodo' => post('periodo'),
+                'fase' => post('fase'),
+                'editavel' => getData($editavel),
+                'inscricoes_id' => getData($inscricoes_id),
+                'temas' => getData($temas),
+                'certificado' => post('certificado'),
                 'data_atual' => DATAATUAL,
                 'data_inicio_err' => '', 
                 'data_termino_err' => '',
@@ -512,17 +470,17 @@
         $data = $this->inscricaoModel->getInscricaoById($id);        
         $data = [
           'editavel' => $this->inscricaoModel->inscricaoEditavel($id),
-          'inscricoes_id' => $id,
-          'nome_curso' => $data->nome_curso,
-          'descricao' => $data->descricao,             
-          'data_inicio' => $data->data_inicio,
-          'data_termino' => $data->data_termino,
-          'numero_certificado' => $data->numero_certificado,          
-          'localEvento' => $data->localEvento,
-          'horario' => $data->horario,
-          'periodo' => $data->periodo,
-          'fase' => $data->fase,
-          'certificado' => $data->certificado,
+          'inscricoes_id' => getData($id),
+          'nome_curso' => getData($data->nome_curso),
+          'descricao' => getData($data->descricao),             
+          'data_inicio' => getData($data->data_inicio),
+          'data_termino' => getData($data->data_termino),
+          'numero_certificado' => getData($data->numero_certificado),          
+          'localEvento' => getData($data->localEvento),
+          'horario' => getData($data->horario),
+          'periodo' => getData($data->periodo),
+          'fase' => getData($data->fase),
+          'certificado' => getData($data->certificado),
           'data_atual' => DATAATUAL,
           'data_inicio_err' => '', 
           'data_termino_err' => '',
@@ -576,8 +534,8 @@
 
     // Retorna true or false
     public function estaInscrito(){
-      $userId = $_POST['user_id'];
-      $inscricoes_id = $_POST['inscricoes_id'];          
+      $userId = post('user_id');
+      $inscricoes_id = post('inscricoes_id');          
       $json_ret = $this->inscritoModel->estaInscrito($inscricoes_id,$userId);   
       echo json_encode($json_ret);       
     }
@@ -629,8 +587,8 @@
         $error['inscricaoId_err'] = 'Selecione uma inscrição!';
       }       
       
-      $user_Id = $_POST['userId'];
-      $inscricaoId = $_POST['inscricaoId'];   
+      $user_Id = post('userId');
+      $inscricaoId = post('inscricaoId');   
 
       if(
         empty($error['userId_err']) &&

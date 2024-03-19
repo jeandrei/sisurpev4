@@ -11,16 +11,17 @@
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){					
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [
-					'name' => trim(strtoupper($_POST['name'])),
-					'cpf' => trim($_POST['cpf']),
-					'email' => trim(strtolower($_POST['email'])),
-					'password' => trim($_POST['password']),
-					'confirm_password' => trim($_POST['confirm_password']),
+					'name' => strtoupper(post('name')),
+					'cpf' => post('cpf'),
+					'email' => strtolower(post('email')),
+					'password' => post('password'),
+					'confirm_password' => post('confirm_password'),
 					'name_err' => '',
 					'email_err' => '',
 					'password_err' => '',
 					'confirm_password_err' => ''
 				]; 
+			
 
 				// Validate Email
 				if(empty($data['email'])){
@@ -122,13 +123,13 @@
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){					
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [
-					'user_id' => $user_id,
-					'name' => trim(strtoupper($_POST['name'])),
-					'email' => $user->email,
-					'cpf' => $user->cpf,
-					'usertype' => $_POST['usertype'],
-					'password' => trim($_POST['password']),
-					'confirm_password' => trim($_POST['confirm_password']),
+					'user_id' => getData($user_id),
+					'name' => strtoupper(post('name')),
+					'email' => getData($user->email),
+					'cpf' => getData($user->cpf),
+					'usertype' => post('usertype'),
+					'password' => post('password'),
+					'confirm_password' => post('confirm_password'),
 					'name_err' => '',
 					'password_err' => '',
 					'confirm_password_err' => '',
@@ -185,11 +186,11 @@
 			} else {
 				// Init data
 				$data = [
-					'user_id' => $user_id,
-					'name' => $user->name,
-					'email' => $user->email,
-					'cpf' => $user->cpf,
-					'usertype' => $user->type,
+					'user_id' => getData($user_id),
+					'name' => strtoupper(getData($user->name)),
+					'email' => getData($user->email),
+					'cpf' => getData($user->cpf),
+					'usertype' => getData($user->type),
 					'escolas' => $this->escolaModel->getEscolas(),
 					'password' => '',
 					'confirm_password' => '',
@@ -207,8 +208,8 @@
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){				
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [                    
-					'email' => trim($_POST['email']),
-					'password' => trim($_POST['password']),  
+					'email' => post('email'),
+					'password' => post('password'),  
 					'email_err' => '',
 					'password_err' => ''
 				];      
@@ -297,7 +298,7 @@
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){  
 					$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 					$data = [                
-						'email' => trim($_POST['email'])               
+						'email' => post('email')               
 					];  
 
 					// Validate Email
@@ -354,12 +355,8 @@
 		public function alterasenha(){			           
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$data = [                
-					'password' => ($_POST['password']) 
-						? trim($_POST['password'])
-						: '',
-					'confirm_password' => ($_POST['confirm_password'])
-						? trim($_POST['confirm_password'])
-						: '',
+					'password' => post('password'),
+					'confirm_password' => post('confirm_password'),
 					'password_err' => '',
 					'confirm_password_err' => ''               
 				]; 

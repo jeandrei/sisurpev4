@@ -36,11 +36,11 @@
     }  
 
     public function add(){ 
-      $inscricoes_id = ($_POST['inscricoes_id']) ? $_POST['inscricoes_id'] : '';
+      $inscricoes_id = post('inscricoes_id');
       if($_SERVER['REQUEST_METHOD'] == 'POST') { 
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); 
         $data = [              
-          'inscricoes_id' => $inscricoes_id,              
+          'inscricoes_id' => getData($inscricoes_id),              
           'carga_horaria' => 
             ($_POST['carga_horaria'] ? $_POST['carga_horaria'] : 0),            
           'total_carga_horaria_temas' => 
@@ -61,7 +61,6 @@
           $data['carga_horaria_err'] = 'Por favor informe a carga horária';
         } 
        
-
         if((intval($data['total_carga_horaria_presencas']) + intval($data['carga_horaria'])) > intval($data['total_carga_horaria_temas'])) {            
           $err = 'Total de carga horária não pode ser maior que o total de carga horária de todos os temas somados! O total de carga horária dos temas atual é de ' . $data['total_carga_horaria_temas'] . ' Horas.';          
           if(intval($data['total_carga_horaria_presencas']) > 0){                

@@ -14,7 +14,7 @@
 		}     
 
 		public function index(){             
-			$limit = 10;
+			$limit = 10;			
 			$data = [
 				'title' => 'Busca por Usuários',
 				'description' => 'Busca por registros de Usuários'          
@@ -23,18 +23,15 @@
 				$page = $_GET['page'];  
 			} else {  
 				$page = 1;  
-			} 
-			if(!isset($_GET['cpf'])){$_GET['cpf'] = '';}
-			if(!isset($_GET['name'])){$_GET['name'] = '';}
-			if(!isset($_GET['type'])){$_GET['type'] = '';}
+			} 			
 			$options = array(
 				'results_per_page' => 10,
-				'url' => URLROOT . '/adminusers/index.php?page=*VAR*&cpf=' . $_GET['cpf'] .'&name=' . $_GET['name'] . '&type=' . $_GET['type'], 
+				'url' => URLROOT . '/adminusers/index.php?page=*VAR*&cpf=' .  get('cpf') .'&name=' . get('name') . '&type=' . get('type'), 
 				'using_bound_params' => true,
 				'named_params' => array(
-																':cpf' => $_GET['cpf'],
-																':name' => $_GET['name'],
-																':type' => $_GET['type']
+																':cpf' => get('cpf'),
+																':name' => get('name'),
+																':type' => get('type')
 																)     
 			);            
 			$paginate = $this->userModel->getUsers($page, $options);                     

@@ -54,14 +54,8 @@
             : '',
           'avancarLink' => URLROOT . '/fuseroutroscursos/index',
           'voltarLink' => URLROOT . '/fusercursoespecializacoes/index',
-          'areaId' => 
-            ($_POST['areaId'])
-            ? html($_POST['areaId'])
-            : '',
-          'anoConclusao' => 
-            ($_POST['anoConclusao'])
-            ? html($_POST['anoConclusao'])
-            : '',
+          'areaId' => post('areaId'),
+          'anoConclusao' => post('anoConclusao'),
           'userId' => 
             ($_SESSION[DB_NAME . '_user_id'])
             ? $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id'])->id

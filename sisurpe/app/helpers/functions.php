@@ -263,6 +263,37 @@
     echo html($text);
   }
 
+  function getData($name) {
+    switch ($name) {
+      case !isset($name):
+        return '';
+        break;
+      case empty($name):
+        return '';
+        break;				
+      case NULL:
+          return '';
+          break;      
+      case is_string($name): 
+          return html($name);
+          break;
+      default:
+          return $name;
+    }			
+  } 
+
+  function get($name) {
+    return isset($_GET[$name]) ? html($_GET[$name]) : '';
+  }
+  
+  function post($name) {
+    return isset($_POST[$name]) ? html($_POST[$name]) : '';
+  }
+  
+  function getPost($name) {
+    return $this->get($name) ? $this->get($name) : $this->post($name);
+  }  
+
   function validaData($data) {
     if(empty($data)){
       return false;

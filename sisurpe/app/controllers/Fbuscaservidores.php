@@ -41,23 +41,18 @@
 			} else {  
 				$page = 1;  
 			}  
-			if(!isset($_GET['cpf'])){$_GET['cpf'] = '';}
-			if(!isset($_GET['name'])){$_GET['name'] = '';}
-			if(!isset($_GET['escolaId'])){$_GET['escolaId'] = '';}
-			if(!isset($_GET['maiorEscolaridade'])){$_GET['maiorEscolaridade'] = '';}
-			if(!isset($_GET['tipoEnsinoMedio'])){$_GET['tipoEnsinoMedio'] = '';}
-			if(!isset($_GET['posId'])){$_GET['posId'] = '';}
+			
 			$options = array(
 					'results_per_page' => 10,
-					'url' => URLROOT . '/fbuscaservidores/index.php?page=*VAR*&cpf=' . $_GET['cpf'] .'&name=' . $_GET['name'] . '&escolaId=' . $_GET['escolaId'] . '&maiorEscolaridade=' . $_GET['maiorEscolaridade'] . '&tipoEnsinoMedio=' . $_GET['tipoEnsinoMedio'] . '&posId=' . $_GET['posId'], 
+					'url' => URLROOT . '/fbuscaservidores/index.php?page=*VAR*&cpf=' . get('cpf') .'&name=' . get('name') . '&escolaId=' . get('escolaId') . '&maiorEscolaridade=' . get('maiorEscolaridade') . '&tipoEnsinoMedio=' . get('tipoEnsinoMedio') . '&posId=' . get('posId'), 
 					'using_bound_params' => true,
 					'named_params' => array(
-																	':cpf' => $_GET['cpf'],
-																	':name' => $_GET['name'],
-																	':escolaId' => $_GET['escolaId'],
-																	':maiorEscolaridade' => $_GET['maiorEscolaridade'],
-																	':tipoEnsinoMedio' => $_GET['tipoEnsinoMedio'],
-																	':posId' => $_GET['posId']
+																	':cpf' => get('cpf'),
+																	':name' => get('name'),
+																	':escolaId' => get('escolaId'),
+																	':maiorEscolaridade' => get('maiorEscolaridade'),
+																	':tipoEnsinoMedio' => get('tipoEnsinoMedio'),
+																	':posId' => get('posId')
 																	)     
 			);		
 			$paginate = $this->buscaServidorModel->getServidor($page, $options); 						
@@ -75,19 +70,19 @@
 			if($cursossup = $this->fusercursosSupModel->getCursosUser($userId)){ 	
 				foreach($cursossup as $row){
 					$cursossupArray[] = [
-						'ucsId' => $row->ucsId,
-						'areaId' => $row->areaId,
+						'ucsId' => getData($row->ucsId),
+						'areaId' => getData($row->areaId),
 						'area' => $this->fareaModel->getAreaById($row->areaId)->area,
-						'nivelId' => $row->nivelId,
+						'nivelId' => getData($row->nivelId),
 						'nivel' => $this->fnivelModel->getNivelById($row->nivelId)->nivel,
-						'cursoId' => $row->cursoId,
+						'cursoId' => getData($row->cursoId),
 						'curso' => $this->fcursosModel->getCursoById($row->cursoId)->curso,
-						'tipoInstituicao' => $row->tipoInstituicao,
-						'instituicaoEnsino' => $row->instituicaoEnsino,
-						'municipioId' => $row->municipioId,
+						'tipoInstituicao' => getData($row->tipoInstituicao),
+						'instituicaoEnsino' => getData($row->instituicaoEnsino),
+						'municipioId' => getData($row->municipioId),
 						'municipio' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio,
 						'uf' => $this->municipioModel->getEstadoMunicipio($row->municipioId)->estado,
-						'anoConclusao' => $row->anoConclusao,
+						'anoConclusao' => getData($row->anoConclusao),
 						'file' => $row->file						
 					];
 				}
@@ -98,7 +93,7 @@
 			if($complementacao = $this->fusercomplementacaoModel->getUserComplementacoes($userId)){
 				foreach($complementacao as $row){
 					$complementacaoArray[] = [
-							'cpId' => $row->cpId,
+							'cpId' => getData($row->cpId),
 							'complementacao' => $this->fcomplementacaoModel->getComplementacaoById($row->cpId)->complementacao
 					];
 				}
@@ -109,7 +104,7 @@
 			if($outroscursos = $this->fuseroutroscurModel->getUserOutrosCursos($userId)){
 				foreach($outroscursos as $row){
 					$outroscursosArray[] = [
-						'cursoId' => $row->cursoId,
+						'cursoId' => getData($row->cursoId),
 						'curso' => $this->foutroscursosModel->getOutrosCursosById($row->cursoId)->curso
 					];
 				}

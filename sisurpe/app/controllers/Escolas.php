@@ -19,27 +19,15 @@
 			if($escolas = $this->escolaModel->getEscolas()){													
 				foreach($escolas as $row){                    
 					$escolasArray[] = [
-						'id' => $row->id,
-						'nome' => 
-							($row->nome)
-							? $row->nome
-							: '',
-						'bairro_id' => 
-							($row->bairro_id)
-							? $row->bairro_id
-							: '',
+						'id' => getData($row->id),
+						'nome' => strtoupper(getData($row->nome)),
+						'bairro_id' => getData($row->bairro_id),
 						'bairro' => 
 							($this->bairroModel->getBairroById($row->bairro_id))
 							? $this->bairroModel->getBairroById($row->bairro_id)->bairro
 							: '',
-						'logradouro' => 
-							($row->logradouro)
-							? $row->logradouro
-							: '',                    
-						'numero' => 
-							($row->numero) 
-							? $row->numero 
-							: '',
+						'logradouro' => strtoupper(getData($row->logradouro)),                    
+						'numero' => getData($row->numero),
 						'emAtividade' => 
 							($row->emAtividade == 1) 
 							? 'Sim' 
@@ -55,30 +43,15 @@
 			}   
 		}
 
-		public function new(){ 			
+		public function new(){
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); 
 				$data = [
-					'nome' => 
-						isset($_POST['nome'])
-						? trim($_POST['nome'])
-						:'',
-					'bairro_id' => 
-						isset($_POST['bairro_id'])
-						? $_POST['bairro_id']
-						: '',
-					'logradouro' => 
-						isset($_POST['logradouro'])
-						? trim($_POST['logradouro'])
-						: '',                    
-					'numero' => 
-						isset($_POST['numero']) 
-						? trim($_POST['numero']) 
-						: '',
-					'emAtividade' => 
-						isset($_POST['emAtividade'])
-						? trim($_POST['emAtividade'])
-						: '',
+					'nome' => strtoupper(post('nome')),
+					'bairro_id' => post('bairro_id'),
+					'logradouro' => strtoupper(post('logradouro')),                    
+					'numero' => post('numero'),
+					'emAtividade' => post('emAtividade'),
 					'bairros' => 
 						($this->bairroModel->getBairros())
 						? $this->bairroModel->getBairros()
@@ -153,29 +126,23 @@
 		}
 
 		public function edit($id){ 
+
+			if(!is_numeric($id)){
+				$erro = 'ID Inválido!'; 
+			} else if (!$escola = $this->escolaModel->getEscolaByid($id)){
+				$erro = 'ID inexistente';
+			} else {
+				$erro = '';
+			}  
+
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){		
 				$data = [
-					'id' => $id,
-					'nome' => 
-						isset($_POST['nome'])
-						? trim($_POST['nome'])
-						:'',
-					'bairro_id' => 
-						isset($_POST['bairro_id'])
-						? $_POST['bairro_id']
-						: '',
-					'logradouro' => 
-						isset($_POST['logradouro'])
-						? trim($_POST['logradouro'])
-						: '',                    
-					'numero' => 
-						isset($_POST['numero']) 
-						? trim($_POST['numero']) 
-						: '',
-					'emAtividade' => 
-						isset($_POST['emAtividade'])
-						? trim($_POST['emAtividade'])
-						: '',
+					'id' => getData($id),
+					'nome' => strtoupper(post('nome')),
+					'bairro_id' => post('bairro_id'),
+					'logradouro' => strtoupper(post('logradouro')),                    
+					'numero' => post('numero'),
+					'emAtividade' => post('emAtividade'),
 					'bairros' => 
 						($this->bairroModel->getBairros())
 						? $this->bairroModel->getBairros()
@@ -228,13 +195,13 @@
 			} else {					
 				$escola = $this->escolaModel->getEscolaByid($id);		
 				$data = [
-					'id' => $id,
-					'nome' => $escola->nome,
-					'bairro_id' => $escola->bairro_id,
+					'id' => getData($id),
+					'nome' => strtoupper(getData($escola->nome)),
+					'bairro_id' => getData($escola->bairro_id),
 					'bairros' => $this->bairroModel->getBairros(),
-					'logradouro' => $escola->logradouro,
+					'logradouro' => strtoupper(getData($escola->logradouro)),
 					'numero' => ($escola->numero) ? $escola->numero : '',
-					'emAtividade' => $escola->emAtividade,
+					'emAtividade' => getData($escola->emAtividade),
 					'nome_err' => '',
 					'bairro_id_err' => '',
 					'logradouro_err' => '',                   
@@ -254,11 +221,11 @@
 			if($escolas = $this->escolaModel->getEscolas()){													
 				foreach($escolas as $row){                    
 					$escolas = [
-						'id' => $row->id,
-						'nome' => $row->nome,
-						'bairro_id' => $row->bairro_id,
+						'id' => getData($row->id),
+						'nome' => getData($row->nome),
+						'bairro_id' => getData($row->bairro_id),
 						'bairro' => $this->bairroModel->getBairroById($row->bairro_id)->bairro,
-						'logradouro' => $row->logradouro,                    
+						'logradouro' => getData($row->logradouro),                    
 						'numero' => ($row->numero) ? $row->numero : '',
 						'emAtividade' => ($row->emAtividade == 1) ? 'Sim' : 'Não'
 					];       

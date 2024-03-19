@@ -24,15 +24,15 @@
       if($userCursosSup = $this->fusercursossupModel->getCursosUser($_SESSION[DB_NAME . '_user_id'])){
         foreach($userCursosSup as $row) {
           $userCursosSupArray[] = [
-            'ucsId' => $row->ucsId,
-            'areaId' => $row->areaId,
+            'ucsId' => getData($row->ucsId),
+            'areaId' => getData($row->areaId),
             'area' => $this->fareacursoModel->getAreaById($row->areaId)->area,
-            'nivelId' => $row->nivelId,
+            'nivelId' => getData($row->nivelId),
             'nivel' => $this->fnivelcursoModel->getNivelById($row->nivelId)->nivel,
-            'cursoId' => $row->cursoId,
+            'cursoId' => getData($row->cursoId),
             'curso' => $this->fcursossupModel->getCursoById($row->cursoId)->curso,
-            'tipoInstituicao' => $row->tipoInstituicao,
-            'instituicaoEnsino' => $row->instituicaoEnsino,
+            'tipoInstituicao' => getData($row->tipoInstituicao),
+            'instituicaoEnsino' => getData($row->instituicaoEnsino),
             'municipioInstituicao' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio,
             'file' => $row->file                
           ];
@@ -73,26 +73,17 @@
           ($this->regiaoModel->getRegioes())
           ? $this->regiaoModel->getRegioes()
           : '',
-        'regiaoId' => 
-          isset($_POST['regiaoId'])
-          ? html($_POST['regiaoId'])
-          : '',
+        'regiaoId' => post('regiaoId'),
         'estados' => 
           isset($_POST['regiaoId'])
           ? $this->estadoModel->getEstadosRegiaoById($_POST['regiaoId'])
           : '',
-        'estadoId' => 
-          isset($_POST['estadoId'])
-          ? html($_POST['estadoId'])
-          : '',
+        'estadoId' => post('estadoId'),
         'estado' => 
           isset($_POST['estadoId'])
           ? $this->estadoModel->getEstadoById($_POST['estadoId'])
           : '',
-        'municipioId' => 
-          isset($_POST['municipioId'])
-          ? html($_POST['municipioId'])
-          : '',
+        'municipioId' => post('municipioId'),
         'municipio' => 
           isset($_POST['municipioId'])
           ? $this->municipioModel->getMunicipioById($_POST['municipioId'])
@@ -114,44 +105,26 @@
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);            
         unset($data);            
         $data = [
-          'areaId' => 
-            isset($_POST['areaId'])
-            ? trim($_POST['areaId'])
-            : '',
-          'nivelId' => 
-            isset($_POST['nivelId'])
-            ? trim($_POST['nivelId'])
-            : '',
-          'cursoId' => 
-            isset($_POST['cursoId'])
-            ? trim($_POST['cursoId'])
-            : '',
+          'areaId' => post('areaId'),
+          'nivelId' => post('nivelId'),
+          'cursoId' => post('cursoId'),
           'userId' => $_SESSION[DB_NAME . '_user_id'],
           'titulo' => 'Curso superior',
           'regioes' => 
             ($this->regiaoModel->getRegioes())
             ? $this->regiaoModel->getRegioes()
             : '',
-          'regiaoId' => 
-            isset($_POST['regiaoId'])
-            ? html($_POST['regiaoId'])
-            : '',
+          'regiaoId' => post('regiaoId'),
           'estados' => 
             isset($_POST['regiaoId'])
             ? $this->estadoModel->getEstadosRegiaoById($_POST['regiaoId'])
             : '',
-          'estadoId' => 
-            isset($_POST['estadoId'])
-            ? html($_POST['estadoId'])
-            : '',
+          'estadoId' => post('estadoId'),
           'estado' => 
             isset($_POST['estadoId'])
             ? $this->estadoModel->getEstadoById($_POST['estadoId'])
             : '',
-          'municipioId' => 
-            isset($_POST['municipioId'])
-            ? html($_POST['municipioId'])
-            : '',
+          'municipioId' => post('municipioId'),
           'municipio' => 
             isset($_POST['municipioId'])
             ? $this->municipioModel->getMunicipioById($_POST['municipioId'])
@@ -160,18 +133,9 @@
             isset($_POST['estadoId'])
             ? $this->municipioModel->getMunicipiosEstadoById($_POST['estadoId'])
             : '',
-          'tipoInstituicao' => 
-            isset($_POST['tipoInstituicao'])
-            ? trim($_POST['tipoInstituicao'])
-            : '',
-          'anoConclusao' => 
-            isset($_POST['anoConclusao'])
-            ? html($_POST['anoConclusao'])
-            : '',
-          'instituicaoEnsino' => 
-            isset($_POST['instituicaoEnsino'])
-            ? trim($_POST['instituicaoEnsino'])
-            : '',
+          'tipoInstituicao' => post('tipoInstituicao'),
+          'anoConclusao' => post('anoConclusao'),
+          'instituicaoEnsino' => post('instituicaoEnsino'),
           'areasCurso' => 
             ($this->fareacursoModel->getAreasCurso())
             ? $this->fareacursoModel->getAreasCurso()
