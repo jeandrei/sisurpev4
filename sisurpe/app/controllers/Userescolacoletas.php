@@ -25,8 +25,8 @@
 				die() ;
 			}			
 			$data=[
-				'userId' => $_POST['userId'],
-				'escolaId' => $_POST['escolaId']
+				'userId' => post('userId'),
+				'escolaId' => post('escolaId')
 			];
 
 			$error=[];	

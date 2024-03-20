@@ -56,8 +56,8 @@
 				unset($data);
 				$data = [
 					'titulo' => 'Novo Município',
-					'nomeMunicipio' => html($_POST['nomeMunicipio']),
-					'estadoId' => html($_POST['estadoId']),
+					'nomeMunicipio' => post('nomeMunicipio'),
+					'estadoId' => post('estadoId'),
 					'estados' => $this->estadoModel->getEstados()
 				];                
 				

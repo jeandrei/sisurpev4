@@ -167,6 +167,7 @@
 							<button type="button" id="addTema" class="btn btn-primary" onClick="colar()">
 								Colar
 							</button> 
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modelos-model">Modelos</button>
 						</div>
 					</div>
 				</div>
@@ -285,6 +286,58 @@
   </div>
   
 </div>
+
+
+<!-- MODAL MODELOS -->
+<div class="modal fade bd-example-modal-lg" id="modelos-model" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+			<div class="modal-body">
+        <?php if(isset($data['modelosCertificados'])) : ?>
+						<div class="row">
+            <?php foreach($data['modelosCertificados'] as $key => $modelo) : ?> 
+
+							<?php $count = 0; ?>
+							<!-- se for mod 2 crio a linha row do bootstrap e defino um contador como zero -->
+							<?php if($key % 2 == 0 && $key > 1): ?>
+									<div class="row">	
+									<?php $count = 0; ?>								
+							<?php endif;?>				
+									<!-- mostro dois certificados e incremento o count -->
+									<div class="col-6">
+										<a href="<?php echo 'javascript:selectImage(\''.$modelo['arquivo'].'\')';?>">
+										<img class="img-fluid" src="<?php echo $modelo['url'];?>" alt="">
+										<span class="content-title"><?php echo $modelo['file'];?></span>
+										</a>
+										<?php $count++; ?>
+									</div>
+							<!-- se count é igual a dois então tenho que fechar a row do bootstrap -->
+							<?php if($count == 2) : ?>
+								</div>
+							<?php endif;?>															
+								
+							
+            <? endforeach; ?>
+						</div>  
+        <?php endif; ?>
+			</div>
+    </div>
+  </div>
+</div>
+<!-- MODAL MODELOS -->
+
+<!-- copia a url da imagem para localstorage -->
+<script type="text/javascript">
+    function selectImage(imgName){			
+			let url = imgName; 
+			localStorage.removeItem("imgUrl");
+			localStorage.setItem("imgUrl",url); 
+			colar();
+			$('#modelos-model').modal('hide')
+    }
+</script>
+
+
 <script>
 		function colar(){
 			const certificadoInput = document.querySelector('#certificado');

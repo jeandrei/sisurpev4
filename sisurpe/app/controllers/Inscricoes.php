@@ -11,7 +11,8 @@
       $this->temaModel = $this->model('Tema');
       $this->userModel = $this->model('User');
       $this->abrePresencaModel = $this->model('Abrepresenca');
-      $this->presencaModel = $this->model('Presenca'); 
+      $this->presencaModel = $this->model('Presenca');
+      $this->certificadoModel = $this->model('Certificado');
     }
 
     public function index(){ 
@@ -292,7 +293,9 @@
           // Load the view with errors
           $this->view('inscricoes/add', $data);
         } 
-      } else {        
+      } else {
+        $modelosCertificados = $this->certificadoModel->getCertificados();  
+
         $data = [ 
           'inscricoes_id' => '',
           'nome_curso' => '',
@@ -326,7 +329,8 @@
           'localEvento_err' => '',
           'horario_err' => '',
           'periodo_err' => '',
-          'certificado_err' => ''     
+          'certificado_err' => '',
+          'modelosCertificados' => $modelosCertificados     
         ];
         $this->view('inscricoes/add', $data);
       }     
@@ -628,7 +632,7 @@
               }
             }            
             /* se não tem nenhum erro dentro de erro_presenca é que deu tudo certo*/
-            echo ($erro_presenca);
+            //echo ($erro_presenca);
             if($erro_presenca == NULL){
               $json_ret = array(                                            
                 'class'=>'success', 

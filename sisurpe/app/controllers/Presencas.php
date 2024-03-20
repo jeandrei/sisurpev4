@@ -40,10 +40,8 @@
 
     public function add(){  
       $data = [
-        'abre_presenca_id' => 
-          ($_POST['abre_presenca_id']) ? $_POST['abre_presenca_id'] : '',
-        'user_id' => 
-          ($_POST['user_id']) ? $_POST['user_id'] : ''
+        'abre_presenca_id' => post('abre_presenca_id'),
+        'user_id' => post('user_id')
       ];
 
       $error=[];
@@ -99,10 +97,8 @@
 
     public function update(){  
       $data=[
-        'abre_presenca_id' => 
-          ($_POST['abre_presenca_id']) ? $_POST['abre_presenca_id'] : '',
-        'user_id'=>
-          ($_POST['user_id']) ? $_POST['user_id'] : ''               
+        'abre_presenca_id' => post('abre_presenca_id'),
+        'user_id'=> post('user_id')               
       ];  
 
       $error=[];    

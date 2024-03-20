@@ -59,8 +59,8 @@
 					'titulo' => 'Formação do usuário',   
 					'userId' => $_SESSION[DB_NAME . '_user_id'],
 					'userformacao' => $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
-					'maiorEscolaridade' => trim($_POST['maiorEscolaridade']),
-					'tipoEnsinoMedio' => trim($_POST['tipoEnsinoMedio']),
+					'maiorEscolaridade' => post('maiorEscolaridade'),
+					'tipoEnsinoMedio' => post('tipoEnsinoMedio'),
 					'avancarLink' => ($_POST['maiorEscolaridade'] == 'e_superior') ? URLROOT .'/fusercursosuperiores/index' : URLROOT .'/fuseroutroscursos/index',
 					'maiorEscolaridade_err' => '',
 					'tipoEnsinoMedio_err' => ''  
