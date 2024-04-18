@@ -26,7 +26,7 @@
           <div class="col-md-6">
             <h2>Formação do servidor</h2>
             <p>Se você é profissional da Educação da Rede Municipal de Ensino de Penha, cadastre seus dados de formação. Esses dados são muito importantes uma vez que são informados no Educacenso e ajudam a melhorar os índices de sua unidade escolar. </p>
-            <p><a class="btn btn-secondary" href="<?php echo URLROOT; ?>/fuserescolaanos/userEscolaAno/<?php echo $_SESSION[DB_NAME . '_user_id']; ?>" role="button">Dados do Servidor &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="<?php echo isset($_SESSION[DB_NAME . '_user_id']) ? URLROOT . '/fuserescolaanos/userEscolaAno/' . $_SESSION[DB_NAME . '_user_id'] : URLROOT . '/users/login' ?>" role="button">Dados do Servidor &raquo;</a></p>
           </div>
           <div class="col-md-6">
             <h2>Inscrições</h2>
