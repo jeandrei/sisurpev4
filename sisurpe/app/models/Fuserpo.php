@@ -163,7 +163,7 @@
 						u.name, 
 						fp.pos ASC
 				";
-				$bind += [':ano',$_ano]; 
+				$bind += [':ano' => $_ano]; 
 			} else {
 				$sql = "
 					SELECT 
@@ -197,13 +197,13 @@
 						u.name, 
 						fp.pos ASC
 				";
-				$bind += [':escolaId',$_escolaId]; 
-				$bind += [':ano',$_ano]; 
+				$bind += [':escolaId' => $_escolaId]; 
+				$bind += [':ano' => $_ano]; 
 			}		
 			$this->db->query($sql);
-			foreach($bind as $key => $value){
-				$this->db->bind($key,$value);
-			}					
+      foreach($bind as $key => $value){             
+        $this->db->bind($key, $value, PDO::PARAM_STR, 12);            
+      } 				
 			$results = $this->db->resultSet();  
 			if($this->db->rowCount() > 0){
 				return $results;
@@ -212,7 +212,7 @@
 			}
 		}
 
-		public function getUsersSemRespostaPos($_escolaId,$_ano){
+		public function getUsersSemRespostaPos($_escolaId,$_ano){      
 			$bind = []; 
 			if($_escolaId == 'null'){
 				$sql = "
@@ -241,7 +241,7 @@
 						e.nome, 
 						u.name ASC
 				";
-				$bind += [':ano',$_ano]; 
+				$bind += [':ano' => $_ano];        
 			} else {
 				$sql = "
 					SELECT 
@@ -271,13 +271,13 @@
 						e.nome, 
 						u.name ASC
 				";
-				$bind += [':escolaId',$_escolaId]; 
-				$bind += [':ano',$_ano];
-			}
+				$bind += [':escolaId' => $_escolaId]; 
+				$bind += [':ano' => $_ano];
+			}      
 			$this->db->query($sql);
-			foreach($bind as $key => $value){
-				$this->db->bind($key,$value);
-			}	         
+      foreach($bind as $key => $value){             
+				$this->db->bind($key, $value, PDO::PARAM_STR, 12);            
+			} 				         
 			$results = $this->db->resultSet();  
 			if($this->db->rowCount() > 0){
 				return $results;

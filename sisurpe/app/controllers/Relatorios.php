@@ -137,7 +137,7 @@
       }          
     }
 
-    public function fusersemrespostapos(){  
+    public function fusersemrespostapos(){           
       if($_GET['escolaId']=='null'){
         $escolaId = 'null';
         $data['escola']='Todas';

@@ -30,7 +30,7 @@
                   id="cpId"
                   class="form-control <?php echo (!empty($data['cpId_err'])) ? 'is-invalid' : ''; ?>"
               >
-                  <option value="null">Selecione a Complementação</option>
+                  <option value="null">Nenhuma</option>
                   <?php foreach($data['complementacoes'] as $row) : ?>
                   <option 
                       value="<?php htmlout($row->cpId); ?>"
@@ -54,11 +54,9 @@
 
     <!-- BOTÕES -->
     <div class="form-group mt-3 mb-3">           
-        <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Adicionar</button>        
-        <?php if($data['userComplementacoes']) : ?>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Adicionar</button>       
           <a href="<?php echo $data['voltarLink']?>" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
-          <a href="<?php echo $data['avancarLink']?>" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>     
-        <?php endif;?>
+          <a href="<?php echo $data['avancarLink']?>" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>         
     </div>   
     <!-- BOTÕES -->
     
