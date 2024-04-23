@@ -345,7 +345,7 @@
     }
 
     public function download($_ucsId){
-      if(!$data = $this->fusercursossupModel->getFile($_ucsId)){
+      if(!$data = $this->fusercursossupModel->getFile($_ucsId)){  
         $html = "<p>Erro ao tentar recuperar o anexo.</p>";
         return $html;
       } else {  
@@ -355,6 +355,6 @@
           return $html;
         }
       }
-    }    
+    }     
   }   
 ?>

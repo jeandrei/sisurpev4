@@ -56,6 +56,7 @@
       $options = array(
         'results_per_page' => 10,
         'url' => URLROOT . '/inscricoes/arquivadas?page=*VAR*&nomeInscricao=' . $_GET['nomeInscricao'],
+        'using_bound_params' => true,
         'named_params' => array(                                        
                                     ':nomeInscricao' => $_GET['nomeInscricao']
                                 )     

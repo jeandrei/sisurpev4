@@ -208,7 +208,8 @@
     }
 
 		//FUNÇÃO QUE EXECUTA A SQL PAGINATE
-		public function getArquivadasPag($page, $options){               
+		public function getArquivadasPag($page, $options) { 		
+
 			$sql = ("
 				SELECT 
 					*
@@ -216,13 +217,29 @@
 					inscricoes
 				WHERE 
 					fase = 'ARQUIVADO' 
-			");       
-			if(($options['named_params'][':nomeInscricao']) != NULL){                  
-				$sql .= " AND nome_curso LIKE '%" . $options['named_params'][':nomeInscricao']."%'";
-			}
+			"); 
+			
+			if (isset($options['named_params'][':nomeInscricao']) && ($options['named_params'][':nomeInscricao']) != ''){		
+				$sql .= " AND nome_curso LIKE CONCAT('%', :nome_curso, '%')"; 
+			}				
 			$sql .= " ORDER BY nome_curso ASC"; 
-			$paginate = new pagination($page, $sql, $options);
-			return  $paginate;        
+			
+			try
+			{
+				$this->pag = new Pagination($page,$sql,$options);              
+			}
+			catch(paginationException $e)
+			{
+				echo $e;
+				exit();
+			}
+
+			if (isset($options['named_params'][':nomeInscricao']) && ($options['named_params'][':nomeInscricao']) != ''){	
+				$this->pag->bindParam(':nome_curso', $options['named_params'][':nomeInscricao'], PDO::PARAM_STR, 12);           
+			} 
+
+			$this->pag->execute();
+			return $this->pag;       
     }  
 
     public function reabreInscricao($inscricoes_id){
