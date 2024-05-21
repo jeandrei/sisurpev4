@@ -76,7 +76,7 @@
               <?php foreach($data['escolas'] as $row) : ?>
                 <option 
                     value="<?php htmlout($row->id); ?>"
-                    <?php echo ($_GET['escolaId']) == $row->id ? 'selected' : '';?>
+                    <?php echo get('escolaId') == $row->id ? 'selected' : '';?>
                 >
                 <?php htmlout($row->nome); ?>
               </option>
@@ -116,28 +116,28 @@
                 
                 <option 
                     value="nao_concluiu" 
-                    <?php echo ($_GET['maiorEscolaridade']) == "nao_concluiu" ? 'selected' : '';?>
+                    <?php echo get('maiorEscolaridade') == "nao_concluiu" ? 'selected' : '';?>
                 >
                     Não concluiu o ensino fundamental
                 </option> 
 
                 <option 
                     value="e_fundamental"
-                    <?php echo ($_GET['maiorEscolaridade']) == "e_fundamental" ? 'selected' : '';?>
+                    <?php echo get('maiorEscolaridade') == "e_fundamental" ? 'selected' : '';?>
                 >
                     Ensino fundamental
                 </option> 
 
                 <option 
                     value="e_medio"
-                    <?php echo ($_GET['maiorEscolaridade']) == "e_medio" ? 'selected' : '';?>
+                    <?php echo get('maiorEscolaridade') == "e_medio" ? 'selected' : '';?>
                 >
                     Ensino médio
                 </option> 
 
                 <option 
                     value="e_superior"
-                    <?php echo ($_GET['maiorEscolaridade']) == "e_superior" ? 'selected' : '';?>
+                    <?php echo get('maiorEscolaridade') == "e_superior" ? 'selected' : '';?>
                 >
                     Ensino superior
                 </option> 
@@ -162,28 +162,28 @@
                 <option value="null">Todos</option>              
                 <option 
                     value="geral"
-                    <?php echo ($_GET['tipoEnsinoMedio']) == "geral" ? 'selected' : '';?>
+                    <?php echo get('tipoEnsinoMedio') == "geral" ? 'selected' : '';?>
                 >
                     Formação geral
                 </option>
 
                 <option 
                     value="normal"
-                    <?php echo ($_GET['tipoEnsinoMedio']) == "normal" ? 'selected' : '';?>
+                    <?php echo get('tipoEnsinoMedio') == "normal" ? 'selected' : '';?>
                 >
                     Modalidade normal (magistério)
                 </option> 
                 
                 <option 
                     value="c_tecnico"
-                    <?php echo ($_GET['tipoEnsinoMedio']) == "c_tecnico" ? 'selected' : '';?>
+                    <?php echo get('tipoEnsinoMedio') == "c_tecnico" ? 'selected' : '';?>
                 >
                     Curso técnico
                 </option> 
                 
                 <option 
                     value="m_indigena"
-                    <?php echo ($_GET['tipoEnsinoMedio']) == "m_indigena" ? 'selected' : '';?>
+                    <?php echo get('tipoEnsinoMedio') == "m_indigena" ? 'selected' : '';?>
                 >
                     Magistério indígena - modalidade normal
                 </option> 
@@ -206,7 +206,7 @@
           <?php foreach($data['pos'] as $row) : ?>
             <option 
                 value="<?php htmlout($row->posId); ?>"
-                <?php echo ($_GET['posId']) == $row->posId ? 'selected' : '';?>
+                <?php echo get('posId') == $row->posId ? 'selected' : '';?>
             >
             <?php htmlout($row->pos); ?>
           </option>

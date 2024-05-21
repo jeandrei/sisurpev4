@@ -73,7 +73,7 @@
               $tipos = array('admin','sec','user','coleta');                    
               foreach($tipos as $tipo => $value) : ?> 
                   <option value="<?php echo $value; ?>" 
-                              <?php echo $value == $_GET['type'] ? 'selected':'';?>
+                              <?php echo $value == get('type') ? 'selected':'';?>
                   >
                       <?php echo $value;?>
                   </option>
