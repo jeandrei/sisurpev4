@@ -30,18 +30,19 @@
 				<!-- DESCRIÇÃO DO CURSO -->
 				<div class="form-row">
 					<div class="form-group col-md-12">
-						<label for="descricao">Descrição do curso</label>
+						<label for="descricao"><sup class="obrigatorio">*</sup> Descrição do curso:</label>
 						<textarea 
 							class="form-control <?php echo (!empty($data['nome_curso_err'])) ? 'is-invalid' : ''; ?>" 
 							id="descricao" 
 							name="descricao"
-							rows="3"><?php echo $data['descricao']; ?></textarea>
-						<div class="invalid-feedback">
-							<?php echo $data['descricao_err']; ?>
-						</div>  
+							rows="3"><?php echo ($data['descricao']);?></textarea>
+            <div class="text-danger">
+              <?php echo $data['descricao_err'];?>
+            </div>
 					</div>
 				</div>
 
+        
 				<div class="form-row"> 
 				<!--PERÍODO-->
 					<!-- INÍCIO -->
@@ -57,8 +58,9 @@
 						<div class="invalid-feedback">
 							<?php echo $data['data_inicio_err']; ?>
 						</div>  
-					</div>
+					</div>          
 
+          
 					<!-- FIM -->
 					<div class="form-group col-md-2">
 						<label for="data_termino"><sup class="obrigatorio">*</sup>Fim</label>
@@ -359,7 +361,7 @@
     });//Fecha document ready function
 
 
-    function carregaTemas(){
+    function carregaTemas(inscId){
         $.ajax({ 
             url: '<?php echo URLROOT; ?>/temas/index/<?php echo $data['inscricoes_id']; ?>',                
             method:'POST', 

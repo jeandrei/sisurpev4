@@ -174,7 +174,8 @@
     public function add(){ 
       if($_SERVER['REQUEST_METHOD'] == 'POST'){   
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);  
-        $data = [              
+        $data = [   
+          'inscricoes_id' => '',
           'nome_curso' => mb_strtoupper(post('nome_curso')),
           'descricao' => mb_strtoupper(post('descricao')),
           'data_inicio' => post('data_inicio'),
@@ -290,8 +291,8 @@
             flash('message', $erro,'error');
             $this->view('inscricoes/add');
           } 
-        } else {
-          // Load the view with errors
+        } else {          
+          // Load the view with errors          
           $this->view('inscricoes/add', $data);
         } 
       } else {
