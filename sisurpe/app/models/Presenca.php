@@ -44,6 +44,8 @@
     public function getPresencas($inscricoes_id=null){
       $this->db->query("
         SELECT 
+          users.id,
+          inscricoes.id as inscId,
           users.name, 
           users.cpf, 
           presenca.registro  

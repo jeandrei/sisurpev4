@@ -538,6 +538,15 @@
       $this->view('relatorios/presentes',$data);           
     }
 
+    public function livroregistro($inscricoes_id){    
+      $data=[
+        'inscritos' => $this->inscritoModel->getInscritos($inscricoes_id),        
+        'curso' => $this->inscricaoModel->getInscricaoById($inscricoes_id),
+        'temas' => $this->temaModel->getTemasInscricoesById($inscricoes_id)        
+      ];      
+      $this->view('relatorios/livroregistro',$data);           
+    }
+
     // Retorna true or false
     public function estaInscrito(){
       $userId = post('user_id');

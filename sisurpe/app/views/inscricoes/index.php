@@ -138,7 +138,14 @@
               Lista de Presentes
             </a>
           <?endif;?> 
+          <?php if($registro['existePresenca']) : ?>
+            <a href="<?php echo URLROOT; ?>/inscricoes/livroregistro/<?php echo $registro['id']?>" class="card-link" target="_blank">
+              Lista para o livro de registro
+            </a>
+          <?endif;?> 
         <?php endif; ?>
+
+        
         </p>
         <!-- FIM BOTÕES PARA IMPRIMIR AS LISTAS -->  
       </div>

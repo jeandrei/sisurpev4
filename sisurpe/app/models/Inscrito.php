@@ -79,6 +79,7 @@
     public function getInscritos($inscricoes_id){
       $this->db->query("
         SELECT 
+          inscricoes.id as inscId,
           inscritos.user_id, 
           users.name, 
           users.cpf, 

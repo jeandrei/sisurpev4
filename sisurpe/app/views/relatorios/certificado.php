@@ -1,5 +1,7 @@
 <?php
 
+
+
 require APPROOT . '/inc/fpdf/fpdf.php'; 
 
 class PDF extends FPDF
@@ -69,7 +71,8 @@ class PDF extends FPDF
             foreach($data['presencas'] as $row){
               $frequencia = $frequencia + $row->carga_horaria_tema;
             }
-            /* faço a regra de 3 para ter o total da frequência em relação ao total da carga horária */
+            $cargaHorariaPresenca = $frequencia;
+            /* faço a regra de 3 para ter o total da frequência em relação ao total da carga horária */           
             $frequencia = ($frequencia * 100)/$total_ch;
           }
 
@@ -141,17 +144,21 @@ class PDF extends FPDF
               }
               
             /**************** */
-
-
-            $pdf->Ln(); 
-            $pdf->Cell(270,18,utf8_decode('Total Carga Horária: '. $total_ch . ' Horas, Frequência: ' . number_format($frequencia, 2, '.', '') . '%'), 1,0, 'C');
            
+            $pdf->Ln();           
+            $pdf->MultiCell(270,10,utf8_decode('Total Carga Horária do Curso: '. $total_ch . ' Horas, Frequência: ' . number_format($frequencia, 2, '.', '') . '%'),'T', 'C', false); 
+            $pdf->MultiCell(270,10,utf8_decode('Carga Horária Presente: ' . $cargaHorariaPresenca . ' Horas'),'B', 'C', false); 
           } else {
             /* se não tiver temas imprimo só o total da carga horária do curso */
             $pdf->Ln(); 
-            $pdf->Cell(270,18,utf8_decode('Total Carga Horária: '. $data['curso']->carga_horaria . ' Horas, Frequência: ' . number_format($frequencia, 2, '.', '') . '%'), 1,0, 'C');
+            $pdf->Cell(270,18,utf8_decode('Total Carga Horária do Curso: '. $data['curso']->carga_horaria . ' Horas, Frequência: ' . number_format($frequencia, 2, '.', '') . '%'), 1,0, 'C');           
            
           }
+
+          $pdf->Ln(); 
+          $pdf->Ln(); 
+          $pdf->SetFont('Arial','B',12);
+          $pdf->Cell(270,18,utf8_decode('Certificado registrado sob o nº____________, lívro 02/2009, folha__________. '), 0,0, 'C');
 
           $pdf->Output("Relatorio.pdf",'I');  
                     
