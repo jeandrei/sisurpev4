@@ -1,5 +1,7 @@
 <?php
 
+//debug($data);
+
 require APPROOT . '/inc/fpdf/fpdf.php'; 
 
 
@@ -49,7 +51,7 @@ $pdf->SetFont('Arial','B',8);
 //defino as colunas do relatório
 $colunas =array("N","Nome","C/H FR","N° REG","Data","Ass");
 //largura das colunas
-$larguracoll = array(1 => 8, 2 => 110, 3 => 12, 4 => 20, 5 => 20, 6 => 27);
+$larguracoll = array(1 => 8, 2 => 100, 3 => 12, 4 => 20, 5 => 20, 6 => 32);
 //tamanho da fonte
 $left = 10; 
 
@@ -63,8 +65,8 @@ $countgeral=0;
 
 $pdf->AddPage('P');
 //SETA A FONTE PARA TAMANHO 8 NEGRITO
-$pdf->SetFont('Arial','B',12);
-$pdf->Cell(0, 5,utf8_decode($data['curso']->nome_curso), 0, 1, "C");
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(0, 5,utf8_decode($data['curso']->nome_curso . ' - ID: ' . $data['curso']->id), 0, 1, "C");
 $countescola=1;                       
 $pdf->Ln();
 $i=0;
@@ -88,7 +90,7 @@ if(!empty($data['inscritos'])){
           $pdf->Cell($larguracoll[1],$left,utf8_decode($count),1);                     
           $pdf->Cell($larguracoll[2],$left,utf8_decode(mb_strtoupper($row->name)),1); 
           $pdf->Cell($larguracoll[3],$left,utf8_decode($chPresenca . "h"),1);
-          $pdf->Cell($larguracoll[4],$left," ",1);
+          $pdf->Cell($larguracoll[4],$left,$row->inscritosId,1,0,'C');
           $pdf->Cell($larguracoll[5],$left,"_____/_____",1);                                       
           $pdf->Cell($larguracoll[6],$left,"_______________",1);   
           

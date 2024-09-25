@@ -81,6 +81,7 @@
         SELECT 
           inscricoes.id as inscId,
           inscritos.user_id, 
+          inscritos.id as inscritosId, 
           users.name, 
           users.cpf, 
           users.nascimento 
