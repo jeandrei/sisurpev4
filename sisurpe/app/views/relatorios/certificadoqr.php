@@ -1,6 +1,27 @@
-<?php
-//debug($data);
 
+<!-- pego os valores que preciso e monto a url -->
+<?php
+$qrUrl = URLROOT . '/inscricoes/certificado&cursoId=' . $data['curso']->id . '&userId=' . $_SESSION[DB_NAME . '_user_id']; 
+    ob_start();
+?>
+
+<!-- crio uma variavel qrcode com a url da api passando o parâmetro data com a url que quero que apresente ao ler o
+ qrcode. Obs: tem que usar a função rawurlencode que muda a url para não usar o & nos parâmetros pq se não ele vai
+ confundir e montar uma unica url misturando a url da api com a url que queremos apresentar na leitura do qr -->
+<script type="text/javascript">
+    var qrcode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<?php echo rawurlencode($qrUrl); ?>`;
+    document.write(qrcode);//escrevo o resultado da variavel qrcode no documento
+</script>
+
+<?php
+//passo o valor da variavel qrcode para o php
+$qrcode = ob_get_clean();
+/*print_r($qrcode);
+die();*/
+?>
+
+
+<?php
 require APPROOT . '/inc/fpdf/fpdf.php'; 
 
 class PDF extends FPDF
@@ -91,11 +112,10 @@ class PDF extends FPDF
             $image = $data['curso']->certificado;
           }
           
-         
-                    
+                  
           $pdf->SetFont('Arial','B',8);
           $pdf->AddPage('L');              
-          $pdf->Image($image,0,0,297,210);                  
+          $pdf->Image($image,0,0,297,210); 
           $pdf->SetTextColor(14,63,160);  
           $pdf->SetFont('Arial','B',20);           
           $pdf->Ln(); 
@@ -154,12 +174,11 @@ class PDF extends FPDF
             $pdf->Cell(270,18,utf8_decode('Total Carga Horária do Curso: '. $data['curso']->carga_horaria . ' Horas, Frequência: ' . number_format($frequencia, 2, '.', '') . '%'), 1,0, 'C');           
            
           }
-       
-          
+
           $pdf->Ln(); 
-          $pdf->Ln();           
-          $logo_path = $data['qrCode'];
-          $pdf->Image($logo_path.'?ext=.png',10,180,20,20);
+          $pdf->Ln(); 
+          $pdf->SetFont('Arial','B',12);
+          $pdf->Cell(270,18,utf8_decode('Certificado registrado sob o nº____________, lívro 02/2009, folha__________. '), 0,0, 'C');
 
           $pdf->Output("Relatorio.pdf",'I');  
                     

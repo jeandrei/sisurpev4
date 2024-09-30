@@ -507,14 +507,16 @@
         $this->view('inscricoes/edit', $data);
       }     
     }//edit
-
+    
     public function certificado($inscricoes_id){
       if($this->inscritoModel->estaInscrito($inscricoes_id,$_SESSION[DB_NAME . '_user_id'])){
+        //$qrUrl = URLROOT . '/inscricoes/certificado&cursoId=' . $data['curso']->id . '&userId=' . $_SESSION[DB_NAME . '_user_id'];       
         $data = [
           'curso' => $this->inscricaoModel->getInscricaoById($inscricoes_id),
           'temas' => $this->temaModel->getTemasInscricoesById($inscricoes_id),
           'usuario' =>$this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
-          'presencas' =>$this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$inscricoes_id)
+          'presencas' =>$this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$inscricoes_id),
+          'qrCode' => 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . rawurlencode(URLROOT . '/validar&cursoId=' . $this->inscricaoModel->getInscricaoById($inscricoes_id)->id . '&userId=' . $_SESSION[DB_NAME . '_user_id']),
         ];         
         $this->view('relatorios/certificado', $data);
       } else {
