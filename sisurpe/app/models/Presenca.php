@@ -19,6 +19,87 @@
       }
     }
 
+    //marca presença para todos os inscritos
+    public function checkAll($data){ 
+      if($data['usersIds']){
+        foreach($data['usersIds'] as $userId){   
+          $this->db->query("
+          INSERT INTO presenca (abre_presenca_id, user_id) VALUES (:abre_presenca_id, :user_id)
+          ");     
+          $this->db->bind(':abre_presenca_id',$data['abre_presenca_id']);
+          $this->db->bind(':user_id',$userId); 
+          if(!$this->db->execute()){
+            return false;
+          };       
+        } 
+        return true;
+      } else {
+        return true;
+      }      
+    }
+
+    //verifica se todos marcaram presença em uma abre presença
+    public function todosPresentes($abre_presenca_id){
+      $this->db->query("
+        SELECT 
+          * 
+        FROM 
+          abre_presenca 
+        WHERE 
+          id = :id                                          
+      ");
+      $this->db->bind(':id',$abre_presenca_id);   
+      $row = $this->db->single();       
+      $inscricoes_id = $row->inscricoes_id;      
+
+      $totalInscritos = $this->totalInscritos($inscricoes_id);
+      
+      $totalPresentes = $this->totalPresentes($abre_presenca_id);     
+
+      if($totalInscritos->total === $totalPresentes->total){
+        return true;
+      } else {
+        return false;
+      }      
+    }
+
+    //retorna o total de inscritos de uma inscrição
+    public function totalInscritos($inscricoes_id){
+      $this->db->query("
+        SELECT 
+          count(*) as total
+        FROM 
+          inscritos 
+        WHERE 
+          inscricoes_id = :inscricoes_id                                          
+      ");
+      $this->db->bind(':inscricoes_id',$inscricoes_id);     
+      $total = $this->db->single();  
+      if($this->db->rowCount() > 0){
+        return $total;
+      } else {
+        return false;
+      }
+    }
+
+    //retorna o total de presentes em uma abre presença
+    public function totalPresentes($abre_presenca_id){
+      $this->db->query("
+        SELECT 
+          count(*) as total
+        FROM 
+          presenca 
+        WHERE 
+          abre_presenca_id = :abre_presenca_id                                          
+      ");
+      $this->db->bind(':abre_presenca_id',$abre_presenca_id);     
+      $total = $this->db->single();  
+      if($this->db->rowCount() > 0){
+        return $total;
+      } else {
+        return false;
+      }
+    }
 
     public function jaRegistrado($data){
       $this->db->query("
@@ -109,6 +190,23 @@
       } else {
         return false;
       }
-    }    
+    } 
+    
+    public function removeTodasPresencas($abre_presenca_id){
+      $this->db->query("
+        DELETE FROM 
+          presenca 
+        WHERE
+          abre_presenca_id = :abre_presenca_id                     
+      ");
+      $this->db->bind(':abre_presenca_id',$abre_presenca_id);      
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }   
   }
+
+  
 ?>

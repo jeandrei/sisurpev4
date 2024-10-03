@@ -157,5 +157,67 @@
           );
           echo json_encode($json_ret);
       }                             
-    }//update          
+    }//update 
+    
+    public function checkAll(){
+      $data=[
+        'abre_presenca_id' => (isset($_POST['abre_presenca_id'])) ? $_POST['abre_presenca_id'] : '',
+        'usersIds' => (isset($_POST['usersIds'])) ? $_POST['usersIds'] : ''
+      ];  
+
+      $error=[];    
+      if(empty($data['abre_presenca_id'])){
+          $error['abre_presenca_id_err'] = 'Erro ao tentar recuperar o id da presença!';
+      }
+
+      if(empty($data['usersIds'])){
+        $error['usersIds_err'] = 'Erro ao tentar recuperar o id usuário!';
+      }
+
+      if(
+        empty($error['abre_presenca_id_err']) && 
+        empty($error['user_id_err']) 
+      )
+      {                
+        try{          
+          //removo a presença do usuário se ele tiver nesse curso
+          if($this->presencaModel->removeTodasPresencas($data['abre_presenca_id'])){   
+            //marco todas as presenças
+            if(!$this->presencaModel->checkAll($data)){                        
+              throw new Exception('Erro ao tentar atualizar a presença.');
+            } else {
+              $json_ret = array(                                            
+                'class'=>'success', 
+                'message'=>'Presença atualizada!',
+                'error'=>false
+              );       
+              echo json_encode($json_ret);
+            }              
+          } 
+        } catch (Exception $e) {
+          $json_ret = array
+            (
+              'class'=>'error', 
+              'message'=>'Erro ao gravar os dados!',
+              'error'=>$data
+            );                     
+          echo json_encode($json_ret); 
+        }          
+      }   else {
+          $json_ret = array(
+            'class'=>'error', 
+            'message'=>'Erro ao tentar gravar os dados!',
+            'error'=>$error
+          );
+          echo json_encode($json_ret);
+      }     
+
+      //var_dump($data['usersIds']);
+      //var_dump($data['abre_presenca_id']);
+    }
+
+
+
+
   }
+  

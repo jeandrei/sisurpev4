@@ -578,8 +578,10 @@
         'abrePresencaId' => $abrePresenca_id,
         'curso' => $this->abrePresencaModel->getInscricaoById($abrePresenca_id),          
         'usuario' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
-        'inscritos' => $this->inscritoModel->getInscritos($inscricoes_id) 
+        'inscritos' => $this->inscritoModel->getInscritos($inscricoes_id),
+        'todosPresentes' => $this->presencaModel->todosPresentes($abrePresenca_id)
       ];   
+      
       $this->view('inscricoes/gerenciarPresencas', $data);      
     }
 
