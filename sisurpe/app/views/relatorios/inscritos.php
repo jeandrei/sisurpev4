@@ -48,7 +48,7 @@ $pdf->SetFont('Arial','B',12);
 //defino as colunas do relatório
 $colunas =array("N","Nome","CPF","Assinatura");
 //largura das colunas
-$larguracoll = array(1 => 5, 2 => 150, 3 => 30, 4 => 90);
+$larguracoll = array(1 => 8, 2 => 150, 3 => 30, 4 => 87);
 //largura da linha
 $height = 8; 
 
