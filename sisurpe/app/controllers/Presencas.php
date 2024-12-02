@@ -18,7 +18,7 @@
       $this->presencaModel = $this->model('Presenca');  
     }
       
-    public function index($abre_presenca_id){ 
+    public function index($abre_presenca_id){      
       $inscricoes_id = $this->abrePresencaModel->getInscricaoId($abre_presenca_id)->inscricoes_id; 
       $data = [
         'abre_presenca_id' => $abre_presenca_id, 
@@ -27,10 +27,55 @@
         'description'=> 'Registre aqui sua presença',
         'curso' => $this->inscricaoModel->getInscricaoById($inscricoes_id),
         'presenca_em_andamento' => $this->abrePresencaModel->temPresencaEmAndamento($inscricoes_id),
-        'cpf_err' => ''
+        'cpf_err' => '',
+        'qrCode' => 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' . rawurlencode(URLROOT . '/presencas/qr&presenca_em_andamento=' . $abre_presenca_id . '&userId=' . $_SESSION[DB_NAME . '_user_id']),
       ];  
       $this->view('presencas/index', $data);
     }  
+
+    public function qr(){
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
+        die();
+      }    
+      $data = [
+        'abre_presenca_id' => get('presenca_em_andamento'),
+        'user_id' => get('userId')
+      ]; 
+      
+      try {
+        if($this->presencaModel->jaRegistrado($data)){
+          throw new Exception('Ops! Você já tem presença neste curso!');
+        }
+        if($this->presencaModel->register($data)){
+          $confirmacaoArr = [
+            'abre_presenca' => $this->abrePresencaModel->getInscricaoId($data['abre_presenca_id']),
+            'user' => $this->userModel->getUserById($data['user_id']),
+            'inscricao' => $this->abrePresencaModel->getInscricaoById($data['abre_presenca_id']),
+            'classe' => 'bg-success',
+            'mensagem' => 'Presença registrada com sucesso!'
+          ];
+          $this->view('presencas/confirmacaoqr',$confirmacaoArr);
+        } else {                                
+          throw new Exception('Ops! Algo deu errado ao tentar registrar a presença! Tente novamente.');
+        } 
+
+      } catch (Exception $e) {
+        $erro = 'Erro: '.  $e->getMessage(); 
+        $confirmacaoArr = [
+          'abre_presenca' => $this->abrePresencaModel->getInscricaoId($data['abre_presenca_id']),
+          'user' => $this->userModel->getUserById($data['user_id']),
+          'inscricao' => $this->abrePresencaModel->getInscricaoById($data['abre_presenca_id']),
+          'classe' => 'bg-danger',
+          'mensagem' => $erro
+        ];                               
+        $this->view('presencas/confirmacaoqr',$confirmacaoArr);      
+      }
+     
+     // $this->presencaModel->register($data);
+      
+    }
 
     public function fechar($abre_presenca_id){ 
       $this->abrePresencaModel->fecharPresenca($abre_presenca_id);

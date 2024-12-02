@@ -38,6 +38,11 @@
             </div>
           </div>
         </header>
+
+        <div>        
+          <?php echo "<center><img src='" . $data['qrCode'] . "'></center>"?>
+        </div>
+
       </section>
 
   </div><!--col-md-12-->
